@@ -15,7 +15,7 @@
       "allowedRoles": ["authenticated"]
     },
     {
-      "route": "/*.{png,jpg,gif,css,js,svg,woff,woff2}",
+      "route": "/*.{png,jpg,gif,css,js,svg,woff,woff2,ico}",
       "allowedRoles": ["anonymous"]
     },
     {
