@@ -52,7 +52,7 @@
               "clientSecretSettingName": "OURGAME_CLIENT_SECRET"
             },
             "openIdConnectConfiguration": {
-              "wellKnownOpenIdConfiguration": "OURGAME_WELL_KNOWN"
+              "wellKnownOpenIdConfiguration": "https://ourgameauth.b2clogin.com/ourgameauth.onmicrosoft.com/v2.0/.well-known/openid-configuration?p=B2C_1_SUSI"
             }
           },
           "login": {
