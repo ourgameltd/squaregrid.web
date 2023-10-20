@@ -52,7 +52,7 @@
               "clientSecretSettingName": "OURGAME_CLIENT_SECRET"
             },
             "openIdConnectConfiguration": {
-              "wellKnownOpenIdConfiguration": "https://login.microsoftonline.com/60b00a0a-88d4-42ed-9a05-2a56a0da259f/v2.0/.well-known/openid-configuration"
+              "wellKnownOpenIdConfiguration": "OURGAME_WELL_KNOWN"
             }
           },
           "login": {
