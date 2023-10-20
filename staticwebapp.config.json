@@ -44,8 +44,8 @@
           "clientSecretSettingName": "GITHUB_CLIENT_SECRET"
         }
       },
-      "ourgame":{
-        "myProvider": {
+      "customOpenIdConnectProviders":{
+        "ourgame": {
           "registration": {
             "clientIdSettingName": "OURGAME_CLIENT_ID",
             "clientCredential": {
