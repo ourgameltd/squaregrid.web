@@ -37,6 +37,32 @@
           "clientIdSettingName": "GOOGLE_CLIENT_ID",
           "clientSecretSettingName": "GOOGLE_CLIENT_SECRET"
         }
+      },
+      "github": {
+        "registration": {
+          "clientIdSettingName": "GITHUB_CLIENT_ID",
+          "clientSecretSettingName": "GITHUB_CLIENT_SECRET"
+        }
+      },
+      "ourgame":{
+        "myProvider": {
+          "registration": {
+            "clientIdSettingName": "OURGAME_CLIENT_ID",
+            "clientCredential": {
+              "clientSecretSettingName": "OURGAME_CLIENT_SECRET"
+            },
+            "openIdConnectConfiguration": {
+              "wellKnownOpenIdConfiguration": "https://login.microsoftonline.com/60b00a0a-88d4-42ed-9a05-2a56a0da259f/v2.0/.well-known/openid-configuration"
+            }
+          },
+          "login": {
+            "nameClaimType": "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name",
+            "scopes": [
+              "openid",
+              "profile"
+            ]
+          }
+        }
       }
     }
   },
