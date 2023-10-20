@@ -1,7 +1,24 @@
+'use client';
+
 import Image from "next/image";
 import styles from "./page.module.css";
+import { useEffect } from "react";
+
+async function list() {
+  const endpoint = "/data-api/rest/AssociationStaffTypes";
+  const response = await fetch(endpoint, {
+    method: "Get",
+    headers: { "Content-Type": "application/json" }
+  });
+  const result = await response.json();
+  console.log(result);
+}
 
 export default function Home() {
+  useEffect(() => {
+    list();
+  }, []);
+
   return (
     <main className={styles.main}>
       <div className={styles.description}>
