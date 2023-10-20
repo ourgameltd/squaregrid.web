@@ -61,16 +61,13 @@
               "clientSecretSettingName": "OURGAME_CLIENT_SECRET"
             },
             "openIdConnectConfiguration": {
-              "wellKnownOpenIdConfiguration": "https://ourgameauth.b2clogin.com/ourgameauth.onmicrosoft.com/v2.0/.well-known/openid-configuration?p=B2C_1_SUSI"
+              "wellKnownOpenIdConfiguration": "https://ourgameauth.b2clogin.com/ourgameauth.onmicrosoft.com/B2C_1_SUSI/v2.0/.well-known/openid-configuration"
             }
           },
           "login": {
-            "nameClaimType": "name",
-            "scopes": [
-              "openid",
-              "profile",
-              "offline_access"
-            ]
+            "nameClaimType": "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name",
+            "scopes": [],
+            "loginParameterNames": []
           }
         }
       }
