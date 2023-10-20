@@ -1,7 +1,15 @@
 {
   "routes": [
     {
-      "route": "/.auth/login/aad",
+      "route": "/.auth/login/twitter",
+      "statusCode": 401
+    },
+    {
+      "route": "/.auth/login/facebook",
+      "statusCode": 401
+    },
+    {
+      "route": "/.auth/login/apple",
       "statusCode": 401
     },
     {
@@ -22,6 +30,16 @@
       "allowedRoles": ["authenticated"]
     }
   ],
+  "auth": {
+    "identityProviders": {
+      "google": {
+        "registration": {
+          "clientIdSettingName": "GOOGLE_CLIENT_ID",
+          "clientSecretSettingName": "GOOGLE_CLIENT_SECRET"
+        }
+      }
+    }
+  },
   "responseOverrides": {
     "401": {
       "statusCode": 302,
