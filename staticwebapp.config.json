@@ -44,6 +44,11 @@
       "statusCode": 301
     },
     {
+      "route": "/rest/openapi",
+      "redirect": "/data-api/rest/openapi",
+      "statusCode": 301
+    },
+    {
       "route": "/*",
       "allowedRoles": ["authenticated"]
     }
