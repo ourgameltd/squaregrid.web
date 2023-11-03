@@ -2,21 +2,18 @@
 
 import Image from "next/image";
 import styles from "./page.module.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { AssociationStaffTypes, DataApi } from "@/api/_generated";
 
-async function list() {
-  const endpoint = "/data-api/rest/AssociationStaffTypes";
-  const response = await fetch(endpoint, {
-    method: "Get",
-    headers: { "Content-Type": "application/json" }
-  });
-  const result = await response.json();
-  console.log(result);
-}
+const appClient = new DataApi({
+  BASE: '/data-api/rest',
+});
 
 export default function Home() {
   useEffect(() => {
-    list();
+    appClient.associationStaffTypes.getAssociationStaffTypes()
+      .then(val => console.log(val))
+      .catch(error => console.error(error));
   }, []);
 
   return (
