@@ -3,16 +3,20 @@
 import Image from "next/image";
 import styles from "./page.module.css";
 import { useEffect, useState } from "react";
-import { AssociationStaffTypes, DataApi } from "@/api/_generated";
+import { AssociationStaffTypes, AssociationStaffTypesApi, Configuration } from "../api/_generated";
 
-const appClient = new DataApi({
-  BASE: '/data-api/rest',
+const configuration = new Configuration({
+  basePath: window.location.origin + "/data-api/rest",
 });
 
+const associationStaffTypesApi = new AssociationStaffTypesApi(configuration);
+
 export default function Home() {
+  const [associationStaffTypes, setAssociationStaffTypes] = useState<Array<AssociationStaffTypes>>([]);
+
   useEffect(() => {
-    appClient.associationStaffTypes.getAssociationStaffTypes()
-      .then(val => console.log(val))
+    associationStaffTypesApi.associationStaffTypesGet()
+      .then(val => setAssociationStaffTypes(val.value ?? []))
       .catch(error => console.error(error));
   }, []);
 
@@ -20,8 +24,7 @@ export default function Home() {
     <main className={styles.main}>
       <div className={styles.description}>
         <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
+          Found <span className={styles.code}>{associationStaffTypes.length}</span> association staff types
         </p>
         <a href="/.auth/logout">Logout</a>
         <div>
