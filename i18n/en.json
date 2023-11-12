@@ -1,0 +1,16 @@
+{
+    "i18n": {
+      "Index": {
+        "PageTitle": "Welcome to your Football"
+      },
+      "AppResources": {
+        "PageTitle": "Welcome | Our Game",
+        "AppName": "Our Game",
+        "SignOut": "Sign out"
+      },
+      "BreadCrumb": {
+        "Dashboard": "Dashboard",
+        "DashboardView": "Click to view dashboard."
+      }
+    }
+  }

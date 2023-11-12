@@ -36,4 +36,4 @@ next-env.d.ts
 
 .env
 
-/src/api/_generated/
+/api/_generated/
