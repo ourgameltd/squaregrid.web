@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "api-build": "openapi-generator-cli generate -i ./openapi.json -o src/api/_generated -g typescript-fetch --additional-properties=supportsES6=true"
+    "api-build": "openapi-generator-cli generate -i ./openapi.json -o src/api/_generated -g typescript-fetch --additional-properties=supportsES6=true --skip-validate-spec"
   },
   "dependencies": {
     "bootstrap": "^5.3.2",

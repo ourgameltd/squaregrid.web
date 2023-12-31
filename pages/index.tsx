@@ -1,5 +1,5 @@
 import styles from "./index.module.css";
-import { AssociationStaffTypes, AssociationStaffTypesApi, Configuration } from "../api/_generated";
+import { AssociationStaffType, AssociationStaffTypesApi, Configuration } from "../src/api/_generated";
 import { useState, useEffect } from 'react'
 import Head from "next/head";
 
@@ -10,11 +10,11 @@ const configuration = new Configuration({
 const associationStaffTypesApi = new AssociationStaffTypesApi(configuration);
 
 export default function Home() {
-  const [associationStaffTypes, setAssociationStaffTypes] = useState<Array<AssociationStaffTypes>>([]);
+  const [associationStaffTypes, setAssociationStaffTypes] = useState<Array<AssociationStaffType>>([]);
 
   const getData = async () => {
-    let response = await associationStaffTypesApi.associationStaffTypesGet();
-    setAssociationStaffTypes(response.value ?? []);
+    let response = await associationStaffTypesApi.searchAssociationStaffTypes();
+    setAssociationStaffTypes(response ?? []);
   };
 
   useEffect(() => { getData(); }, []);
