@@ -1,6 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig =  {
-  output: "standalone",
+  i18n: {
+    locales: ['default', 'en'],
+    defaultLocale: 'default',
+    localeDetection: false,
+  },
+  trailingSlash: true,
+  output: process.env.BUILD_STANDALONE === "true" ? "standalone" : undefined,
   swcMinify: true,
   images: {
     unoptimized: true
