@@ -1,4 +1,4 @@
-export default function Navbar() {
+const Navbar = ({t}: { t: any }) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid">
@@ -18,39 +18,25 @@ export default function Navbar() {
             <img
               src="/images/logo.png"
               height="30"
-              alt="Our Game logo"
+              alt={t('logoAlt')}
               loading="lazy"
             />
           </a>
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <a className="nav-link" href="#">
-                Dashboard
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                Team
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                Projects
+              <a className="nav-link" href="#" title={t('dashboardTitle')}>
+                {t('dashboard')}
               </a>
             </li>
           </ul>
         </div>
         <div className="d-flex align-items-center">
-          <a className="text-reset me-3" href="#">
-            <i className="fas fa-shopping-cart"></i>
-          </a>
           <div className="dropdown">
             <a
               className="text-reset me-3 dropdown-toggle hidden-arrow"
               href="#"
-              id="navbarDropdownMenuLink"
               role="button"
-              data-mdb-toggle="dropdown"
+              data-bs-toggle="dropdown"
               aria-expanded="false"
             >
               <i className="fas fa-bell"></i>
@@ -67,25 +53,14 @@ export default function Navbar() {
                   Some news
                 </a>
               </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  Another news
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  Something else here
-                </a>
-              </li>
             </ul>
           </div>
           <div className="dropdown">
             <a
               className="dropdown-toggle d-flex align-items-center hidden-arrow"
-              href="#"
               id="navbarDropdownMenuAvatar"
               role="button"
-              data-mdb-toggle="dropdown"
+              data-bs-toggle="dropdown"
               aria-expanded="false"
             >
               <img
@@ -101,18 +76,8 @@ export default function Navbar() {
               aria-labelledby="navbarDropdownMenuAvatar"
             >
               <li>
-                <a className="dropdown-item" href="#">
-                  My profile
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  Settings
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  Logout
+                <a className="dropdown-item" href="#" title={t('signOutTitle')}>
+                  {t('signOut')}
                 </a>
               </li>
             </ul>
@@ -122,3 +87,5 @@ export default function Navbar() {
     </nav>
   );
 }
+
+export default Navbar

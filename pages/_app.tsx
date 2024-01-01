@@ -6,21 +6,39 @@ import Navbar from "../components/navbar";
 import { appWithTranslation } from 'next-i18next'
 import AppContextProvider from "../contexts/appContextProvider";
 import AppContext from "../contexts/appContext";
+import Head from "next/head";
+import { useTranslation } from 'next-i18next'
+import { useEffect } from "react";
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 const OurGameApp = ({ Component, pageProps }: AppProps) => {
+  const { t, i18n } = useTranslation('navbar', { bindI18n: 'languageChanged loaded' })
+
+  useEffect(() => {
+    i18n.reloadResources(i18n.resolvedLanguage, ['navbar'])
+  }, [])
+
   return (
     <AppContextProvider>
       <AppContext.Consumer>
         {context =>
           <>
-            <Navbar />
-            <Component {...pageProps}
-                context={context} />
+            <Head>
+              <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            </Head>
+            <Navbar t={t} />
+            <Component {...pageProps} context={context} />
           </>
         }
       </AppContext.Consumer>
     </AppContextProvider>
   );
 }
+
+export const getStaticProps = async ({ locale }: { locale: string }) => ({
+  props: {
+    ...await serverSideTranslations(locale, 'navbar'),
+  },
+})
 
 export default appWithTranslation(OurGameApp)

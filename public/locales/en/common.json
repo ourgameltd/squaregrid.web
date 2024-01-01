@@ -1,8 +1,6 @@
 {
-  "IndexPageTitle": "Welcome to your Football",
-  "AppResourcesPageTitle": "Welcome | Our Game",
-  "AppResourcesAppName": "Our Game",
-  "AppResourcesSignOut": "Sign out",
-  "BreadCrumbDashboard": "Dashboard",
-  "BreadCrumbDashboardView": "Click to view dashboard."
+  "appName": "Our Game",
+  "signOut": "Sign out",
+  "dashboard": "Dashboard",
+  "dashboardView": "Click to view dashboard."
 }
