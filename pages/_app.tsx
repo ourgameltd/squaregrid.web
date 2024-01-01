@@ -1,4 +1,3 @@
-"use client";
 import "bootstrap/dist/css/bootstrap.css";
 import "./globals.css";
 import type { AppProps } from "next/app";
@@ -10,8 +9,9 @@ import Head from "next/head";
 import { useTranslation } from 'next-i18next'
 import { useEffect } from "react";
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { SessionProvider } from "next-auth/react"
 
-const OurGameApp = ({ Component, pageProps }: AppProps) => {
+const OurGameApp = ({ Component, pageProps: {session, ...pageProps } }: AppProps) => {
   const { t, i18n } = useTranslation('navbar', { bindI18n: 'languageChanged loaded' })
 
   useEffect(() => {
@@ -19,19 +19,21 @@ const OurGameApp = ({ Component, pageProps }: AppProps) => {
   }, [])
 
   return (
-    <AppContextProvider>
-      <AppContext.Consumer>
-        {context =>
-          <>
-            <Head>
-              <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-            </Head>
-            <Navbar t={t} />
-            <Component {...pageProps} context={context} />
-          </>
-        }
-      </AppContext.Consumer>
-    </AppContextProvider>
+    <SessionProvider session={session}>
+      <AppContextProvider>
+        <AppContext.Consumer>
+          {context =>
+            <>
+              <Head>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+              </Head>
+              <Navbar t={t} />
+              <Component {...pageProps} context={context} />
+            </>
+          }
+        </AppContext.Consumer>
+      </AppContextProvider>
+    </SessionProvider>
   );
 }
 

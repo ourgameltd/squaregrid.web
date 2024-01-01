@@ -3,7 +3,7 @@ const { i18n } = require('./next-i18next.config')
 
 const nextConfig =  {
   i18n,
-  trailingSlash: true,
+  trailingSlash: false,
   output: process.env.BUILD_STANDALONE === "true" ? "standalone" : undefined,
   swcMinify: true,
   images: {
