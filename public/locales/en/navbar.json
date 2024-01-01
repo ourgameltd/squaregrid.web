@@ -5,6 +5,11 @@
   "signOutTitle": "Click to sign out.",
   "signIn": "Sign in",
   "signInTitle": "Click to sign in.",
-  "dashboard": "Dashboard",
-  "dashboardTitle": "Click to view dashboard."
+  "teams": "Teams",
+  "teamsTitle": "Click to view teams.",
+  "associations": "Associations",
+  "associationsTitle": "Click to view your associations.",
+  "profileImageAlt": "{0}'s profile image",
+  "profile": "Edit profile",
+  "profileTitle": "Edit profile for {0}'."
 }
