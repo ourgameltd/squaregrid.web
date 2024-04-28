@@ -1,14 +1,12 @@
 {
-  "appName": "Square Grid",
-  "logoAlt": "Square Grid logo",
+  "appName": "squareGrid",
+  "logoAlt": "squareGrid logo",
   "signOut": "Sign out",
   "signOutTitle": "Click to sign out.",
   "signIn": "Sign in",
   "signInTitle": "Click to sign in.",
-  "teams": "Teams",
-  "teamsTitle": "Click to view teams.",
-  "associations": "Associations",
-  "associationsTitle": "Click to view your associations.",
+  "games": "Games",
+  "gamesTitle": "Click to view teams.",
   "profileImageAlt": "{0}'s profile image",
   "profile": "Edit profile",
   "profileTitle": "Edit profile for {0}'."

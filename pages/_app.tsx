@@ -1,5 +1,5 @@
 import "bootstrap/dist/css/bootstrap.css";
-import "./globals.css";
+import "../public/scss/style.scss";
 import type { AppProps } from "next/app";
 import Navbar from "../components/navbar";
 import { appWithTranslation } from "next-i18next";
@@ -25,7 +25,7 @@ const SquareGridApp = ({ Component, pageProps: { session, ...pageProps } }: AppP
           {(context) => (
             <>
               <Head>
-                <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+                <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
               </Head>
               <Navbar t={t} />
               <Component {...pageProps} context={context} />
