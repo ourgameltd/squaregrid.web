@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "Our Game Api",
-    "description": "Api calls and message processing functions for the Our Game app",
+    "title": "Square Grid Api",
+    "description": "Api calls and message processing functions for the Square Grid app",
     "version": "1.0.0"
   },
   "servers": [
