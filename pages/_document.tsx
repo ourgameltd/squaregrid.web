@@ -1,6 +1,14 @@
 import { Html, Head, Main, NextScript } from "next/document";
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function Document() {
+  const { t, i18n } = useTranslation("navbar", { bindI18n: "languageChanged loaded" });
+
+  useEffect(() => {
+    i18n.reloadResources(i18n.resolvedLanguage, ["navbar"]);
+  }, []);
+  
   return (
     <Html>
       <Head>
@@ -27,14 +35,6 @@ export default function Document() {
         />
       </Head>
       <body data-spy="scroll" data-target=".site-navbar-target" data-offset="100">
-        <div className="site-mobile-menu site-navbar-target">
-          <div className="site-mobile-menu-header">
-            <div className="site-mobile-menu-close">
-              <span className="icofont-close js-menu-toggle"></span>
-            </div>
-          </div>
-          <div className="site-mobile-menu-body"></div>
-        </div>
         <Main />
         <NextScript />
         <script src="/js/jquery-3.4.1.min.js"></script>

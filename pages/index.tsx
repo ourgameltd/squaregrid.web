@@ -37,7 +37,7 @@ const Home = () => {
                       </p>
                     </div>
                     <p data-aos="fade-up" data-aos-delay="200">
-                      <a href="/account/start" className="btn btn-outline-primary smoothscroll">
+                      <a href="/account/cards/new" className="btn btn-outline-primary smoothscroll">
                       {t("tryNow")}
                       </a>
                     </p>
