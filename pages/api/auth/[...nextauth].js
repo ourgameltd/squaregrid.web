@@ -14,5 +14,11 @@ export default NextAuth({
         },
       }
     }),
-  ]
+  ],
+  callbacks: {
+    async session({ session, token }) {
+      session.userId = token.id;
+      return session;
+    }
+  },
 });

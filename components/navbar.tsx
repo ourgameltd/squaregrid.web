@@ -16,17 +16,17 @@ const Navbar = ({ t }: { t: any }) => {
 
             <ul className="js-clone-nav d-none d-lg-inline-block site-menu float-left">
               <li>
-                <a href="#features-section" className="nav-link">
+                <a href="/#features-section" className="nav-link">
                   Features
                 </a>
               </li>
               <li>
-                <a href="#pricing-section" className="nav-link">
+                <a href="/#pricing-section" className="nav-link">
                   Pricing
                 </a>
               </li>
               <li>
-                <a href="#contact-section" className="nav-link">
+                <a href="/#contact-section" className="nav-link">
                   Contact
                 </a>
               </li>
@@ -42,7 +42,7 @@ const Navbar = ({ t }: { t: any }) => {
             <Conditional condition={session != null}>
               <ul className="d-none mt-1 d-lg-inline-block site-menu float-right">
                 <li>
-                  <a href="/profile" title={format(t("profileTitle"), [session?.user?.name])}>
+                  <a href="/account" title={format(t("profileTitle"), [session?.user?.name])}>
                     {session?.user?.name} <img
                       src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
                       className="rounded-circle"

@@ -21,7 +21,7 @@ const Home = () => {
             <div className="col-12">
               <div className="row justify-content-center">
                 <div className="col-md-7 text-center mb-5">
-                  <h1 className="heading" data-aos="fade-up" data-aos-delay="0">
+                  <h1 className="heading">
                     {t("headline")}
                   </h1>
                 </div>
@@ -29,14 +29,14 @@ const Home = () => {
               <div className="row align-items-center">
                 <div className="col-lg-4">
                   <div className="intro">
-                    <div className="excerpt" data-aos="fade-up" data-aos-delay="100">
+                    <div className="excerpt">
                       <span className="caption">{t("sub")}</span>
                       <h2 className="font-weight-bold">{t("subTitle")}</h2>
                       <p>
                         {t("subHeadline")}
                       </p>
                     </div>
-                    <p data-aos="fade-up" data-aos-delay="200">
+                    <p>
                       <a href="/account/cards/new" className="btn btn-outline-primary smoothscroll">
                       {t("tryNow")}
                       </a>
