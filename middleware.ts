@@ -15,8 +15,6 @@ export async function middleware(req: NextRequest) {
   
   const token = req.cookies.get('next-auth.session-token') || req.cookies.get('__Secure-next-auth.session-token');
 
-  console.log(token);
-  
   if (!token && req.nextUrl.pathname.startsWith('/account')) {
     return Response.redirect(new URL('/en/error/access', req.url))
   }

@@ -1,0 +1,15 @@
+{
+  "appName": "squareGrid",
+  "logoAlt": "logo de squareGrid",
+  "signOut": "Cerrar sesión",
+  "signOutTitle": "Haz clic para cerrar sesión.",
+  "signIn": "Iniciar sesión",
+  "signInTitle": "Haz clic para iniciar sesión.",
+  "games": "Juegos",
+  "gamesTitle": "Haz clic para ver equipos.",
+  "profileImageAlt": "Imagen de perfil de {0}",
+  "profile": "Editar perfil",
+  "profileTitle": "Editar perfil de {0}.",
+  "cards": "Tarjetas",
+  "cardsTitle": "Ver tarjetas de {0}."
+}
