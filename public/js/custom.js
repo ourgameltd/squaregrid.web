@@ -276,7 +276,6 @@ $(function () {
 		// });
 
 		$('body').on('activate.bs.scrollspy', function () {
-			// console.log('nice');
 			// alert('yay');
 		})
 	};

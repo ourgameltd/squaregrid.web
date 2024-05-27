@@ -13,8 +13,9 @@ export async function middleware(req: NextRequest) {
     return
   }
   
-  const token = req.cookies.get('next-auth.session-token') || req.cookies.get('__Secure-next-auth.session-token');
-
+  const jwt = await getToken({ req: req, secret: process.env.NEXT_SECRET }) as any
+  const token = jwt["accessToken"]
+  
   if (!token && req.nextUrl.pathname.startsWith('/account')) {
     return Response.redirect(new URL('/en/error/access', req.url))
   }

@@ -2,11 +2,14 @@ import Head from "next/head";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { format } from "@/stringUtils";
-import { getSession, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { fetchData } from "@/api";
-import { getToken } from "next-auth/jwt";
 
-const Account = () => {
+interface AccountProps {
+  games: Game[];
+}
+
+const Account = ({ games }: AccountProps) => {
   const { data: session } = useSession();
   const { t } = useTranslation("account");
   
@@ -38,14 +41,16 @@ const Account = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Name</td>
-                    <td>Total count</td>
-                    <td>Total claimed</td>
-                    <td>Total confirmed</td>
-                    <td>Is won?</td>
-                    <td>Date won</td>
-                  </tr>
+                  {games.map((game) => (
+                    <tr key={game.rowKey}>
+                      <td>{game.title}</td>
+                      <td>{game.blocks}</td>
+                      <td>{game.blocksClaimed}</td>
+                      <td>{game.blocksRemaining}</td>
+                      <td>{game.isWon ? "Yes" : "No"}</td>
+                      <td>{game.isWon ? new Date(game.timestamp).toLocaleDateString() : "N/A"}</td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
@@ -57,23 +62,20 @@ const Account = () => {
 };
 
 export const getServerSideProps = async (context: any) => {
-  try {
-    const response = await fetchData('games', context);
+  let games: Game[] = [];
 
-    return {
-      props: {
-        ...(await serverSideTranslations(context.locale, "account")),
-      },
-    };
+  try {
+    games = await fetchData<Game[]>('games', context);
   } catch (error) {
     console.error('Error fetching data:', error);
-
-    return {
-      props: {
-        ...(await serverSideTranslations(context.locale, "account")),
-      },
-    };
   }
+
+  return {
+    props: {
+      games, 
+      ...(await serverSideTranslations(context.locale, "account")),
+    },
+  };
 };
 
 export default Account;
