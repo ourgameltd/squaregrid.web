@@ -7,16 +7,11 @@ import AppContextProvider from "../contexts/appContextProvider";
 import AppContext from "../contexts/appContext";
 import Head from "next/head";
 import { useTranslation } from "next-i18next";
-import { useEffect } from "react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { SessionProvider } from "next-auth/react";
 
 const SquareGridApp = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
-  const { t, i18n } = useTranslation("navbar", { bindI18n: "languageChanged loaded" });
-
-  useEffect(() => {
-    i18n.reloadResources(i18n.resolvedLanguage, ["navbar"]);
-  }, []);
+  const { t } = useTranslation(["navbar"]);
 
   return (
     <SessionProvider session={session}>
@@ -37,9 +32,9 @@ const SquareGridApp = ({ Component, pageProps: { session, ...pageProps } }: AppP
   );
 };
 
-export const getStaticProps = async ({ locale }: { locale: string }) => ({
+export const getServerSideProps = async ({ locale }: { locale: string }) => ({
   props: {
-    ...(await serverSideTranslations(locale, "navbar")),
+    ...(await serverSideTranslations(locale, ["navbar"])),
   },
 });
 

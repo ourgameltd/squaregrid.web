@@ -16,9 +16,17 @@ export default NextAuth({
     }),
   ],
   callbacks: {
-    async session({ session, token }) {
-      session.userId = token.id;
-      return session;
-    }
+    session: async ({ session, token }) => {
+      return { ...session, token: token.accessToken }
+    },
+    jwt: async ({ token, user, account }) => {
+      if (account && account.id_token) {
+        token.accessToken = account.id_token
+      }
+
+      return token
+    },
+    secret: process.env.NEXTAUTH_SECRET,
   },
 });
+

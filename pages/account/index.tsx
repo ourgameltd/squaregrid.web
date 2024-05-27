@@ -1,18 +1,15 @@
 import Head from "next/head";
 import { useTranslation } from "next-i18next";
-import { useEffect } from "react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { format } from "@/stringUtils";
-import { useSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
+import { fetchData } from "@/api";
+import { getToken } from "next-auth/jwt";
 
 const Account = () => {
   const { data: session } = useSession();
-  const { t, i18n } = useTranslation("account", { bindI18n: "languageChanged loaded" });
-
-  useEffect(() => {
-    i18n.reloadResources(i18n.resolvedLanguage, ["account"]);
-  }, []);
-
+  const { t } = useTranslation("account");
+  
   return (
     <>
       <Head>
@@ -40,6 +37,16 @@ const Account = () => {
                     <td>Date won</td>
                   </tr>
                 </thead>
+                <tbody>
+                  <tr>
+                    <td>Name</td>
+                    <td>Total count</td>
+                    <td>Total claimed</td>
+                    <td>Total confirmed</td>
+                    <td>Is won?</td>
+                    <td>Date won</td>
+                  </tr>
+                </tbody>
               </table>
             </div>
           </div>
@@ -49,10 +56,24 @@ const Account = () => {
   );
 };
 
-export const getStaticProps = async ({ locale }: { locale: string }) => ({
-  props: {
-    ...(await serverSideTranslations(locale, "account")),
-  },
-});
+export const getServerSideProps = async (context: any) => {
+  try {
+    const response = await fetchData('games', context);
+
+    return {
+      props: {
+        ...(await serverSideTranslations(context.locale, "account")),
+      },
+    };
+  } catch (error) {
+    console.error('Error fetching data:', error);
+
+    return {
+      props: {
+        ...(await serverSideTranslations(context.locale, "account")),
+      },
+    };
+  }
+};
 
 export default Account;

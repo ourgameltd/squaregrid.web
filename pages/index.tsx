@@ -1,14 +1,9 @@
 import Head from "next/head";
 import { useTranslation } from "next-i18next";
-import { useEffect } from "react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const Home = () => {
-  const { t, i18n } = useTranslation("home", { bindI18n: "languageChanged loaded" });
-
-  useEffect(() => {
-    i18n.reloadResources(i18n.resolvedLanguage, ["home"]);
-  }, []);
+  const { t } = useTranslation("home");
 
   return (
     <>
@@ -57,9 +52,9 @@ const Home = () => {
   );
 };
 
-export const getStaticProps = async ({ locale }: { locale: string }) => ({
+export const getServerSideProps = async (context: any) => ({
   props: {
-    ...(await serverSideTranslations(locale, "home")),
+    ...(await serverSideTranslations(context.locale, "home")),
   },
 });
 

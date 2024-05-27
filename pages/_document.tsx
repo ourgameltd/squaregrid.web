@@ -1,14 +1,6 @@
 import { Html, Head, Main, NextScript } from "next/document";
-import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
 
 export default function Document() {
-  const { t, i18n } = useTranslation("navbar", { bindI18n: "languageChanged loaded" });
-
-  useEffect(() => {
-    i18n.reloadResources(i18n.resolvedLanguage, ["navbar"]);
-  }, []);
-  
   return (
     <Html>
       <Head>

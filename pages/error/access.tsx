@@ -1,17 +1,12 @@
 import Head from "next/head";
 import { useTranslation } from "next-i18next";
-import { useEffect } from "react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { format } from "@/stringUtils";
 import { useSession } from "next-auth/react";
 
 const ErrorAccess = () => {
   const { data: session } = useSession();
-  const { t, i18n } = useTranslation("errorAccess", { bindI18n: "languageChanged loaded" });
-
-  useEffect(() => {
-    i18n.reloadResources(i18n.resolvedLanguage, ["errorAccess"]);
-  }, []);
+  const { t } = useTranslation("errorAccess");
 
   return (
     <>
@@ -37,7 +32,7 @@ const ErrorAccess = () => {
   );
 };
 
-export const getStaticProps = async ({ locale }: { locale: string }) => ({
+export const getServerSideProps = async ({ locale }: { locale: string }) => ({
   props: {
     ...(await serverSideTranslations(locale, "errorAccess")),
   },
