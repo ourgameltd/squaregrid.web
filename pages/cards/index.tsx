@@ -47,7 +47,7 @@ const Cards = ({ games }: AccountProps) => {
                 <tbody>
                   {games.map((game) => (
                     <tr key={game.rowKey}>
-                      <td>{game.title}</td>
+                      <td><Link href={`/cards/${game.rowKey}`}>{game.title}</Link></td>
                       <td>{game.blocks}</td>
                       <td>{game.blocksClaimed}</td>
                       <td>{game.blocksRemaining}</td>

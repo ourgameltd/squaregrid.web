@@ -5,4 +5,7 @@ module.exports = {
     defaultLocale: 'default',
     localeDetection: false,
   },
+  localePath: typeof window === 'undefined' 
+    ? require('path').resolve('./public/locales') 
+    : '/locales',
 }

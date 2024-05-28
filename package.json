@@ -19,7 +19,9 @@
     "next-auth": "^4.24.5",
     "next-i18next": "^15.1.1",
     "react": "^18",
+    "react-bootstrap": "^2.10.2",
     "react-dom": "^18",
+    "react-hook-form": "^7.51.5",
     "react-i18next": "^13.5.0",
     "sass": "^1.75.0"
   },
