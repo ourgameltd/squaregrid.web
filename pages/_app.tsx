@@ -1,4 +1,5 @@
 import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
 import "../public/scss/style.scss";
 import type { AppProps } from "next/app";
 import Navbar from "../components/navbar";
@@ -11,7 +12,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { SessionProvider } from "next-auth/react";
 
 const SquareGridApp = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
-  const { t } = useTranslation(["navbar"]);
+  const { t } = useTranslation("navbar");
 
   return (
     <SessionProvider session={session}>
@@ -34,7 +35,7 @@ const SquareGridApp = ({ Component, pageProps: { session, ...pageProps } }: AppP
 
 export const getServerSideProps = async ({ locale }: { locale: string }) => ({
   props: {
-    ...(await serverSideTranslations(locale, ["navbar"])),
+    ...(await serverSideTranslations(locale, "navbar")),
   },
 });
 

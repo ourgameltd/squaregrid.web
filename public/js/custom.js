@@ -12,14 +12,6 @@ $(function () {
 	$("#overlayer").delay(200).fadeOut("slow");
 
 	var siteMenuClone = function () {
-
-		$('.site-mobile-menu-body .dynamic-links').html('');
-
-		$('.js-clone-nav').each(function () {
-			var $this = $(this);
-			$this.clone().attr('class', 'site-nav-wrap').appendTo('.site-mobile-menu-body .dynamic-links');
-		});
-
 		setTimeout(function () {
 
 			var counter = 0;

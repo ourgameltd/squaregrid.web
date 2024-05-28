@@ -4,15 +4,16 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { format } from "@/stringUtils";
 import { useSession } from "next-auth/react";
 import { fetchData } from "@/api";
+import Link from "next/link";
 
 interface AccountProps {
   games: Game[];
 }
 
-const Account = ({ games }: AccountProps) => {
+const Cards = ({ games }: AccountProps) => {
   const { data: session } = useSession();
-  const { t } = useTranslation("account");
-  
+  const { t } = useTranslation(["account", "common", "navbar"]);
+
   return (
     <>
       <Head>
@@ -22,9 +23,12 @@ const Account = ({ games }: AccountProps) => {
         <div className="container">
           <div className="row mb-5">
             <div className="col-12 text-center">
-              <span className="caption">Account</span>
-              <h2 className="heading">My Cards</h2>
-              <p>All of your cards, completed or ongoing can be found here.</p>
+              <span className="caption">{t("common:account")}</span>
+              <h2 className="heading">{t("account:title")}</h2>
+              <p>{t("account:subTitle")}</p>
+              <button className="btn btn-success">
+                Add a new card <i className="bi bi-plus-circle"></i>
+              </button>
             </div>
           </div>
           <div className="row mb-5">
@@ -72,10 +76,10 @@ export const getServerSideProps = async (context: any) => {
 
   return {
     props: {
-      games, 
-      ...(await serverSideTranslations(context.locale, "account")),
+      games,
+      ...(await serverSideTranslations(context.locale, ["account", "common", "navbar"])),
     },
   };
 };
 
-export default Account;
+export default Cards;

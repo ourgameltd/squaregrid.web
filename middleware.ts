@@ -1,5 +1,4 @@
-import { getToken } from 'next-auth/jwt';
-import { getSession } from 'next-auth/react';
+import { JWT, getToken } from 'next-auth/jwt';
 import { NextRequest, NextResponse } from 'next/server'
  
 const PUBLIC_FILE = /\.(.*)$/
@@ -13,10 +12,13 @@ export async function middleware(req: NextRequest) {
     return
   }
   
-  const jwt = await getToken({ req: req, secret: process.env.NEXT_SECRET }) as any
-  const token = jwt["accessToken"]
+  const jwt = await getToken({ req: req, secret: process.env.NEXT_SECRET }) as any;
+  let token: string = '';
+  if (jwt?.accessToken) {
+    token = jwt["accessToken"]
+  }
   
-  if (!token && req.nextUrl.pathname.startsWith('/account')) {
+  if (!token && req.nextUrl.pathname.startsWith('/cards')) {
     return Response.redirect(new URL('/en/error/access', req.url))
   }
 

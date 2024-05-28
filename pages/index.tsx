@@ -1,9 +1,21 @@
 import Head from "next/head";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import Link from "next/link";
+import { signIn, useSession } from "next-auth/react";
 
 const Home = () => {
+  const { data: session } = useSession();
   const { t } = useTranslation("home");
+
+  const redirectToCards = (e: any) => {
+    if (session != null) {
+      return;
+    }
+
+    e.preventDefault();
+    signIn("azure-ad-b2c", { callbackUrl: '/cards/new-card' })
+  }
 
   return (
     <>
@@ -32,9 +44,9 @@ const Home = () => {
                       </p>
                     </div>
                     <p>
-                      <a href="/account/cards/new" className="btn btn-outline-primary smoothscroll">
-                      {t("tryNow")}
-                      </a>
+                      <Link href="/cards/new-card" className="btn btn-outline-primary smoothscroll" onClick={redirectToCards} >
+                        {t("tryNow")}
+                      </Link>
                     </p>
                   </div>
                 </div>
