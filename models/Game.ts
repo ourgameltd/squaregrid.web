@@ -4,6 +4,7 @@ interface Game {
     title: string;
     image: string;
     description: string;
+    options: string;
     published: boolean;
     blocks: number;
     blocksClaimed: number;

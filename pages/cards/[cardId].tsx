@@ -2,9 +2,7 @@ import Head from "next/head";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { format } from "@/stringUtils";
-import { useSession } from "next-auth/react";
 import { fetchData } from "@/api";
-import Link from "next/link";
 import { Tab, Tabs } from "react-bootstrap";
 import { useState } from "react";
 import GameForm from "@/forms/GameForm";
@@ -15,27 +13,27 @@ interface GameProps {
 }
 
 const Card = ({ game }: GameProps) => {
-  const { data: session } = useSession();
   const { t } = useTranslation(["card", "common", "navbar"]);
 
   const defaultKey: string = 'details'
   const [key, setKey] = useState(defaultKey);
+  const [gameData, setGameData] = useState(game);
 
   const onSubmit = (data: Game) => {
-    console.log(data);
+    setGameData(data);
+    console.log(gameData);
   };
 
   return (
     <>
       <Head>
-        <title>{format(t("pageTitle"), [game.title])}</title>
+        <title>{format(t("pageTitle"), [gameData.title])}</title>
       </Head>
       <div className="untree_co-section">
         <div className="container">
-          <div className="row mb-5">
+          <div className="row">
             <div className="col-12 text-center">
-              <span className="caption">{t("common:account")}</span>
-              <h2 className="heading">{format(t("card:title"), [game.title])}</h2>
+              <h2 className="heading">{format(t("card:title"), [gameData.title])}</h2>
               <p>{t("card:subTitle")}</p>
             </div>
           </div>
@@ -48,10 +46,10 @@ const Card = ({ game }: GameProps) => {
                 className="mb-3"
               >
                 <Tab eventKey={defaultKey} title="Details">
-                  <GameForm onSubmit={onSubmit} defaultValues={game}></GameForm>
+                  <GameForm onSubmit={onSubmit} game={gameData}></GameForm>
                 </Tab>
                 <Tab eventKey="card" title="Card">
-                  <GameLayout blockCount={game.blocks}></GameLayout>
+                  <GameLayout game={gameData}></GameLayout>
                 </Tab>
               </Tabs>
             </div>
@@ -81,7 +79,4 @@ export const getServerSideProps = async (context: any) => {
 };
 
 export default Card;
-function useForm<T>(): { register: any; handleSubmit: any; formState: { errors: any; }; } {
-  throw new Error("Function not implemented.");
-}
 

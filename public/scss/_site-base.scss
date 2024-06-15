@@ -103,6 +103,16 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
     padding-right: 15px;
     border-radius: 15px;
   }
+  &.btn-borderless {
+    border: 0 !important;
+  }
+  &.btn-smallest {
+    padding-top: 2px;
+    padding-bottom: 1px;
+    padding-left: 6px;
+    padding-right: 5px;
+    border-radius: 15px;
+  }
 }
 
 

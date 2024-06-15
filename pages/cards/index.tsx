@@ -23,7 +23,6 @@ const Cards = ({ games }: AccountProps) => {
         <div className="container">
           <div className="row mb-5">
             <div className="col-12 text-center">
-              <span className="caption">{t("common:account")}</span>
               <h2 className="heading">{t("account:title")}</h2>
               <p>{t("account:subTitle")}</p>
               <button className="btn btn-success">
