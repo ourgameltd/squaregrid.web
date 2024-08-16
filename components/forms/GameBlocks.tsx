@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Block } from '@/Block';
 import { v4 as uuidv4 } from 'uuid';
 import { GameComponentProps } from '@/cards/[cardId]';
@@ -8,6 +8,16 @@ const GameBlocks = ({ game, setError, clearError, errors }: GameComponentProps) 
     const [blockCount, setBlockCount] = useState<number>(game?.blockCount ?? 0);
     const [claimedBlockCount, setClaimedBlockCount] = useState<number>(game?.claimedBlockCount ?? 0);
     const [percentageClaimed, setPercentageClaimed] = useState<number>(game?.percentageClaimed ?? 0);
+
+    useEffect(() => {
+        setBlockCount(blocks.length);
+
+        const claimedCount = blocks.filter(block => block.isClaimed).length;
+        setClaimedBlockCount(claimedCount);
+
+        const percentage = blocks.length > 0 ? (claimedCount / blocks.length) * 100 : 0;
+        setPercentageClaimed(percentage);
+    }, [blocks]);
 
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -54,12 +64,12 @@ const GameBlocks = ({ game, setError, clearError, errors }: GameComponentProps) 
             setError('blockInput', {
                 type: "manual",
                 message: "This field is required",
-              });
+            });
             return;
         } else {
             clearError(['blockInput']);
         }
-        
+
         addBlock({
             partitionKey: uuidv4(),
             rowKey: uuidv4(),
@@ -87,17 +97,17 @@ const GameBlocks = ({ game, setError, clearError, errors }: GameComponentProps) 
                         aria-label="Add Block"
                         aria-describedby="Add Block"
                         ref={inputRef} />
-                    <button 
-                        disabled={game.isWon} 
-                        className="btn btn-success btn-smaller" 
+                    <button
+                        disabled={game.isWon}
+                        className="btn btn-success btn-smaller"
                         onClick={(e) => onSubmit(e)}
                         type="submit">
-                            Add <i className="bi bi-plus-circle"></i>
+                        Add <i className="bi bi-plus-circle"></i>
                     </button>
                 </div>
                 {errors.blockInput && <span className="text-danger">This field is required</span>}
             </div>
-            <div className="progress">
+            <div className="progress mb-3">
                 <div className={"progress-bar bg-" + (game.isWon ? "warning" : game.isClaimed ? "success" : "primary")} role="progressbar" style={{ width: `${percentageClaimed}%` }} aria-valuenow={claimedBlockCount} aria-valuemin={0} aria-valuemax={blockCount}></div>
             </div>
             <div>
@@ -119,13 +129,34 @@ const GameBlocks = ({ game, setError, clearError, errors }: GameComponentProps) 
                                 <td title={block.isWinner ? `Game was won by ${block.claimedByFriendlyName}` : ""}>{block?.claimedByFriendlyName ?? "-"}</td>
                                 <td></td>
                                 <td width={"25%"}>
-                                    {!game.isWon && <button className='btn-sm btn-warning ml-1' role="button">
+                                    {!game.isWon && 
+                                    <button 
+                                        className='btn-sm btn-warning ml-1' 
+                                        onClick={() => updateBlock(
+                                            {
+                                                ...block,
+                                                dateConfirmed: block?.isConfirmed ? undefined : new Date()
+                                            })}
+                                        role="button">
                                         {block?.isConfirmed && <i className="bi bi-exclamation-triangle-fill" title="Mark this square as no longer complete."></i>}
                                         {!block?.isConfirmed && <i className="bi bi-check-circle" title="Confirm this square as complete."></i>}
                                     </button>}
-                                    {!game.isWon && <button disabled={game.isWon} title="Clear this square from being claimed." className='btn-sm btn-danger ml-1' role="button" onClick={() => removeBlock(block.partitionKey, block.rowKey)}>
-                                        <i className="bi bi-eraser-fill"></i>
-                                    </button>}
+                                    {!game.isWon &&
+                                        <button
+                                            disabled={game.isWon}
+                                            title="Clear this square from being claimed."
+                                            className='btn-sm btn-danger ml-1'
+                                            role="button"
+                                            onClick={() => updateBlock(
+                                                {
+                                                    ...block,
+                                                    claimedByFriendlyName: undefined,
+                                                    claimedByUserId: undefined,
+                                                    dateClaimed: undefined,
+                                                    dateConfirmed: undefined
+                                                })}>
+                                            <i className="bi bi-eraser-fill"></i>
+                                        </button>}
                                     {!game.isWon && <button disabled={game.isWon} title="Delete this square altogether." className='btn-sm btn-info ml-1' role="button" onClick={() => removeBlock(block.partitionKey, block.rowKey)}>
                                         <i className="bi bi-trash"></i>
                                     </button>}

@@ -31,6 +31,7 @@ const Card = ({ game }: GameProps) => {
   });
 
   const onSubmit = (data: GameFormModel) => {
+    console.log(data);
     setGameData(data);
     setGameTitle(data.title);
   };
