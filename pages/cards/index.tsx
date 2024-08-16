@@ -5,6 +5,7 @@ import { format } from "@/stringUtils";
 import { useSession } from "next-auth/react";
 import { fetchData } from "@/api";
 import Link from "next/link";
+import { Game } from "@/Game";
 
 interface AccountProps {
   games: Game[];
@@ -25,33 +26,44 @@ const Cards = ({ games }: AccountProps) => {
             <div className="col-12 text-center">
               <h2 className="heading">{t("account:title")}</h2>
               <p>{t("account:subTitle")}</p>
-              <button className="btn btn-success">
-                Add a new card <i className="bi bi-plus-circle"></i>
-              </button>
             </div>
           </div>
           <div className="row mb-5">
-            <div className="col-12 text-center">
+            <div className="col-12">
               <table className="table">
                 <thead>
-                  <tr>
-                    <td>Name</td>
-                    <td>Total count</td>
-                    <td>Total claimed</td>
-                    <td>Total confirmed</td>
-                    <td>Is won?</td>
-                    <td>Date won</td>
+                  <tr className=" fw-bold">
+                    <td style={{width: "25%"}}>Name</td>
+                    <td style={{width: "50%"}}>Complete</td>
+                    <td style={{width: "25%"}}>Status</td>
                   </tr>
                 </thead>
                 <tbody>
                   {games.map((game) => (
                     <tr key={game.rowKey}>
-                      <td><Link href={`/cards/${game.rowKey}`}>{game.title}</Link></td>
-                      <td>{game.blocks}</td>
-                      <td>{game.blocksClaimed}</td>
-                      <td>{game.blocksRemaining}</td>
-                      <td>{game.isWon ? "Yes" : "No"}</td>
-                      <td>{game.isWon ? new Date(game.timestamp).toLocaleDateString() : "N/A"}</td>
+                      <td style={{width: "25%"}} className="text-truncate"><Link style={{ display: "inline-block", maxWidth: "250px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }} href={`/cards/${game.rowKey}`}>{game.title}</Link></td>
+                      <td style={{width: "50%"}}>
+                        <div className="progress">
+                          <div className={"progress-bar bg-" + (game.isWon ? "warning" : game.isClaimed ? "success" : "primary")} role="progressbar" style={{width: `${game?.percentageClaimed}%`}} aria-valuenow={game?.claimedBlockCount} aria-valuemin={0} aria-valuemax={game?.blockCount}></div>
+                        </div>
+                      </td>
+                      <td style={{width: "25%"}}>{game?.isWon &&
+                        <div>
+                          <i className="bi bi-trophy-fill text-warning"></i> <span>{game?.wonByName}</span>
+                        </div>}
+                        {(game?.isWon == false && game?.isClaimed) &&
+                        <div>
+                          <i className="bi bi-ticket-detailed text-success"></i> <span>full</span>
+                        </div>}
+                        {(game?.isWon == false && game?.isClaimed == false && game.percentageClaimed > 0) &&
+                        <div>
+                          <i className="bi bi-play text-primary"></i> <span>ongoing</span>
+                        </div>}
+                        {(game?.isWon == false && game?.isClaimed == false && game.percentageClaimed <= 0) &&
+                        <div>
+                          <i className="bi bi-alarm text-info"></i> <span>pending</span>
+                        </div>}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
