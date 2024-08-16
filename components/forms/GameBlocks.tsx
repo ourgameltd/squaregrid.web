@@ -1,13 +1,17 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Block } from '@/Block';
 import { v4 as uuidv4 } from 'uuid';
 import { GameComponentProps } from '@/cards/[cardId]';
+import EditBlockModal from './EditBlockForm';
 
 const GameBlocks = ({ game, setError, clearError, errors }: GameComponentProps) => {
     const [blocks, setBlocks] = useState<Block[]>(game?.blocks ?? []);
-    const [blockCount, setBlockCount] = useState<number>(game?.blockCount ?? 0);
-    const [claimedBlockCount, setClaimedBlockCount] = useState<number>(game?.claimedBlockCount ?? 0);
-    const [percentageClaimed, setPercentageClaimed] = useState<number>(game?.percentageClaimed ?? 0);
+    const [blockCount, setBlockCount] = useState<number>(0);
+    const [claimedBlockCount, setClaimedBlockCount] = useState<number>(0);
+    const [percentageClaimed, setPercentageClaimed] = useState<number>(0);
+    const [isEditing, setIsEditing] = useState<Block | null>(null);
+
+    const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         setBlockCount(blocks.length);
@@ -19,12 +23,10 @@ const GameBlocks = ({ game, setError, clearError, errors }: GameComponentProps) 
         setPercentageClaimed(percentage);
     }, [blocks]);
 
-    const inputRef = useRef<HTMLInputElement>(null);
-
     const addBlock = (newBlock: Block) => {
         setBlocks((prevBlocks) => {
             const updatedBlocks = [...prevBlocks, newBlock];
-            return updatedBlocks.sort((a, b) => a.index - b.index); // Sort blocks by index
+            return updatedBlocks.sort((a, b) => a.index - b.index);
         });
     };
 
@@ -44,7 +46,7 @@ const GameBlocks = ({ game, setError, clearError, errors }: GameComponentProps) 
         setBlocks((prevBlocks) =>
             prevBlocks.filter((block) => !(block.partitionKey === partitionKey && block.rowKey === rowKey))
         );
-    }
+    };
 
     const getNextAvailableIndex = () => {
         const usedIndices = blocks.map(block => block.index);
@@ -83,6 +85,19 @@ const GameBlocks = ({ game, setError, clearError, errors }: GameComponentProps) 
         inputRef!.current!.value = '';
     };
 
+    const openEditModal = (block: Block) => {
+        setIsEditing(block);
+    };
+
+    const handleModalClose = () => {
+        setIsEditing(null);
+    };
+
+    const handleSaveChanges = (updatedBlock: Block) => {
+        updateBlock(updatedBlock);
+        handleModalClose();
+    };
+
     return (
         <>
             <div className="form-group">
@@ -105,7 +120,7 @@ const GameBlocks = ({ game, setError, clearError, errors }: GameComponentProps) 
                         Add <i className="bi bi-plus-circle"></i>
                     </button>
                 </div>
-                {errors.blockInput && <span className="text-danger">This field is required</span>}
+                {errors.blockInput && <span className="text-danger">{errors.blockInput.message}</span>}
             </div>
             <div className="progress mb-3">
                 <div className={"progress-bar bg-" + (game.isWon ? "warning" : game.isClaimed ? "success" : "primary")} role="progressbar" style={{ width: `${percentageClaimed}%` }} aria-valuenow={claimedBlockCount} aria-valuemin={0} aria-valuemax={blockCount}></div>
@@ -118,55 +133,46 @@ const GameBlocks = ({ game, setError, clearError, errors }: GameComponentProps) 
                             <th scope="col">Title</th>
                             <th scope="col">Taken by</th>
                             <th scope="col"></th>
-                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
                         {blocks.map((block) => (
                             <tr className={block.isWinner ? "table-warning" : ""} key={`${block.partitionKey}-${block.rowKey}`}>
                                 <th scope="row">{block.index}</th>
-                                <td>{block.title}</td>
-                                <td title={block.isWinner ? `Game was won by ${block.claimedByFriendlyName}` : ""}>{block?.claimedByFriendlyName ?? "-"}</td>
-                                <td></td>
-                                <td width={"25%"}>
+                                <td>{block.title} {block.isConfirmed && <i className="bi bi-patch-check-fill text-primary"></i>}</td>
+                                <td title={block.isWinner ? `Game was won by ${block.claimedByFriendlyName}` : ""}>{block?.claimedByFriendlyName}</td>
+                                <td>
                                     {!game.isWon && 
-                                    <button 
-                                        className='btn-sm btn-warning ml-1' 
-                                        onClick={() => updateBlock(
-                                            {
-                                                ...block,
-                                                dateConfirmed: block?.isConfirmed ? undefined : new Date()
-                                            })}
-                                        role="button">
-                                        {block?.isConfirmed && <i className="bi bi-exclamation-triangle-fill" title="Mark this square as no longer complete."></i>}
-                                        {!block?.isConfirmed && <i className="bi bi-check-circle" title="Confirm this square as complete."></i>}
+                                    <button
+                                        disabled={game.isWon}
+                                        title="Delete this square altogether."
+                                        className='btn-sm btn-danger ml-1 float-end'
+                                        role="button"
+                                        onClick={() => removeBlock(block.partitionKey, block.rowKey)}>
+                                        <i className="bi bi-trash"></i>
                                     </button>}
                                     {!game.isWon &&
                                         <button
-                                            disabled={game.isWon}
-                                            title="Clear this square from being claimed."
-                                            className='btn-sm btn-danger ml-1'
-                                            role="button"
-                                            onClick={() => updateBlock(
-                                                {
-                                                    ...block,
-                                                    claimedByFriendlyName: undefined,
-                                                    claimedByUserId: undefined,
-                                                    dateClaimed: undefined,
-                                                    dateConfirmed: undefined
-                                                })}>
-                                            <i className="bi bi-eraser-fill"></i>
+                                            className='btn-sm btn-primary ml-1 float-end'
+                                            onClick={() => openEditModal(block)}
+                                            role="button">
+                                            <i className="bi bi-pencil"></i>
                                         </button>}
-                                    {!game.isWon && <button disabled={game.isWon} title="Delete this square altogether." className='btn-sm btn-info ml-1' role="button" onClick={() => removeBlock(block.partitionKey, block.rowKey)}>
-                                        <i className="bi bi-trash"></i>
-                                    </button>}
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
-
             </div>
+
+            {isEditing && (
+                <EditBlockModal
+                    block={isEditing}
+                    show={true}
+                    onClose={handleModalClose}
+                    onSave={handleSaveChanges}
+                />
+            )}
         </>
     );
 };

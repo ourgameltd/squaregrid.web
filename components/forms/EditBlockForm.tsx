@@ -28,6 +28,7 @@ const EditBlockModal: React.FC<EditBlockModalProps> = ({ block, show, onClose, o
                 title: editTitle,
                 isConfirmed,
                 claimedByFriendlyName: claimedBy,
+                isClaimed: claimedBy ? true : false,
                 dateConfirmed: isConfirmed ? new Date() : undefined,
                 dateClaimed: claimedBy ? new Date() : undefined,
             });
@@ -56,16 +57,6 @@ const EditBlockModal: React.FC<EditBlockModalProps> = ({ block, show, onClose, o
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="blockConfirmed">Confirmed</label>
-                            <input
-                                type="checkbox"
-                                className="form-check-input"
-                                id="blockConfirmed"
-                                checked={isConfirmed}
-                                onChange={(e) => setIsConfirmed(e.target.checked)}
-                            />
-                        </div>
-                        <div className="form-group">
                             <label htmlFor="blockClaimedBy">Claimed By</label>
                             <input
                                 type="text"
@@ -74,6 +65,17 @@ const EditBlockModal: React.FC<EditBlockModalProps> = ({ block, show, onClose, o
                                 value={claimedBy}
                                 onChange={(e) => setClaimedBy(e.target.value)}
                             />
+                        </div>
+                        <div className="form-group">
+                            <div className="form-check form-switch">
+                                <input 
+                                    className="form-check-input" 
+                                    type="checkbox" 
+                                    id="blockConfirmed"  
+                                    defaultChecked={isConfirmed}
+                                    onChange={(e) => setIsConfirmed(e.target.checked)} />
+                                <label className="form-check-label" htmlFor="blockConfirmed">Confirmed</label>
+                            </div>
                         </div>
                     </div>
                     <div className="modal-footer">
