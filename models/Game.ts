@@ -22,4 +22,5 @@ export interface Game {
 
 export interface GameFormModel extends Game {
     blockInput: string;
+    imageUpload: FileList;
 }

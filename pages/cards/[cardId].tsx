@@ -3,11 +3,12 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { format } from "@/stringUtils";
 import { fetchData } from "@/api";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import GameForm from "@/forms/GameForm";
 import { Game, GameFormModel } from "@/Game";
 import GameBlocks from "@/forms/GameBlocks";
 import { FieldErrors, useForm, UseFormClearErrors, UseFormRegister, UseFormSetError } from "react-hook-form";
+import { Block } from "@/Block";
 
 interface GameProps {
   game: GameFormModel
@@ -18,6 +19,8 @@ export interface GameComponentProps extends GameProps {
   errors: FieldErrors<GameFormModel>,
   clearError: UseFormClearErrors<GameFormModel>,
   setError: UseFormSetError<GameFormModel>,
+  blocks: Block[],
+  setBlocks: Dispatch<SetStateAction<Block[]>>
 }
 
 const Card = ({ game }: GameProps) => {
@@ -25,15 +28,36 @@ const Card = ({ game }: GameProps) => {
 
   const [gameData, setGameData] = useState(game);
   const [gameTitle, setGameTitle] = useState(game.title);
+  const [blocks, setBlocks] = useState(game.blocks.sort((a, b) => a.index - b.index));
 
   const { register, handleSubmit, setError, clearErrors, formState: { errors } } = useForm<GameFormModel>({
     defaultValues: game,
   });
 
-  const onSubmit = (data: GameFormModel) => {
-    console.log(data);
-    setGameData(data);
-    setGameTitle(data.title);
+  const onSubmit = async (data: GameFormModel) => {
+    const formData = { ...data, blocks };
+
+    const form = new FormData();
+    if (data && data.imageUpload.length > 0) {
+      form.append('file', data.imageUpload[0]);
+    }
+    form.append('json', JSON.stringify(formData));
+
+    try {
+      const response = await fetch('/api/game/' + game.rowKey, {
+        method: 'POST',
+        body: form
+      });
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      setGameData(formData);
+      setGameTitle(formData.title);
+    } catch (error) {
+      // Toast and error
+    }
   };
 
   return (
@@ -52,10 +76,10 @@ const Card = ({ game }: GameProps) => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="row mt-5">
               <div className="col-md-6">
-                <GameForm register={register} errors={errors} game={gameData} setError={setError} clearError={clearErrors}></GameForm>
+                <GameForm register={register} errors={errors} game={gameData} setError={setError} clearError={clearErrors} blocks={blocks} setBlocks={setBlocks}></GameForm>
               </div>
               <div className="col-md-6">
-                <GameBlocks register={register} errors={errors} game={gameData} setError={setError} clearError={clearErrors}></GameBlocks>
+                <GameBlocks register={register} errors={errors} game={gameData} setError={setError} clearError={clearErrors} blocks={blocks} setBlocks={setBlocks}></GameBlocks>
               </div>
             </div>
             <div className="row">

@@ -4,8 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { GameComponentProps } from '@/cards/[cardId]';
 import EditBlockModal from './EditBlockForm';
 
-const GameBlocks = ({ game, setError, clearError, errors }: GameComponentProps) => {
-    const [blocks, setBlocks] = useState<Block[]>(game?.blocks ?? []);
+const GameBlocks = ({ game, setError, clearError, errors, blocks, setBlocks }: GameComponentProps) => {
     const [blockCount, setBlockCount] = useState<number>(0);
     const [claimedBlockCount, setClaimedBlockCount] = useState<number>(0);
     const [percentageClaimed, setPercentageClaimed] = useState<number>(0);
@@ -14,14 +13,14 @@ const GameBlocks = ({ game, setError, clearError, errors }: GameComponentProps) 
     const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
-        setBlockCount(blocks.length);
+        setBlockCount(blocks?.length);
 
-        const claimedCount = blocks.filter(block => block.isClaimed).length;
+        const claimedCount = blocks?.filter(block => block.isClaimed)?.length;
         setClaimedBlockCount(claimedCount);
 
-        const percentage = blocks.length > 0 ? (claimedCount / blocks.length) * 100 : 0;
+        const percentage = blocks?.length > 0 ? (claimedCount / blocks?.length) * 100 : 0;
         setPercentageClaimed(percentage);
-    }, [blocks]);
+    }, [blocks, setBlocks]);
 
     const addBlock = (newBlock: Block) => {
         setBlocks((prevBlocks) => {
@@ -73,7 +72,7 @@ const GameBlocks = ({ game, setError, clearError, errors }: GameComponentProps) 
         }
 
         addBlock({
-            partitionKey: uuidv4(),
+            partitionKey: game.rowKey,
             rowKey: uuidv4(),
             title: inputValue ?? "",
             index: getNextAvailableIndex(),
@@ -123,7 +122,7 @@ const GameBlocks = ({ game, setError, clearError, errors }: GameComponentProps) 
                 {errors.blockInput && <span className="text-danger">{errors.blockInput.message}</span>}
             </div>
             <div className="progress mb-3">
-                <div className={"progress-bar bg-" + (game.isWon ? "warning" : game.isClaimed ? "success" : "primary")} role="progressbar" style={{ width: `${percentageClaimed}%` }} aria-valuenow={claimedBlockCount} aria-valuemin={0} aria-valuemax={blockCount}></div>
+                <div className={"progress-bar bg-" + (game.isWon ? "warning" : percentageClaimed == 100 ? "success" : "primary")} role="progressbar" style={{ width: `${percentageClaimed}%` }} aria-valuenow={claimedBlockCount} aria-valuemin={0} aria-valuemax={blockCount}></div>
             </div>
             <div>
                 <table className="table">
@@ -136,7 +135,7 @@ const GameBlocks = ({ game, setError, clearError, errors }: GameComponentProps) 
                         </tr>
                     </thead>
                     <tbody>
-                        {blocks.map((block) => (
+                        {blocks?.map((block) => (
                             <tr className={block.isWinner ? "table-warning" : ""} key={`${block.partitionKey}-${block.rowKey}`}>
                                 <th scope="row">{block.index}</th>
                                 <td>{block.title} {block.isConfirmed && <i className="bi bi-patch-check-fill text-primary"></i>}</td>

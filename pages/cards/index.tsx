@@ -57,7 +57,7 @@ const Cards = ({ games }: AccountProps) => {
                         </div>}
                         {(game?.isWon == false && game?.isClaimed == false && game.percentageClaimed > 0) &&
                         <div>
-                          <i className="bi bi-play text-primary"></i> <span>ongoing</span>
+                          <i className="bi bi-play text-primary"></i> <span>playing</span>
                         </div>}
                         {(game?.isWon == false && game?.isClaimed == false && game.percentageClaimed <= 0) &&
                         <div>

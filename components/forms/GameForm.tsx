@@ -37,8 +37,8 @@ const GameForm = ({ game: game, register, errors }: GameComponentProps) => {
                             disabled={game.isWon}
                             className="form-control"
                             type="file"
-                            id="image"
-                            {...register('image', { required: false })}
+                            id="imageUpload"
+                            {...register('imageUpload', { required: false })}
                             onChange={handleImageChange}
                             accept="image/*"></input>
                     </div>
