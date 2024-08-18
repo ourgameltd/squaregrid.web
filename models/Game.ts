@@ -15,6 +15,7 @@ export interface Game {
     percentageClaimed: number;
     isCompleted: boolean;
     isWon: boolean;
+    displayAsGrid: boolean;
     wonById?: string; 
     wonByName?: string;
     wonByDate?: Date;

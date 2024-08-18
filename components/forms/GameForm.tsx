@@ -22,7 +22,7 @@ const GameForm = ({ game: game, register, errors }: GameComponentProps) => {
         }
         setShareableLink(link);
     }, [game.groupName, game.shortName]);
-    
+
     return (
         <>
             <input type="hidden" id="partitionKey" {...register('partitionKey', { required: true })} />
@@ -67,6 +67,21 @@ const GameForm = ({ game: game, register, errors }: GameComponentProps) => {
                 </div>
             </div>
             <div className="row mt-3">
+                <div className="col-md-12  text-center">
+                    <div className="form-group">
+                        <div className="form-check form-switch">
+                            <input
+                                className="form-check-input"
+                                type="checkbox"
+                                id="displayAsGrid"
+                                defaultChecked={game.displayAsGrid}
+                                {...register('displayAsGrid', { pattern: /^[A-Za-z0-9-]+$/ })} />
+                            <label className="form-check-label" htmlFor="blockConfirmed">Display options as a grid</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="row mt-3">
                 <div className="col-md-6">
                     <div className="form-group">
                         <label htmlFor="groupName" className="text-black">Group* <span className="text-muted">(Group name for url)</span></label>
@@ -91,7 +106,7 @@ const GameForm = ({ game: game, register, errors }: GameComponentProps) => {
                     <div className="form-group">
                         <div className="col-md-12 text-center">
                             <label className="text-black"><span className="text-muted">(Link to share)</span></label>
-                            <p><Link href={shareableLink}>{shareableLink}</Link></p>
+                            <p><Link target='_blank' href={shareableLink}>{shareableLink}</Link></p>
                         </div>
                     </div>
                 </div>}

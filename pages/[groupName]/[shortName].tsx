@@ -50,17 +50,17 @@ const Card = ({ game }: CardProps) => {
     updatedBlock.claimedByFriendlyName = inputValue;
     updatedBlock.dateClaimed = new Date();
     updatedBlock.isClaimed = true;
-    
+
     try {
       toast.success('Cell claimed successfully!');
       setBlocks((prevBlocks) =>
         prevBlocks
-            .map((block) =>
-                block.rowKey === updatedBlock.rowKey
-                    ? updatedBlock
-                    : block
-            )
-            .sort((a, b) => a.index - b.index));
+          .map((block) =>
+            block.rowKey === updatedBlock.rowKey
+              ? updatedBlock
+              : block
+          )
+          .sort((a, b) => a.index - b.index));
     } catch (error) {
       toast.success('Failed to claim cell!, ' + error);
     } finally {
@@ -123,39 +123,40 @@ const Card = ({ game }: CardProps) => {
           </div>
           <div className="row pb-0 pt-3">
             <div className="col-12">
-              <ul className="list-group">
-                <li className="list-group-item">
-                  <div className="container">
-                    <div className="row text-left fw-bold">
-                      <div className="col-5">
-                        Title
-                      </div>
-                      <div className="col-7">
-                        Claimed by
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                {blocks?.map((block) => (
-                  <li key={block.index} className="list-group-item fs-6">
+              {!game.displayAsGrid &&
+                <ul className="list-group">
+                  <li className="list-group-item">
                     <div className="container">
-                      <div className="row text-left">
+                      <div className="row text-left fw-bold">
                         <div className="col-5">
-                          <span className="text-truncate d-block">
-                            {block.index}. {block.title}
-                          </span>
+                          Title
                         </div>
-                        <div className="col-5 fs-5">
-                          <span className="cursive text-truncate d-block">{block?.claimedByFriendlyName}</span>
-                        </div>
-                        <div className="col-2">
-                          <button onClick={(e) => claim(e, block)} disabled={block.isClaimed} role="button" className="btn-primary btn btn-smaller float-end">Claim</button>
+                        <div className="col-7">
+                          Claimed by
                         </div>
                       </div>
                     </div>
                   </li>
-                ))}
-              </ul>
+                  {blocks?.map((block) => (
+                    <li key={block.index} className="list-group-item fs-6">
+                      <div className="container">
+                        <div className="row text-left">
+                          <div className="col-5">
+                            <span className="text-truncate d-block">
+                              {block.index}. {block.title}
+                            </span>
+                          </div>
+                          <div className="col-5 fs-5">
+                            <span className="cursive text-truncate d-block">{block?.claimedByFriendlyName}</span>
+                          </div>
+                          <div className="col-2">
+                            <button onClick={(e) => claim(e, block)} disabled={block.isClaimed} role="button" className="btn-primary btn btn-smaller float-end">Claim</button>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                  ))}
+                </ul>}
             </div>
           </div>
         </div>
