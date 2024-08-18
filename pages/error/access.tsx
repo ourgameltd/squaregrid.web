@@ -3,6 +3,7 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { format } from "@/stringUtils";
 import { useSession } from "next-auth/react";
+import Navbar from "@/navbar";
 
 const ErrorAccess = () => {
   const { data: session } = useSession();
@@ -13,6 +14,7 @@ const ErrorAccess = () => {
       <Head>
         <title>{format(t("pageTitle"), [session?.user?.name])}</title>
       </Head>
+      <Navbar t={t} />
       <div className="untree_co-hero pb-0" id="home-section">
         <div className="container">
           <div className="row">

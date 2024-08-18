@@ -70,8 +70,7 @@ const GameForm = ({ game: game, register, errors }: GameComponentProps) => {
                 <div className="col-md-6">
                     <div className="form-group">
                         <label htmlFor="groupName" className="text-black">Group* <span className="text-muted">(Group name for url)</span></label>
-                        <input disabled={game.isWon} type="text" className="form-control" id="groupName" {...register('groupName', { required: true, pattern: /^[A-Za-z0-9-]+$/ })} />
-                        {errors.groupName && <span className="text-danger">This field is required</span>}
+                        <input disabled={game.isWon} type="text" className="form-control" id="groupName" {...register('groupName', { pattern: /^[A-Za-z0-9-]+$/ })} />
                         {errors.groupName && errors.groupName.type === 'pattern' && (
                             <span className="text-danger">Only letters, numbers, and hyphens are allowed</span>
                         )}
@@ -80,8 +79,7 @@ const GameForm = ({ game: game, register, errors }: GameComponentProps) => {
                 <div className="col-md-6">
                     <div className="form-group">
                         <label htmlFor="shortName" className="text-black">Short name* <span className="text-muted">(Short name for url)</span></label>
-                        <input disabled={game.isWon} type="text" className="form-control" id="shortName" {...register('shortName', { required: true, pattern: /^[A-Za-z0-9-]+$/ })} />
-                        {errors.shortName && <span className="text-danger">This field is required</span>}
+                        <input disabled={game.isWon} type="text" className="form-control" id="shortName" {...register('shortName', { pattern: /^[A-Za-z0-9-]+$/ })} />
                         {errors.shortName && errors.shortName.type === 'pattern' && (
                             <span className="text-danger">Only letters, numbers, and hyphens are allowed</span>
                         )}

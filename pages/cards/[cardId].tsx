@@ -12,6 +12,7 @@ import { Block } from "@/Block";
 import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import Navbar from "@/navbar";
 
 interface GameProps {
   game: GameFormModel
@@ -32,7 +33,7 @@ const Card = ({ game }: GameProps) => {
 
   const [gameData, setGameData] = useState(game);
   const [gameTitle, setGameTitle] = useState(game.title);
-  const [blocks, setBlocks] = useState(game.blocks.sort((a, b) => a.index - b.index));
+  const [blocks, setBlocks] = useState(game?.blocks?.sort((a, b) => a.index - b.index));
 
   const { register, handleSubmit, setError, clearErrors, formState: { errors } } = useForm<GameFormModel>({
     defaultValues: game,
@@ -73,6 +74,7 @@ const Card = ({ game }: GameProps) => {
       <Head>
         <title>{format(t("pageTitle"), [gameTitle])}</title>
       </Head>
+      <Navbar t={t} />
       <ToastContainer />
       <div className="untree_co-section">
         <div className="container mt-5 mt-lg-1">

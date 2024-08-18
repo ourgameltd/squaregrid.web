@@ -26,3 +26,7 @@ export interface GameFormModel extends Game {
     blockInput: string;
     imageUpload: FileList;
 }
+
+export interface ClaimFormModel {
+    claimedBy: string;
+}

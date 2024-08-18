@@ -8,6 +8,7 @@ import Link from "next/link";
 import { Game } from "@/Game";
 import Image from 'next/image';
 import { useState } from "react";
+import Navbar from "@/navbar";
 
 interface AccountProps {
   games: Game[];
@@ -34,6 +35,7 @@ const Cards = ({ games }: AccountProps) => {
       <Head>
         <title>{format(t("pageTitle"), [session?.user?.name])}</title>
       </Head>
+      <Navbar t={t} />
       <div className="untree_co-section">
         <div className="container mt-5 mt-lg-1">
           <div className="row mb-5">

@@ -3,6 +3,7 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Link from "next/link";
 import { signIn, useSession } from "next-auth/react";
+import Navbar from "@/navbar";
 
 const Home = () => {
   const { data: session } = useSession();
@@ -22,6 +23,7 @@ const Home = () => {
       <Head>
         <title>{t("pageTitle")}</title>
       </Head>
+      <Navbar t={t} />
       <div className="untree_co-hero pb-0" id="home-section">
         <div className="container">
           <div className="row">
