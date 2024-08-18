@@ -1,9 +1,11 @@
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { GameComponentProps } from '@/cards/[cardId]';
+import Link from 'next/link';
 
 const GameForm = ({ game: game, register, errors }: GameComponentProps) => {
     const [imgSrc, setImgSrc] = useState(game.image);
+    const [shareableLink, setShareableLink] = useState('');
 
     const handleImageChange = (e: any) => {
         const file = e.target.files[0];
@@ -13,6 +15,14 @@ const GameForm = ({ game: game, register, errors }: GameComponentProps) => {
         }
     };
 
+    useEffect(() => {
+        let link = '';
+        if (game.groupName && game.shortName) {
+            link = `${process.env.NEXT_PUBLIC_DOMAIN}/${game.groupName}/${game.shortName}`;
+        }
+        setShareableLink(link);
+    }, [game.groupName, game.shortName]);
+    
     return (
         <>
             <input type="hidden" id="partitionKey" {...register('partitionKey', { required: true })} />
@@ -56,6 +66,37 @@ const GameForm = ({ game: game, register, errors }: GameComponentProps) => {
                     </div>
                 </div>
             </div>
+            <div className="row mt-3">
+                <div className="col-md-6">
+                    <div className="form-group">
+                        <label htmlFor="groupName" className="text-black">Group* <span className="text-muted">(Group name for url)</span></label>
+                        <input disabled={game.isWon} type="text" className="form-control" id="groupName" {...register('groupName', { required: true, pattern: /^[A-Za-z0-9-]+$/ })} />
+                        {errors.groupName && <span className="text-danger">This field is required</span>}
+                        {errors.groupName && errors.groupName.type === 'pattern' && (
+                            <span className="text-danger">Only letters, numbers, and hyphens are allowed</span>
+                        )}
+                    </div>
+                </div>
+                <div className="col-md-6">
+                    <div className="form-group">
+                        <label htmlFor="shortName" className="text-black">Short name* <span className="text-muted">(Short name for url)</span></label>
+                        <input disabled={game.isWon} type="text" className="form-control" id="shortName" {...register('shortName', { required: true, pattern: /^[A-Za-z0-9-]+$/ })} />
+                        {errors.shortName && <span className="text-danger">This field is required</span>}
+                        {errors.shortName && errors.shortName.type === 'pattern' && (
+                            <span className="text-danger">Only letters, numbers, and hyphens are allowed</span>
+                        )}
+                    </div>
+                </div>
+            </div>
+            {shareableLink &&
+                <div className="row">
+                    <div className="form-group">
+                        <div className="col-md-12 text-center">
+                            <label className="text-black"><span className="text-muted">(Link to share)</span></label>
+                            <p><Link href={shareableLink}>{shareableLink}</Link></p>
+                        </div>
+                    </div>
+                </div>}
         </>
     );
 };

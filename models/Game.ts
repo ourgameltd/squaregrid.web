@@ -6,6 +6,8 @@ export interface Game {
     title: string;
     image?: string;
     description: string;
+    shortName: string;
+    groupName: string;
     blocks: Block[];
     blockCount: number;
     isClaimed: boolean;

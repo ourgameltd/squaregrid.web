@@ -87,7 +87,7 @@ const Card = ({ game }: GameProps) => {
               <div className="col-md-6">
                 <GameForm register={register} errors={errors} game={gameData} setError={setError} clearError={clearErrors} blocks={blocks} setBlocks={setBlocks}></GameForm>
               </div>
-              <div className="col-md-6">
+              <div className="col-md-6 mt-4 mt-lg-0">
                 <GameBlocks register={register} errors={errors} game={gameData} setError={setError} clearError={clearErrors} blocks={blocks} setBlocks={setBlocks}></GameBlocks>
               </div>
             </div>
