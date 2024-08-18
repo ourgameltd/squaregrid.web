@@ -57,8 +57,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       if (formOutput.fields.json) {
         formData.append('json', formOutput.fields.json[0], { contentType: "application/json" });
       }
-      const response = await postFormData(`games/${gameId}`, formData, req);
-      res.status(response.status).json(response?.json ?? {});
+      await postFormData(`games/${gameId}`, formData, req);
+      res.status(200).json({ message: 'Updated game.' });
       return;
     } catch (error) {
       res.status(500).json({ message: 'Failed to update game.' });

@@ -9,6 +9,9 @@ import { Game, GameFormModel } from "@/Game";
 import GameBlocks from "@/forms/GameBlocks";
 import { FieldErrors, useForm, UseFormClearErrors, UseFormRegister, UseFormSetError } from "react-hook-form";
 import { Block } from "@/Block";
+import { ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 interface GameProps {
   game: GameFormModel
@@ -25,6 +28,7 @@ export interface GameComponentProps extends GameProps {
 
 const Card = ({ game }: GameProps) => {
   const { t } = useTranslation(["card", "common", "navbar"]);
+  const [isSaving, setIsSaving] = useState(false);
 
   const [gameData, setGameData] = useState(game);
   const [gameTitle, setGameTitle] = useState(game.title);
@@ -35,6 +39,7 @@ const Card = ({ game }: GameProps) => {
   });
 
   const onSubmit = async (data: GameFormModel) => {
+    setIsSaving(true);
     const formData = { ...data, blocks };
 
     const form = new FormData();
@@ -55,8 +60,11 @@ const Card = ({ game }: GameProps) => {
   
       setGameData(formData);
       setGameTitle(formData.title);
+      toast.success('Card saved successfully!');
     } catch (error) {
-      // Toast and error
+      toast.success('Card failed to save!, ' + error);
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -65,9 +73,10 @@ const Card = ({ game }: GameProps) => {
       <Head>
         <title>{format(t("pageTitle"), [gameTitle])}</title>
       </Head>
+      <ToastContainer />
       <div className="untree_co-section">
-        <div className="container">
-          <div className="row mt-xs-5">
+        <div className="container mt-5 mt-lg-1">
+          <div className="row">
             <div className="col-12 text-center">
               <h2 className="heading">{format(t("card:title"), [gameTitle])}</h2>
               <p>{t("card:subTitle")}</p>
@@ -85,7 +94,16 @@ const Card = ({ game }: GameProps) => {
             <div className="row">
               <div className="col-md-12">
                 <div className="form-group mt-3">
-                  <button disabled={game.isWon} type="submit" className="btn btn-primary">Save</button>
+                  <button disabled={game.isWon || isSaving} type="submit" className="btn btn-primary">
+                    {!isSaving && <span>Save </span>}
+                    {isSaving && 
+                      <>
+                      <span>Saving... </span>
+                      <div className="spinner-grow spinner-grow-sm text-light" role="status">
+                        <span className="sr-only">Saving...</span>
+                      </div>
+                      </>}
+                  </button>
                 </div>
               </div>
             </div>

@@ -41,7 +41,8 @@ const GameBlocks = ({ game, setError, clearError, errors, blocks, setBlocks }: G
         );
     };
 
-    const removeBlock = (partitionKey: string, rowKey: string) => {
+    const removeBlock = (partitionKey: string, rowKey: string, event: React.FormEvent) => {
+        event.preventDefault();
         setBlocks((prevBlocks) =>
             prevBlocks.filter((block) => !(block.partitionKey === partitionKey && block.rowKey === rowKey))
         );
@@ -84,7 +85,8 @@ const GameBlocks = ({ game, setError, clearError, errors, blocks, setBlocks }: G
         inputRef!.current!.value = '';
     };
 
-    const openEditModal = (block: Block) => {
+    const openEditModal = (block: Block, event: React.FormEvent) => {
+        event.preventDefault();
         setIsEditing(block);
     };
 
@@ -147,13 +149,13 @@ const GameBlocks = ({ game, setError, clearError, errors, blocks, setBlocks }: G
                                         title="Delete this square altogether."
                                         className='btn-sm btn-danger ml-1 float-end'
                                         role="button"
-                                        onClick={() => removeBlock(block.partitionKey, block.rowKey)}>
+                                        onClick={(e) => removeBlock(block.partitionKey, block.rowKey, e)}>
                                         <i className="bi bi-trash"></i>
                                     </button>}
                                     {!game.isWon &&
                                         <button
                                             className='btn-sm btn-primary ml-1 float-end'
-                                            onClick={() => openEditModal(block)}
+                                            onClick={(e) => openEditModal(block, e)}
                                             role="button">
                                             <i className="bi bi-pencil"></i>
                                         </button>}
