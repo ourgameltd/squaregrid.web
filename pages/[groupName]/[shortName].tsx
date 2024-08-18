@@ -75,7 +75,7 @@ const Card = ({ game }: CardProps) => {
       </Head>
       <ToastContainer />
       <div className="untree_co-hero pb-0 pt-0" id="game-section">
-        <div className="container">
+        <div className={game.displayAsGrid ? "container-fluid" : "container"}>
           <div className="row pb-0 pt-3">
             <div className="col-12">
               <div className="card">
@@ -121,9 +121,9 @@ const Card = ({ game }: CardProps) => {
               </div>
             </div>
           </div>
-          <div className="row pb-0 pt-3">
-            <div className="col-12">
-              {!game.displayAsGrid &&
+          {!game.displayAsGrid &&
+            <div className="row pb-0 pt-3">
+              <div className="col-12">
                 <ul className="list-group">
                   <li className="list-group-item">
                     <div className="container">
@@ -150,15 +150,37 @@ const Card = ({ game }: CardProps) => {
                             <span className="cursive text-truncate d-block">{block?.claimedByFriendlyName}</span>
                           </div>
                           <div className="col-2">
-                            <button onClick={(e) => claim(e, block)} disabled={block.isClaimed} role="button" className="btn-primary btn btn-smaller float-end">Claim</button>
+                            <button onClick={(e) => claim(e, block)} disabled={block.isClaimed} role="button" className="btn-primary btn btn-smaller float-end">
+                            {block.isClaimed ? "Claimed" : "Claim"}
+                            </button>
                           </div>
                         </div>
                       </div>
                     </li>
                   ))}
-                </ul>}
-            </div>
-          </div>
+                </ul>
+              </div>
+            </div>}
+          {game.displayAsGrid &&
+            <div className="row square-row pb-0 pt-3">
+              {blocks?.map((block) => (
+                <div key={block.index} className="col-3 col-md-2 col-lg-2 col-xl-2 col-xxl-1">
+                  <div className="square text-center">
+                    <span className="text-truncate d-block">{block.index}. {block.title}</span>
+                    {block.isClaimed &&
+                    <div>
+                      <span className="cursive text-truncate d-block">{block?.claimedByFriendlyName}</span>
+                    </div>}
+                    {!block.isClaimed &&
+                    <div>
+                      <button onClick={(e) => claim(e, block)} disabled={block.isClaimed} role="button" className="btn-primary btn">
+                        {block.isClaimed ? "Claimed" : "Claim"}
+                      </button>
+                    </div>}
+                  </div>
+                </div>
+              ))}
+            </div>}
         </div>
       </div>
     </>
