@@ -74,10 +74,10 @@ const Card = ({ game }: CardProps) => {
         <title>{format(t("pageTitle"), [gameData?.title])}</title>
       </Head>
       <ToastContainer />
-      <div className="untree_co-hero pb-0 pt-0" id="game-section">
-        <div className={game.displayAsGrid ? "container-fluid" : "container"}>
+      <div className="untree_co-hero pb-4" id="game-section">
+        <div className="container">
           <div className="row pb-0 pt-3">
-            <div className="col-12">
+            <div className="col-xl-4">
               <div className="card">
                 <div className="row">
                   <div className="col-md-4">
@@ -101,86 +101,96 @@ const Card = ({ game }: CardProps) => {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-          <div className="row pb-0 pt-3">
-            <div className="col-12">
-              <div className="form-group text-center">
-                <label htmlFor="options" className="text-black fw-bold">What is your name?*</label>
-                <div className="input-group">
-                  <input
-                    type="text"
-                    id="claimedBy"
-                    className="form-control"
-                    placeholder="e.g. Michael"
-                    aria-label="Your name."
-                    aria-describedby="Your name"
-                    ref={inputRef} />
-                </div>
-                {errors.claimedBy && <span className="text-danger">{errors.claimedBy.message}</span>}
-              </div>
-            </div>
-          </div>
-          {!game.displayAsGrid &&
-            <div className="row pb-0 pt-3">
-              <div className="col-12">
-                <ul className="list-group">
-                  <li className="list-group-item">
-                    <div className="container">
-                      <div className="row text-left fw-bold">
-                        <div className="col-5">
-                          Title
-                        </div>
-                        <div className="col-7">
-                          Claimed by
-                        </div>
-                      </div>
+              <div className="row pb-3 pt-3">
+                <div className="col-lg-6 col-xl-12">
+                  <div className="form-group">
+                    <label htmlFor="options" className="text-black fw-bold">Winner</label>
+                    <div className="badge bg-warning text-dark d-block text-center">
+                      <h4>&nbsp;</h4>
                     </div>
-                  </li>
-                  {blocks?.map((block) => (
-                    <li key={block.index} className="list-group-item fs-6">
-                      <div className="container">
-                        <div className="row text-left">
-                          <div className="col-5">
-                            <span className="text-truncate d-block">
-                              {block.index}. {block.title}
-                            </span>
-                          </div>
-                          <div className="col-5 fs-5">
-                            <span className="cursive text-truncate d-block">{block?.claimedByFriendlyName}</span>
-                          </div>
-                          <div className="col-2">
-                            <button onClick={(e) => claim(e, block)} disabled={block.isClaimed} role="button" className="btn-primary btn btn-smaller float-end">
-                            {block.isClaimed ? "Claimed" : "Claim"}
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>}
-          {game.displayAsGrid &&
-            <div className="row square-row pb-0 pt-3">
-              {blocks?.map((block) => (
-                <div key={block.index} className="col-3 col-md-2 col-lg-2 col-xl-2 col-xxl-1">
-                  <div className="square text-center">
-                    <span className="text-truncate d-block">{block.index}. {block.title}</span>
-                    {block.isClaimed &&
-                    <div>
-                      <span className="cursive text-truncate d-block">{block?.claimedByFriendlyName}</span>
-                    </div>}
-                    {!block.isClaimed &&
-                    <div>
-                      <button onClick={(e) => claim(e, block)} disabled={block.isClaimed} role="button" className="btn-primary btn">
-                        {block.isClaimed ? "Claimed" : "Claim"}
-                      </button>
-                    </div>}
                   </div>
                 </div>
-              ))}
-            </div>}
+                <div className="col-lg-6 col-xl-12">
+                  <div className="form-group">
+                    <label htmlFor="options" className="text-black fw-bold">Your name? *</label>
+                    <div className="input-group">
+                      <input
+                        type="text"
+                        id="claimedBy"
+                        className="form-control"
+                        placeholder="e.g. Michael"
+                        aria-label="Your name."
+                        aria-describedby="Your name"
+                        ref={inputRef} />
+                    </div>
+                    {errors.claimedBy && <span className="text-danger">{errors.claimedBy.message}</span>}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="col-xl-8">
+              {!game.displayAsGrid &&
+                <div className="row pb-0">
+                  <div className="col-12">
+                    <ul className="list-group">
+                      <li className="list-group-item">
+                        <div className="container">
+                          <div className="row text-left fw-bold">
+                            <div className="col-5">
+                              Title
+                            </div>
+                            <div className="col-7">
+                              Claimed by
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                      {blocks?.map((block) => (
+                        <li key={block.index} className="list-group-item fs-6">
+                          <div className="container">
+                            <div className="row text-left">
+                              <div className="col-5">
+                                <span className="text-truncate d-block">
+                                  {block.index}. {block.title}
+                                </span>
+                              </div>
+                              <div className="col-5 fs-5">
+                                <span className="cursive text-truncate d-block">{block?.claimedByFriendlyName}</span>
+                              </div>
+                              <div className="col-2">
+                                <button onClick={(e) => claim(e, block)} disabled={block.isClaimed} role="button" className="btn-secondary btn btn-smaller float-end">
+                                  {block.isClaimed ? "Claimed" : "Claim"}
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>}
+              {game.displayAsGrid &&
+                <div className="row square-row pb-0 px-2">
+                  {blocks?.map((block) => (
+                    <div key={block.index} className="col-4 col-md-3 col-lg-2 col-xl-2 col-xxl-2">
+                      <div className="square text-center">
+                        <span className="text-truncate d-block bg-secondary bg-gradient text-white">{block.index}. {block.title}</span>
+                        {block.isClaimed &&
+                          <div>
+                            <span className="cursive text-truncate d-block">{block?.claimedByFriendlyName}</span>
+                          </div>}
+                        {!block.isClaimed &&
+                          <div>
+                            <button onClick={(e) => claim(e, block)} disabled={block.isClaimed} role="button" className="btn-secondary btn btn-smaller">
+                              {block.isClaimed ? "Claimed" : "Claim"}
+                            </button>
+                          </div>}
+                      </div>
+                    </div>
+                  ))}
+                </div>}
+            </div>
+          </div>
         </div>
       </div>
     </>

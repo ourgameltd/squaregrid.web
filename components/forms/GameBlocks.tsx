@@ -140,21 +140,22 @@ const GameBlocks = ({ game, setError, clearError, errors, blocks, setBlocks }: G
                         {blocks?.map((block) => (
                             <tr className={block.isWinner ? "table-warning" : ""} key={`${block.partitionKey}-${block.rowKey}`}>
                                 <th scope="row">{block.index}</th>
-                                <td>{block.title} {block.isConfirmed && <i className="bi bi-patch-check-fill text-primary"></i>}</td>
-                                <td title={block.isWinner ? `Game was won by ${block.claimedByFriendlyName}` : ""}>{block?.claimedByFriendlyName}</td>
+                                <td><span className='text-truncate'>{block.title}</span></td>
+                                <td title={block.isWinner ? `Game was won by ${block.claimedByFriendlyName}` : ""}>{block?.claimedByFriendlyName}
+                                {block.isConfirmed && <i className="bi bi-patch-check-fill text-primary float-end"></i>}</td>
                                 <td>
                                     {!game.isWon && 
                                     <button
                                         disabled={game.isWon}
                                         title="Delete this square altogether."
-                                        className='btn-sm btn-danger ml-1 float-end'
+                                        className='btn btn-smaller btn-danger ml-1 float-end'
                                         role="button"
                                         onClick={(e) => removeBlock(block.partitionKey, block.rowKey, e)}>
                                         <i className="bi bi-trash"></i>
                                     </button>}
                                     {!game.isWon &&
                                         <button
-                                            className='btn-sm btn-primary ml-1 float-end'
+                                            className='btn btn-smaller btn-primary ml-1 float-end'
                                             onClick={(e) => openEditModal(block, e)}
                                             role="button">
                                             <i className="bi bi-pencil"></i>

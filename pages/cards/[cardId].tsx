@@ -74,7 +74,6 @@ const Card = ({ game }: GameProps) => {
       <Head>
         <title>{format(t("pageTitle"), [gameTitle])}</title>
       </Head>
-      <Navbar t={t} />
       <ToastContainer />
       <div className="untree_co-section">
         <div className="container mt-5 mt-lg-1">
