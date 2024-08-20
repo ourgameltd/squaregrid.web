@@ -45,7 +45,7 @@ const Home = () => {
                       </p>
                     </div>
                     <p>
-                      <Link href="/cards" className="btn btn-outline-primary smoothscroll" onClick={redirectToCards} >
+                      <Link href="/cards" className="btn btn-primary smoothscroll" onClick={redirectToCards} >
                         {t("tryNow")}
                       </Link>
                     </p>

@@ -273,6 +273,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
   aspect-ratio: 1 / 1;
   text-align: center;
   border: 1px solid #CDCDCD;
+  background-color: #fff;
 }
 
 .row.square-row {
@@ -298,4 +299,16 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
   display: flex;
   align-items: center; 
   justify-content: center; 
+}
+
+body {
+  background: radial-gradient(circle, rgb(255, 255, 255) 0%, rgb(212 206 206) 100%);
+}
+
+.form-control {
+  background-color: #fff !important;
+}
+
+.form-group span.text-danger {
+  font-weight: bold;;
 }

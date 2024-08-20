@@ -2,6 +2,7 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import Conditional from "./conditional";
 import { format } from "@/stringUtils";
 import Link from "next/link";
+import Image from "next/image"
 
 const Navbar = ({ t }: { t: any }) => {
   const { data: session } = useSession();
@@ -12,23 +13,20 @@ const Navbar = ({ t }: { t: any }) => {
         <div className="container">
           <div className="site-navigation">
             <Link href="/" className="logo m-0 float-left">
-              {t("navbar:appName")}
+            <Image
+                        src={`/images/logo.png`}
+                        alt={"Logo for squareGrid"}
+                        unoptimized={true}
+                        width={40}
+                        height={40}
+                        className="img-fluid rounded-start"
+                      /> {t("navbar:appName")}
             </Link>
 
             <ul className="js-clone-nav d-none d-lg-inline-block site-menu float-left">
               <li>
                 <Link href="/#features-section" className="nav-link">
                   Features
-                </Link>
-              </li>
-              <li>
-                <Link href="/#pricing-section" className="nav-link">
-                  Pricing
-                </Link>
-              </li>
-              <li>
-                <Link href="/#contact-section" className="nav-link">
-                  Contact
                 </Link>
               </li>
               <Conditional condition={session != null}>
@@ -89,16 +87,6 @@ const Navbar = ({ t }: { t: any }) => {
                 <li>
                   <Link href="/#features-section">
                     Features
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/#pricing-section">
-                    Pricing
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/#contact-section">
-                    Contact
                   </Link>
                 </li>
                 <Conditional condition={session != null}>

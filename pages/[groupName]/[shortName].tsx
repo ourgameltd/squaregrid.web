@@ -102,30 +102,32 @@ const Card = ({ game }: CardProps) => {
                 </div>
               </div>
               <div className="row pb-3 pt-3">
-                <div className="col-lg-6 col-xl-12">
-                  <div className="form-group">
-                    <label htmlFor="options" className="text-black fw-bold">Winner</label>
-                    <div className="badge bg-warning text-dark d-block text-center">
-                      <h4>&nbsp;</h4>
+                {!game.isWon &&
+                  <div className="col-lg-6 col-xl-12">
+                    <div className="form-group">
+                      <label htmlFor="options" className="text-black fw-bold">Your name? *</label>
+                      <div className="input-group">
+                        <input
+                          type="text"
+                          id="claimedBy"
+                          className="form-control"
+                          placeholder="e.g. Michael"
+                          aria-label="Your name."
+                          aria-describedby="Your name"
+                          ref={inputRef} />
+                      </div>
+                      {errors.claimedBy && <span className="text-danger">{errors.claimedBy.message}</span>}
                     </div>
-                  </div>
-                </div>
-                <div className="col-lg-6 col-xl-12">
-                  <div className="form-group">
-                    <label htmlFor="options" className="text-black fw-bold">Your name? *</label>
-                    <div className="input-group">
-                      <input
-                        type="text"
-                        id="claimedBy"
-                        className="form-control"
-                        placeholder="e.g. Michael"
-                        aria-label="Your name."
-                        aria-describedby="Your name"
-                        ref={inputRef} />
+                  </div>}
+                {game.isWon &&
+                  <div className="col-lg-6 col-xl-12">
+                    <div className="form-group">
+                      <label htmlFor="options" className="text-black fw-bold">Winner</label>
+                      <div className="badge bg-warning text-dark d-block text-center">
+                        <h4 className="m-0">{game.wonByName ?? ""}</h4>
+                      </div>
                     </div>
-                    {errors.claimedBy && <span className="text-danger">{errors.claimedBy.message}</span>}
-                  </div>
-                </div>
+                  </div>}
               </div>
             </div>
             <div className="col-xl-8">
@@ -159,7 +161,7 @@ const Card = ({ game }: CardProps) => {
                               </div>
                               <div className="col-2">
                                 <button onClick={(e) => claim(e, block)} disabled={block.isClaimed} role="button" className="btn-secondary btn btn-smaller float-end">
-                                  {block.isClaimed ? "Claimed" : "Claim"}
+                                  Claim
                                 </button>
                               </div>
                             </div>
@@ -174,7 +176,7 @@ const Card = ({ game }: CardProps) => {
                   {blocks?.map((block) => (
                     <div key={block.index} className="col-4 col-md-3 col-lg-2 col-xl-2 col-xxl-2">
                       <div className="square text-center">
-                        <span className="text-truncate d-block bg-secondary bg-gradient text-white">{block.index}. {block.title}</span>
+                        <span className={`text-truncate d-block ${block.isWinner ? "bg-warning text-black": "bg-secondary"} is bg-gradient text-white`}>{block.index}. {block.title}</span>
                         {block.isClaimed &&
                           <div>
                             <span className="cursive text-truncate d-block">{block?.claimedByFriendlyName}</span>
@@ -182,7 +184,7 @@ const Card = ({ game }: CardProps) => {
                         {!block.isClaimed &&
                           <div>
                             <button onClick={(e) => claim(e, block)} disabled={block.isClaimed} role="button" className="btn-secondary btn btn-smaller">
-                              {block.isClaimed ? "Claimed" : "Claim"}
+                              Claim
                             </button>
                           </div>}
                       </div>
@@ -191,8 +193,8 @@ const Card = ({ game }: CardProps) => {
                 </div>}
             </div>
           </div>
-        </div>
-      </div>
+        </div >
+      </div >
     </>
   );
 };
