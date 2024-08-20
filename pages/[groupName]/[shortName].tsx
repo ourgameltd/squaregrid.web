@@ -2,7 +2,7 @@ import Head from "next/head";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { format } from "@/stringUtils";
-import { fetchData } from "@/api";
+import { fetchData, postData } from "@/api";
 import { useRef, useState } from "react";
 import { ClaimFormModel, Game, GameFormModel } from "@/Game";
 import { useForm } from "react-hook-form";
@@ -30,7 +30,7 @@ const Card = ({ game }: CardProps) => {
     defaultValues: {} as ClaimFormModel,
   });
 
-  function claim(e: React.FormEvent, updatedBlock: Block): void {
+  const claim = async (e: React.FormEvent, updatedBlock: Block) => {
     e.preventDefault();
 
     const inputValue = inputRef.current?.value;
@@ -47,11 +47,25 @@ const Card = ({ game }: CardProps) => {
 
     setIsClaiming(true);
 
-    updatedBlock.claimedByFriendlyName = inputValue;
-    updatedBlock.dateClaimed = new Date();
-    updatedBlock.isClaimed = true;
-
     try {
+      var response = await fetch(`/api/games/${updatedBlock.partitionKey}/block/${updatedBlock.rowKey}/claim`, {
+        method: 'POST',
+        body: JSON.stringify({
+          claimedBy: inputValue
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      updatedBlock.claimedByFriendlyName = inputValue;
+      updatedBlock.dateClaimed = new Date();
+      updatedBlock.isClaimed = true;
+
       toast.success('Cell claimed successfully!');
       setBlocks((prevBlocks) =>
         prevBlocks
@@ -62,7 +76,7 @@ const Card = ({ game }: CardProps) => {
           )
           .sort((a, b) => a.index - b.index));
     } catch (error) {
-      toast.success('Failed to claim cell!, ' + error);
+      toast.error('Failed to claim cell!, ' + error);
     } finally {
       setIsClaiming(false);
     }
@@ -148,7 +162,7 @@ const Card = ({ game }: CardProps) => {
                         </div>
                       </li>
                       {blocks?.map((block) => (
-                        <li key={block.index} className="list-group-item fs-6">
+                        <li key={block.index} className={"list-group-item fs-6 " + (block.isWinner ? "bg-warning" : "")}>
                           <div className="container">
                             <div className="row text-left">
                               <div className="col-5">
@@ -175,8 +189,8 @@ const Card = ({ game }: CardProps) => {
                 <div className="row square-row pb-0 px-2">
                   {blocks?.map((block) => (
                     <div key={block.index} className="col-4 col-md-3 col-lg-2 col-xl-2 col-xxl-2">
-                      <div className="square text-center">
-                        <span className={`text-truncate d-block ${block.isWinner ? "bg-warning text-black": "bg-secondary"} is bg-gradient text-white`}>{block.index}. {block.title}</span>
+                      <div className={"square text-center " + (block.isWinner ? "bg-warning text-black": "")}>
+                        <span className={`text-truncate d-block bg-secondary is bg-gradient text-white`}>{block.index}. {block.title}</span>
                         {block.isClaimed &&
                           <div>
                             <span className="cursive text-truncate d-block">{block?.claimedByFriendlyName}</span>

@@ -30,9 +30,10 @@ export interface GameComponentProps extends GameProps {
 const Card = ({ game }: GameProps) => {
   const { t } = useTranslation(["card", "common", "navbar"]);
   const [isSaving, setIsSaving] = useState(false);
+  const [isSavingWinner, setIsSavingWinner] = useState(false);
 
   const [gameData, setGameData] = useState(game);
-  const [gameTitle, setGameTitle] = useState(game.title);
+  const [gameTitle, setGameTitle] = useState(gameData.title);
   const [blocks, setBlocks] = useState(game?.blocks?.sort((a, b) => a.index - b.index));
 
   const { register, handleSubmit, setError, clearErrors, formState: { errors } } = useForm<GameFormModel>({
@@ -50,22 +51,50 @@ const Card = ({ game }: GameProps) => {
     form.append('json', JSON.stringify(formData));
 
     try {
-      const response = await fetch('/api/game/' + game.rowKey, {
+      const response = await fetch('/api/games/' + gameData.rowKey, {
         method: 'POST',
         body: form
       });
-  
+
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-  
+
       setGameData(formData);
       setGameTitle(formData.title);
       toast.success('Card saved successfully!');
     } catch (error) {
-      toast.success('Card failed to save!, ' + error);
+      toast.error('Card failed to save!, ' + error);
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  const drawWinner = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSavingWinner(true);
+
+    try {
+      const response = await fetch('/api/games/' + gameData.rowKey + '/winner', {
+        method: 'POST',
+        body: "{}"
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      var json = await response.json();
+      var formData = json as GameFormModel;
+
+      setGameData(formData);
+      setBlocks(formData.blocks.sort((a, b) => a.index - b.index));
+
+      toast.success('Card saved successfully!');
+    } catch (error) {
+      toast.error('Card failed to save!, ' + error);
+    } finally {
+      setIsSavingWinner(false);
     }
   };
 
@@ -81,6 +110,17 @@ const Card = ({ game }: GameProps) => {
             <div className="col-12 text-center">
               <h2 className="heading">{format(t("card:title"), [gameTitle])}</h2>
               <p>{t("card:subTitle")}</p>
+              {!gameData.isWon &&
+                <button disabled={gameData.percentageClaimed <= 0} type="submit" onClick={(e) => drawWinner(e)} className="ml-1 btn btn-warning">
+                  {!isSavingWinner && <span>Draw winner </span>}
+                  {isSavingWinner &&
+                    <>
+                      <span>Saving... </span>
+                      <div className="spinner-grow spinner-grow-sm text-light" role="status">
+                        <span className="sr-only">Drawing winner...</span>
+                      </div>
+                    </>}
+                </button>}
             </div>
           </div>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -95,14 +135,14 @@ const Card = ({ game }: GameProps) => {
             <div className="row">
               <div className="col-md-12">
                 <div className="form-group mt-3">
-                  <button disabled={game.isWon || isSaving} type="submit" className="btn btn-primary">
+                  <button disabled={gameData.isWon || isSaving} type="submit" className="btn btn-primary">
                     {!isSaving && <span>Save </span>}
-                    {isSaving && 
+                    {isSaving &&
                       <>
-                      <span>Saving... </span>
-                      <div className="spinner-grow spinner-grow-sm text-light" role="status">
-                        <span className="sr-only">Saving...</span>
-                      </div>
+                        <span>Saving... </span>
+                        <div className="spinner-grow spinner-grow-sm text-light" role="status">
+                          <span className="sr-only">Saving...</span>
+                        </div>
                       </>}
                   </button>
                 </div>

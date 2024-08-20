@@ -73,7 +73,8 @@ const GameForm = ({ game: game, register, errors }: GameComponentProps) => {
                             <input
                                 className="form-check-input"
                                 type="checkbox"
-                                id="displayAsGrid"
+                                id="displayAsGrid" 
+                                disabled={game.isWon}
                                 defaultChecked={game.displayAsGrid}
                                 {...register('displayAsGrid', { pattern: /^[A-Za-z0-9-]+$/ })} />
                             <label className="form-check-label" htmlFor="blockConfirmed">Display options as a grid</label>

@@ -46,6 +46,7 @@ export const postData = async <T>(url: string, body: T, req: any): Promise<Respo
             body: JSON.stringify(body),
             headers: {
                 'Authorization': `Bearer ${token["accessToken"]}`,
+                'Content-Type': 'application/json',
                 'Accept': 'application/json',
             }
         });
