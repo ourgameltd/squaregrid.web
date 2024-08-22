@@ -48,8 +48,8 @@ const GameBlocks = ({ game, setError, clearError, errors, blocks, setBlocks }: G
         );
     };
 
-    const getNextAvailableIndex = () => {
-        const usedIndices = blocks.map(block => block.index);
+    const getNextAvailableIndex = (currentBlocks: Block[]) => {
+        const usedIndices = currentBlocks.map(block => block.index);
         let nextIndex = 1;
         while (usedIndices.includes(nextIndex)) {
             nextIndex++;
@@ -72,15 +72,23 @@ const GameBlocks = ({ game, setError, clearError, errors, blocks, setBlocks }: G
             clearError(['blockInput']);
         }
 
-        addBlock({
-            partitionKey: game.rowKey,
-            rowKey: uuidv4(),
-            title: inputValue ?? "",
-            index: getNextAvailableIndex(),
-            isClaimed: false,
-            isConfirmed: false,
-            isWinner: false
-        } as Block);
+        const currentBlocks = [...blocks];
+        const newBlocks = inputValue.split(",").filter(i => i).map(i => {
+            const nextIndex = getNextAvailableIndex(currentBlocks);
+            const newBlock: Block = {
+                partitionKey: game.rowKey,
+                rowKey: uuidv4(),
+                title: i.trim() ?? "",
+                index: nextIndex,
+                isClaimed: false,
+                isConfirmed: false,
+                isWinner: false,
+            } as Block;
+            currentBlocks.push(newBlock); // Add the new block to the temporary list to track used indices
+            return newBlock;
+        });
+
+        newBlocks.forEach(block => addBlock(block));
 
         inputRef!.current!.value = '';
     };

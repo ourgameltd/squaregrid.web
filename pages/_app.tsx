@@ -14,6 +14,7 @@ import { SessionProvider } from "next-auth/react";
 const SquareGridApp = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
   const { t } = useTranslation("navbar");
 
+  
   return (
     <SessionProvider session={session}>
       <AppContextProvider>
