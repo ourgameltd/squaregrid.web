@@ -12,6 +12,7 @@ export const fetchData = async <T>(url: string, context: any): Promise<T> => {
             headers: {
                 'Authorization': `Bearer ${token["accessToken"]}`,
                 'Accept': 'application/json',
+                'X-FUNCTIONS-KEY': process.env.API_ACCESS_KEY || ""
             }
         });
         const data = await response.json() as T;
@@ -29,6 +30,7 @@ export const postFormData = async (url: string, formdata: FormData, req: any): P
             body: formdata,
             headers: {
                 'Authorization': `Bearer ${token["accessToken"]}`,
+                'X-FUNCTIONS-KEY': process.env.API_ACCESS_KEY || ""
             }
         });
         return response;
@@ -48,6 +50,27 @@ export const postData = async <T>(url: string, body: T, req: any): Promise<Respo
                 'Authorization': `Bearer ${token["accessToken"]}`,
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
+                'X-FUNCTIONS-KEY': process.env.API_ACCESS_KEY || ""
+            }
+        });
+        return response;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const putData = async <T>(url: string, body: T, req: any): Promise<Response> => {
+    const token = await getToken({ req: req, secret: process.env.NEXT_SECRET }) as any
+
+    try {
+        const response = await fetch(process.env.API_ENDPOINT + url, {
+            method: 'PUT',
+            body: body ? JSON.stringify(body) : undefined,
+            headers: {
+                'Authorization': `Bearer ${token["accessToken"]}`,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'X-FUNCTIONS-KEY': process.env.API_ACCESS_KEY || ""
             }
         });
         return response;

@@ -67,7 +67,7 @@ const GameForm = ({ game: game, register, errors }: GameComponentProps) => {
                 </div>
             </div>
             <div className="row mt-3">
-                <div className="col-md-12  text-center">
+                <div className="col-md-6">
                     <div className="form-group">
                         <div className="form-check form-switch">
                             <input
@@ -77,7 +77,21 @@ const GameForm = ({ game: game, register, errors }: GameComponentProps) => {
                                 disabled={game.isWon}
                                 defaultChecked={game.displayAsGrid}
                                 {...register('displayAsGrid', { pattern: /^[A-Za-z0-9-]+$/ })} />
-                            <label className="form-check-label" htmlFor="blockConfirmed">Display options as a grid</label>
+                            <label className="form-check-label" htmlFor="displayAsGrid">Display options as a grid</label>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-md-6">
+                    <div className="form-group">
+                        <div className="form-check form-switch">
+                            <input
+                                className="form-check-input"
+                                type="checkbox"
+                                id="confirmedWinnersOnly" 
+                                disabled={game.isWon}
+                                defaultChecked={game.confirmedWinnersOnly}
+                                {...register('confirmedWinnersOnly', { pattern: /^[A-Za-z0-9-]+$/ })} />
+                            <label className="form-check-label" htmlFor="confirmedWinnersOnly">Only confirmed can win</label>
                         </div>
                     </div>
                 </div>

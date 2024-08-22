@@ -12,7 +12,6 @@ import { Block } from "@/Block";
 import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import Navbar from "@/navbar";
 
 interface GameProps {
   game: GameFormModel
