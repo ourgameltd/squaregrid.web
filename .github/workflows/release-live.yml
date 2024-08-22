@@ -36,6 +36,7 @@ jobs:
           AZURE_AD_B2C_ENDPOINT: https://ourgameauth.b2clogin.com/ourgameauth.onmicrosoft.com/b2c_1_susi/oauth2/v2.0/
           NEXT_PUBLIC_MEDIA_ENDPOINT: ${{ vars.NEXT_PUBLIC_MEDIA_ENDPOINT }}
           NEXT_PUBLIC_DOMAIN: ${{ vars.NEXT_PUBLIC_DOMAIN }}
+          API_ACCESS_KEY: ${{ secrets.API_ACCESS_KEY }}
 
       - name: Login to Azure
         uses: azure/login@v1
@@ -51,6 +52,7 @@ jobs:
           API_ENDPOINT: ${{ secrets.API_ENDPOINT }}
           NEXT_PUBLIC_MEDIA_ENDPOINT: ${{ vars.NEXT_PUBLIC_MEDIA_ENDPOINT }}
           NEXT_PUBLIC_DOMAIN: ${{ vars.NEXT_PUBLIC_DOMAIN }}
+          API_ACCESS_KEY: ${{ secrets.API_ACCESS_KEY }}
         run: |
           az staticwebapp appsettings set \
             --name "squaregrid" \
@@ -66,5 +68,6 @@ jobs:
             API_ENDPOINT=$API_ENDPOINT \
             AZURE_AD_B2C_ENDPOINT=https://ourgameauth.b2clogin.com/ourgameauth.onmicrosoft.com/b2c_1_susi/oauth2/v2.0/ \
             NEXT_PUBLIC_MEDIA_ENDPOINT=$NEXT_PUBLIC_MEDIA_ENDPOINT \
-            NEXT_PUBLIC_DOMAIN=$NEXT_PUBLIC_DOMAIN
+            NEXT_PUBLIC_DOMAIN=$NEXT_PUBLIC_DOMAIN \
+            API_ACCESS_KEY=$API_ACCESS_KEY
 
