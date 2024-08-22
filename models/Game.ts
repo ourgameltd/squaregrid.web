@@ -1,16 +1,33 @@
-interface Game {
+import { Block } from './Block';
+
+export interface Game {
     partitionKey: string;
     rowKey: string;
     title: string;
-    image: string;
+    image?: string;
     description: string;
-    options: string;
-    published: boolean;
-    blocks: number;
-    blocksClaimed: number;
-    blocksRemaining: number;
+    shortName: string;
+    groupName: string;
+    blocks: Block[];
+    blockCount: number;
+    isClaimed: boolean;
+    claimedBlockCount: number;
+    percentageClaimed: number;
     isCompleted: boolean;
     isWon: boolean;
-    timestamp: string;
+    displayAsGrid: boolean;
+    wonById?: string; 
+    wonByName?: string;
+    wonByDate?: Date;
+    timestamp?: Date;
     eTag: string;
-  }
+}
+
+export interface GameFormModel extends Game {
+    blockInput: string;
+    imageUpload: FileList;
+}
+
+export interface ClaimFormModel {
+    claimedBy: string;
+}

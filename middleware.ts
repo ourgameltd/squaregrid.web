@@ -21,12 +21,4 @@ export async function middleware(req: NextRequest) {
   if (!token && req.nextUrl.pathname.startsWith('/cards')) {
     return Response.redirect(new URL('/en/error/access', req.url))
   }
-
-  if (req.nextUrl.locale === 'default') {
-    const locale = req.cookies.get('NEXT_LOCALE')?.value || 'en'
- 
-    return NextResponse.redirect(
-      new URL(`/${locale}${req.nextUrl.pathname}${req.nextUrl.search}`, req.url)
-    )
-  }
 }

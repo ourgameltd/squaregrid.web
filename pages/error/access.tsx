@@ -3,6 +3,7 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { format } from "@/stringUtils";
 import { useSession } from "next-auth/react";
+import Navbar from "@/navbar";
 
 const ErrorAccess = () => {
   const { data: session } = useSession();

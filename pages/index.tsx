@@ -3,6 +3,7 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Link from "next/link";
 import { signIn, useSession } from "next-auth/react";
+import Navbar from "@/navbar";
 
 const Home = () => {
   const { data: session } = useSession();
@@ -44,7 +45,7 @@ const Home = () => {
                       </p>
                     </div>
                     <p>
-                      <Link href="/cards" className="btn btn-outline-primary smoothscroll" onClick={redirectToCards} >
+                      <Link href="/cards" className="btn btn-primary smoothscroll" onClick={redirectToCards} >
                         {t("tryNow")}
                       </Link>
                     </p>

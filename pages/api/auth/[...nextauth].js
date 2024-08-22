@@ -19,14 +19,16 @@ async function refreshAccessToken(token) {
       throw refreshedTokens;
     }
 
-    return {
+    const newToken = {
       ...token,
+      accessToken: refreshedTokens.id_token,
       idToken: refreshedTokens.id_token,
-      idTokenExpires: Date.now() + 3595000,
+      idTokenExpires: Date.now() + parseInt(refreshedTokens.id_token_expires_in),
       refreshToken: refreshedTokens.refresh_token ?? token.refreshToken,
     };
+
+    return newToken
   } catch (error) {
-    console.log(error);
     return {
       ...token,
       error: 'RefreshAccessTokenError',
@@ -43,25 +45,29 @@ export default NextAuth({
       primaryUserFlow: process.env.NEXT_PUBLIC_AZURE_AD_B2C_PRIMARY_USER_FLOW,
       authorization: {
         params: {
-          scope: process.env.AZURE_AD_B2C_SCOPES
+          scope: process.env.AZURE_AD_B2C_SCOPES,
         },
-      }
+      },
     }),
   ],
   callbacks: {
     jwt: async ({ token, user, account }) => {
       if (account) {
-        token.accessToken = account.id_token
-        token.refreshToken = account.refresh_token
+        token.accessToken = account.id_token;
+        token.refreshToken = account.refresh_token;
       }
 
       if (token.idTokenExpires && Date.now() < token.idTokenExpires) {
         return token;
       }
-
       return await refreshAccessToken(token);
     },
-    secret: process.env.NEXTAUTH_SECRET
-  },
-});
+    session: async ({ session, token }) => {
+      session.accessToken = token.accessToken;
+      session.error = token.error;
 
+      return session;
+    },
+  },
+  secret: process.env.NEXTAUTH_SECRET,
+});

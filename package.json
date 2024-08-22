@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_OPTIONS='--inspect' next dev",
+    "dev": "cross-env NODE_OPTIONS='--inspect' next dev --experimental-https",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -14,21 +14,27 @@
     "bootstrap": "^5.3.2",
     "bootstrap-icons": "^1.11.3",
     "cookies": "^0.9.1",
+    "formidable": "^3.5.1",
     "i18next": "^23.7.13",
     "next": "14.1.1",
     "next-auth": "^4.24.5",
     "next-i18next": "^15.1.1",
+    "node-fetch": "^3.3.2",
     "react": "^18",
     "react-bootstrap": "^2.10.2",
     "react-dom": "^18",
     "react-hook-form": "^7.51.5",
     "react-i18next": "^13.5.0",
-    "sass": "^1.75.0"
+    "react-toastify": "^10.0.5",
+    "sass": "^1.75.0",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
+    "@types/formidable": "^3.4.5",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/uuid": "^10.0.0",
     "cross-env": "^7.0.3",
     "typescript": "^5"
   }
