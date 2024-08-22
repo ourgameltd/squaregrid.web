@@ -3,7 +3,7 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { format } from "@/stringUtils";
 import { fetchData } from "@/api";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import GameForm from "@/forms/GameForm";
 import { Game, GameFormModel } from "@/Game";
 import GameBlocks from "@/forms/GameBlocks";
@@ -12,7 +12,6 @@ import { Block } from "@/Block";
 import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import Navbar from "@/navbar";
 
 interface GameProps {
   game: GameFormModel
@@ -30,6 +29,7 @@ export interface GameComponentProps extends GameProps {
 const Card = ({ game }: GameProps) => {
   const { t } = useTranslation(["card", "common", "navbar"]);
   const [isSaving, setIsSaving] = useState(false);
+  const [canDraw, setCanDraw] = useState(false);
   const [isSavingWinner, setIsSavingWinner] = useState(false);
 
   const [gameData, setGameData] = useState(game);
@@ -39,6 +39,27 @@ const Card = ({ game }: GameProps) => {
   const { register, handleSubmit, setError, clearErrors, formState: { errors } } = useForm<GameFormModel>({
     defaultValues: game,
   });
+
+  useEffect(() => {
+    if (gameData.percentageClaimed <= 0) {
+      console.log("No-one claimed, disabling.")
+      setCanDraw(false);
+      return;
+    }
+  
+    if (gameData.confirmedWinnersOnly && blocks.filter(i => i.isClaimed && i.isConfirmed).length <= 0) {
+      console.log("Confirmed only, no-one claimed and confirmed yet, disabling.")
+      setCanDraw(false);
+      return;
+    }
+
+    if (!gameData.confirmedWinnersOnly && blocks.filter(i => i.isClaimed).length <= 0) {
+      console.log("Any claimed can win, no-one claimed, disabling.")
+      return;
+    }
+
+    setCanDraw(true);
+  }, [gameData, blocks])
 
   const onSubmit = async (data: GameFormModel) => {
     setIsSaving(true);
@@ -75,7 +96,7 @@ const Card = ({ game }: GameProps) => {
     setIsSavingWinner(true);
 
     try {
-      const response = await fetch('/api/games/' + gameData.rowKey + '/winner', {
+      const response = await fetch('/api/games/' + gameData.rowKey + '/winner?confirmedWinnerOnly=' + gameData.confirmedWinnersOnly, {
         method: 'POST',
         body: "{}"
       });
@@ -111,7 +132,7 @@ const Card = ({ game }: GameProps) => {
               <h2 className="heading">{format(t("card:title"), [gameTitle])}</h2>
               <p>{t("card:subTitle")}</p>
               {!gameData.isWon &&
-                <button disabled={gameData.percentageClaimed <= 0} type="submit" onClick={(e) => drawWinner(e)} className="ml-1 btn btn-warning">
+                <button disabled={!canDraw} type="submit" onClick={(e) => drawWinner(e)} className="ml-1 btn btn-warning">
                   {!isSavingWinner && <span>Draw winner </span>}
                   {isSavingWinner &&
                     <>

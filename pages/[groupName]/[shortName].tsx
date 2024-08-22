@@ -2,7 +2,7 @@ import Head from "next/head";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { format } from "@/stringUtils";
-import { fetchData, postData } from "@/api";
+import { fetchData, fetchDataAnonymous, postData } from "@/api";
 import { useRef, useState } from "react";
 import { ClaimFormModel, Game, GameFormModel } from "@/Game";
 import { useForm } from "react-hook-form";
@@ -76,7 +76,7 @@ const Card = ({ game }: CardProps) => {
           )
           .sort((a, b) => a.index - b.index));
     } catch (error) {
-      toast.error('Failed to claim cell!, ' + error);
+      toast.error('Failed to claim cell, it may just have been claimed');
     } finally {
       setIsClaiming(false);
     }
@@ -218,7 +218,7 @@ export const getServerSideProps = async (context: any) => {
   let game: Game = {} as Game;
 
   try {
-    game = await fetchData<Game>(`games/${groupName}/${shortName}`, context);
+    game = await fetchDataAnonymous<Game>(`games/${groupName}/${shortName}`);
   } catch (error) {
     console.error('Error fetching data:', error);
   }

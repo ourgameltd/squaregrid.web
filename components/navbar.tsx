@@ -3,10 +3,12 @@ import Conditional from "./conditional";
 import { format } from "@/stringUtils";
 import Link from "next/link";
 import Image from "next/image"
+import { useState } from "react";
 
 const Navbar = ({ t }: { t: any }) => {
   const { data: session } = useSession();
-
+  const [imgSrc, setImgSrc] = useState(process.env.NEXT_PUBLIC_MEDIA_ENDPOINT as string);
+  
   return (
     <>
       <nav className="site-nav dark js-site-navbar mb-5 site-navbar-target">
@@ -42,12 +44,15 @@ const Navbar = ({ t }: { t: any }) => {
               <ul className="d-none mt-1 d-lg-inline-block site-menu float-right">
                 <li>
                   <Link href="/cards" title={format(t("profileTitle"), [session?.user?.name])}>
-                    {session?.user?.name} <img
-                      src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
-                      className="rounded-circle"
-                      height="25"
-                      alt={format(t("profileImageAlt"), [session?.user?.name])}
-                      loading="lazy"
+                    {session?.user?.name}
+                    <Image
+                      src={imgSrc}
+                      alt={"Image for user " + session?.user?.name}
+                      unoptimized={true}
+                      height={25}
+                      width={25}
+                      className="rounded-circle ml-2"
+                      onError={() => setImgSrc(process.env.NEXT_PUBLIC_MEDIA_ENDPOINT + `/images/user/placeholder.jpg`)}
                     />
                   </Link>
                 </li>
@@ -99,13 +104,16 @@ const Navbar = ({ t }: { t: any }) => {
                 <Conditional condition={session != null}>
                   <li>
                     <Link href="/cards" title={format(t("profileTitle"), [session?.user?.name])}>
-                      {session?.user?.name} <img
-                        src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
-                        className="rounded-circle"
-                        height="25"
-                        alt={format(t("profileImageAlt"), [session?.user?.name])}
-                        loading="lazy"
-                      />
+                      {session?.user?.name}
+                      <Image
+                            src={imgSrc}
+                            alt={"Image for user " + session?.user?.name}
+                            unoptimized={true}
+                            height={25}
+                            width={25}
+                            className="rounded-circle ml-2"
+                            onError={() => setImgSrc(process.env.NEXT_PUBLIC_MEDIA_ENDPOINT + `/images/user/placeholder.jpg`)}
+                          />
                     </Link>
                   </li>
                   <li>

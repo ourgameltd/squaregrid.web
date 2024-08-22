@@ -1,12 +1,20 @@
-import { postData, postFormData } from '@/api';
+import { postFormData, putData } from '@/api';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getToken } from 'next-auth/jwt';
-import { Exception } from 'sass';
+import { IncomingForm } from 'formidable';
+import FormData from 'form-data';
+import { promises as fs } from 'fs';
 
 const secret = process.env.NEXTAUTH_SECRET;
 
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'POST') {
+  if (req.method === 'PUT') {
     try {
       const token = await getToken({ req, secret });
 
@@ -15,17 +23,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return;
       }
 
-      const { gameId, blockId, confirmedWinnerOnly } = req.query;
-
-      if (!gameId) {
-        res.status(400).json({ message: 'Missing gameId in the request.' });
-        return;
-      }
-
-      var response = await postData(`games/${gameId}/winner?confirmedWinnerOnly=` + confirmedWinnerOnly, req.body, req);
-
+      var response = await putData(`games`, {}, req);
       if (!response.ok) {
-        throw new Error("Failed to claim cell.")
+        throw new Error("Failed to add new card.")
       }
       
       var json = await response.json();
@@ -33,7 +33,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(200).json(json);
       return;
     } catch (error) {
-      res.status(500).json({ message: 'Failed to draw winner.' });
+      res.status(500).json({ message: 'Failed to update game.' });
       return;
     }
   } else {

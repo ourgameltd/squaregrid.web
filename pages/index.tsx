@@ -52,7 +52,7 @@ const Home = () => {
                   </div>
                 </div>
                 <div className="col-lg-8">
-                  <div className="illustration">
+                  <div className="illustration shadow">
                     <img src="/images/sketch.svg" alt="Image" className="img-fluid" />
                   </div>
                 </div>

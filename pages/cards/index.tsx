@@ -5,10 +5,12 @@ import { format } from "@/stringUtils";
 import { useSession } from "next-auth/react";
 import { fetchData } from "@/api";
 import Link from "next/link";
-import { Game } from "@/Game";
+import { Game, GameFormModel } from "@/Game";
 import Image from 'next/image';
 import { useState } from "react";
 import Navbar from "@/navbar";
+import { toast } from "react-toastify";
+import router from "next/router";
 
 interface AccountProps {
   games: Game[];
@@ -17,6 +19,8 @@ interface AccountProps {
 const Cards = ({ games }: AccountProps) => {
   const { data: session } = useSession();
   const { t } = useTranslation(["account", "common", "navbar"]);
+  const [canAdd, setCanAdd] = useState(false);
+  const [isAdding, setIsAdding] = useState(false);
 
   const [imageSources, setImageSources] = useState<string[]>(
     games.map((game) => `${process.env.NEXT_PUBLIC_MEDIA_ENDPOINT}/${game.image}`)
@@ -25,9 +29,35 @@ const Cards = ({ games }: AccountProps) => {
   const handleImageError = (index: number) => {
     setImageSources((prev) => {
       const newSources = [...prev];
-      newSources[index] = '/images/games/placeholder.webp';
+      newSources[index] = `${process.env.NEXT_PUBLIC_MEDIA_ENDPOINT}/images/games/placeholder.webp`;
       return newSources;
     });
+  };
+
+  const addNew = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsAdding(true);
+
+    try {
+      const response = await fetch('/api/games', {
+        method: 'PUT',
+        body: "{}"
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      var json = await response.json();
+      var game = json as GameFormModel;
+
+      toast.success('New card added!');
+      router.push('/cards/' + game.rowKey);
+    } catch (error) {
+      toast.error('Card failed to add!, ' + error);
+    } finally {
+      setIsAdding(false);
+    }
   };
 
   return (
@@ -41,15 +71,25 @@ const Cards = ({ games }: AccountProps) => {
             <div className="col-12 text-center">
               <h2 className="heading">{t("account:title")}</h2>
               <p>{t("account:subTitle")}</p>
+              <button disabled={canAdd} type="submit" onClick={(e) => addNew(e)} className="ml-1 btn btn-success">
+                {!isAdding && <span>Add new</span>}
+                {isAdding &&
+                  <>
+                    <span>Adding new... </span>
+                    <div className="spinner-grow spinner-grow-sm text-light" role="status">
+                      <span className="sr-only">Adding new...</span>
+                    </div>
+                  </>}
+              </button>
             </div>
           </div>
           <div className="row mb-5">
             <div className="col-12">
               <div className="row row-cols-1 row-cols-lg-4 row-cols-2 g-4" id="card-list">
                 {games.map((game, index) => (
-                  <div className="col">
+                  <div className="col" key={game.rowKey}>
                     <Link href={`/cards/${game.rowKey}`}>
-                      <div className="card">
+                      <div className="card shadow">
                         <div className="image-container">
                           <Image
                             src={imageSources[index]}

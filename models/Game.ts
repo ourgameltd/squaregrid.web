@@ -14,6 +14,7 @@ export interface Game {
     claimedBlockCount: number;
     percentageClaimed: number;
     isCompleted: boolean;
+    confirmedWinnersOnly: boolean;
     isWon: boolean;
     displayAsGrid: boolean;
     wonById?: string; 
