@@ -56,6 +56,7 @@ jobs:
           az staticwebapp appsettings set \
             --name "squaregrid" \
             --resource-group "Landing-Zones-Default" \
+            --environment-name Dev
             --settings \
               NEXT_PUBLIC_AZURE_AD_B2C_TENANT_NAME=ourgameauth \
               NEXT_PUBLIC_AZURE_AD_B2C_CLIENT_ID=017c1045-b0db-4e87-bc13-87d68dce0185 \
