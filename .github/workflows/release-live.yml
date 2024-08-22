@@ -24,7 +24,6 @@ jobs:
           app_location: "/"
           api_location: "" 
           output_location: "" 
-          deployment_environment: "Production"
         env:
           NEXT_PUBLIC_AZURE_AD_B2C_TENANT_NAME: ourgameauth
           NEXT_PUBLIC_AZURE_AD_B2C_CLIENT_ID: 017c1045-b0db-4e87-bc13-87d68dce0185
@@ -56,17 +55,16 @@ jobs:
           az staticwebapp appsettings set \
             --name "squaregrid" \
             --resource-group "Landing-Zones-Default" \
-            --environment-name Production
-            --setting-namess \
-              NEXT_PUBLIC_AZURE_AD_B2C_TENANT_NAME=ourgameauth \
-              NEXT_PUBLIC_AZURE_AD_B2C_CLIENT_ID=017c1045-b0db-4e87-bc13-87d68dce0185 \
-              AZURE_AD_B2C_CLIENT_SECRET=$AZURE_AD_B2C_CLIENT_SECRET \
-              NEXT_PUBLIC_AZURE_AD_B2C_PRIMARY_USER_FLOW=B2C_1_SUSI \
-              AZURE_AD_B2C_SCOPES="offline_access openid https://ourgameauth.onmicrosoft.com/sg-api/app.read https://ourgameauth.onmicrosoft.com/sg-api/app.write" \
-              NEXTAUTH_SECRET=$AZURE_AD_B2C_CLIENT_SECRET \
-              NEXTAUTH_URL=$NEXTAUTH_URL \
-              API_ENDPOINT=$API_ENDPOINT \
-              AZURE_AD_B2C_ENDPOINT=https://ourgameauth.b2clogin.com/ourgameauth.onmicrosoft.com/b2c_1_susi/oauth2/v2.0/ \
-              NEXT_PUBLIC_MEDIA_ENDPOINT=$NEXT_PUBLIC_MEDIA_ENDPOINT \
-              NEXT_PUBLIC_DOMAIN=$NEXT_PUBLIC_DOMAIN
+            --setting-names \
+            NEXT_PUBLIC_AZURE_AD_B2C_TENANT_NAME=ourgameauth \
+            NEXT_PUBLIC_AZURE_AD_B2C_CLIENT_ID=017c1045-b0db-4e87-bc13-87d68dce0185 \
+            AZURE_AD_B2C_CLIENT_SECRET=$AZURE_AD_B2C_CLIENT_SECRET \
+            NEXT_PUBLIC_AZURE_AD_B2C_PRIMARY_USER_FLOW=B2C_1_SUSI \
+            AZURE_AD_B2C_SCOPES="offline_access openid https://ourgameauth.onmicrosoft.com/sg-api/app.read https://ourgameauth.onmicrosoft.com/sg-api/app.write" \
+            NEXTAUTH_SECRET=$AZURE_AD_B2C_CLIENT_SECRET \
+            NEXTAUTH_URL=$NEXTAUTH_URL \
+            API_ENDPOINT=$API_ENDPOINT \
+            AZURE_AD_B2C_ENDPOINT=https://ourgameauth.b2clogin.com/ourgameauth.onmicrosoft.com/b2c_1_susi/oauth2/v2.0/ \
+            NEXT_PUBLIC_MEDIA_ENDPOINT=$NEXT_PUBLIC_MEDIA_ENDPOINT \
+            NEXT_PUBLIC_DOMAIN=$NEXT_PUBLIC_DOMAIN
 
