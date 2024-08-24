@@ -74,7 +74,7 @@
     "responseOverrides": {
       "401": {
         "statusCode": 302,
-        "redirect": "/.auth/login/b2c"
+        "redirect": "/.auth/login/b2c?post_login_redirect_uri=.referrer"
       }
     },
     "platform": {
