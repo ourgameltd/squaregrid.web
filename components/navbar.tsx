@@ -2,12 +2,23 @@ import Conditional from "./conditional";
 import { format } from "@/stringUtils";
 import Link from "next/link";
 import Image from "next/image"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AppContextModel } from "@/appContextProvider";
+import { useRouter } from "next/router";
 
 const Navbar = ({ context }: { context: AppContextModel}) => {
   const [imgSrc, setImgSrc] = useState(process.env.NEXT_PUBLIC_MEDIA_ENDPOINT as string);
   
+  const router = useRouter();
+  const [loginUrl, setLoginUrl] = useState('/');
+  const [logoutUrl, setLogoutUrl] = useState('/');
+
+  useEffect(() => {
+    const currentUrl = window.location.href;
+    setLoginUrl(`/.auth/login/b2c?post_login_redirect_uri=${encodeURIComponent(currentUrl)}`);
+    setLogoutUrl(`/.auth/logout/b2c?post_logout_redirect_uri=/`);
+  }, [router.asPath]); 
+
   return (
     <>
       <nav className="site-nav dark js-site-navbar mb-5 site-navbar-target">
@@ -32,7 +43,7 @@ const Navbar = ({ context }: { context: AppContextModel}) => {
               </li>
               <Conditional condition={context.user != null}>
                 <li className="cta-primary">
-                  <Link href="/cards" title={format('View cards for {0}.', [context.user?.initials])}>
+                  <Link href="/cards" title={format('View cards for {0}.', [context.user?.clientPrincipal?.userDetails])}>
                     Cards
                   </Link>
                 </li>
@@ -42,11 +53,11 @@ const Navbar = ({ context }: { context: AppContextModel}) => {
             <Conditional condition={context.user != null}>
               <ul className="d-none mt-1 d-lg-inline-block site-menu float-right">
                 <li>
-                  <Link href="/cards" title={format('Edit profile for {0}.', [context.user?.initials])}>
-                    {context?.user?.initials}
+                  <Link href="/cards" title={format('Edit profile for {0}.', [context.user?.clientPrincipal?.userDetails])}>
+                    {context?.user?.clientPrincipal?.userDetails}
                     <Image
                       src={imgSrc}
-                      alt={"Image for user " + context?.user?.initials}
+                      alt={"Image for user " + context?.user?.clientPrincipal?.userDetails}
                       unoptimized={true}
                       height={25}
                       width={25}
@@ -56,7 +67,7 @@ const Navbar = ({ context }: { context: AppContextModel}) => {
                   </Link>
                 </li>
                 <li className="cta-primary">
-                  <Link href="/.auth/logout" title="Sign out from the app.">
+                  <Link href={logoutUrl} title="Sign out from the app.">
                     Sign out
                   </Link>
                 </li>
@@ -65,7 +76,7 @@ const Navbar = ({ context }: { context: AppContextModel}) => {
             <Conditional condition={context.user == null}>
               <ul className="d-none mt-1 d-lg-inline-block site-menu float-right">
                 <li className="cta-primary">
-                  <Link href="/.auth/login/b2c"  title="Sign in to the app.">
+                  <Link href={loginUrl}  title="Sign in to the app.">
                     Sign in
                   </Link>
                 </li>
@@ -95,18 +106,18 @@ const Navbar = ({ context }: { context: AppContextModel}) => {
                 </li>
                 <Conditional condition={context.user != null}>
                   <li className="cta-primary">
-                    <Link href="/cards" title={format('Vie cards for {0}.', [context?.user?.initials])}>
+                    <Link href="/cards" title={format('Vie cards for {0}.', [context?.user?.clientPrincipal?.userDetails])}>
                       Cards
                     </Link>
                   </li>
                 </Conditional>
                 <Conditional condition={context.user != null}>
                   <li>
-                    <Link href="/cards" title={format('View profile for {0}.', [context?.user?.initials])}>
-                      {context?.user?.initials}
+                    <Link href="/cards" title={format('View profile for {0}.', [context?.user?.clientPrincipal?.userDetails])}>
+                      {context?.user?.clientPrincipal?.userDetails}
                       <Image
                             src={imgSrc}
-                            alt={"Image for user " + context?.user?.initials}
+                            alt={"Image for user " + context?.user?.clientPrincipal?.userDetails}
                             unoptimized={true}
                             height={25}
                             width={25}
@@ -116,14 +127,14 @@ const Navbar = ({ context }: { context: AppContextModel}) => {
                     </Link>
                   </li>
                   <li>
-                    <Link href="/.auth/logout" title="Sign out of the app.">
+                    <Link href={logoutUrl} title="Sign out of the app.">
                       Sign out
                     </Link>
                   </li>
                 </Conditional>
                 <Conditional condition={context.user == null}>
                   <li>
-                    <Link href="/.auth/login/b2c" title="Sign in to the app.">
+                    <Link href={loginUrl} title="Sign in to the app.">
                       Sign in
                     </Link>
                   </li>

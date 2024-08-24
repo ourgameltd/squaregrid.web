@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { format } from "@/stringUtils";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ClaimFormModel, Game, GameFormModel } from "@/Game";
 import { useForm } from "react-hook-form";
 import { ToastContainer } from "react-toastify";
@@ -8,9 +8,12 @@ import { toast } from "react-toastify";
 import Image from 'next/image';
 import 'react-toastify/dist/ReactToastify.css';
 import { Block } from "@/Block";
+import { useRouter } from "next/router";
 
 const Card = () => {
-  // Get the game form data
+  const router = useRouter();
+  const { groupName, shortName } = router.query;
+
   const game = {} as GameFormModel;
 
   const [imgSrc, setImgSrc] = useState(game.image);
@@ -24,6 +27,21 @@ const Card = () => {
   const { setError, clearErrors, formState: { errors } } = useForm<ClaimFormModel>({
     defaultValues: {} as ClaimFormModel,
   });
+
+  useEffect(() => {
+    if (!groupName || !shortName) return;
+
+    async function fetchGame() {
+      const response = await fetch("/api/games/" + groupName + '/' + shortName);
+      if (response.ok) {
+        const gamesResponse = await response.json() as GameFormModel;
+        setGameData(gamesResponse);
+        setImgSrc(gamesResponse.image);
+        setBlocks(gamesResponse.blocks?.sort((a, b) => a.index - b.index));
+      }
+    }
+    fetchGame();
+  }, [groupName, shortName]);
 
   const claim = async (e: React.FormEvent, updatedBlock: Block) => {
     e.preventDefault();
@@ -111,7 +129,7 @@ const Card = () => {
                 </div>
               </div>
               <div className="row pb-3 pt-3">
-                {!game.isWon &&
+                {!gameData.isWon &&
                   <div className="col-lg-6 col-xl-12">
                     <div className="form-group">
                       <label htmlFor="options" className="text-black fw-bold">Your name? *</label>
@@ -128,19 +146,19 @@ const Card = () => {
                       {errors.claimedBy && <span className="text-danger">{errors.claimedBy.message}</span>}
                     </div>
                   </div>}
-                {game.isWon &&
+                {gameData.isWon &&
                   <div className="col-lg-6 col-xl-12">
                     <div className="form-group">
                       <label htmlFor="options" className="text-black fw-bold">Winner</label>
                       <div className="badge bg-warning text-dark d-block text-center">
-                        <h4 className="m-0">{game.wonByName ?? ""}</h4>
+                        <h4 className="m-0">{gameData.wonByName ?? ""}</h4>
                       </div>
                     </div>
                   </div>}
               </div>
             </div>
             <div className="col-xl-8">
-              {!game.displayAsGrid &&
+              {!gameData.displayAsGrid &&
                 <div className="row pb-0">
                   <div className="col-12">
                     <ul className="list-group">
@@ -169,7 +187,7 @@ const Card = () => {
                                 <span className="cursive text-truncate d-block">{block?.claimedByFriendlyName}</span>
                               </div>
                               <div className="col-2">
-                                <button onClick={(e) => claim(e, block)} disabled={block.isClaimed} role="button" className="btn-secondary btn btn-smaller float-end">
+                                <button onClick={(e) => claim(e, block)} disabled={gameData.isWon || block.isClaimed} role="button" className="btn-secondary btn btn-smaller float-end">
                                   Claim
                                 </button>
                               </div>
@@ -180,11 +198,11 @@ const Card = () => {
                     </ul>
                   </div>
                 </div>}
-              {game.displayAsGrid &&
+              {gameData.displayAsGrid &&
                 <div className="row square-row pb-0 px-2">
                   {blocks?.map((block) => (
                     <div key={block.index} className="col-4 col-md-3 col-lg-2 col-xl-2 col-xxl-2">
-                      <div className={"square text-center " + (block.isWinner ? "bg-warning text-black": "")}>
+                      <div className={"square text-center " + (block.isWinner ? "bg-warning text-black" : "")}>
                         <span className={`text-truncate d-block bg-secondary is bg-gradient text-white`}>{block.index}. {block.title}</span>
                         {block.isClaimed &&
                           <div>
@@ -192,7 +210,7 @@ const Card = () => {
                           </div>}
                         {!block.isClaimed &&
                           <div>
-                            <button onClick={(e) => claim(e, block)} disabled={block.isClaimed} role="button" className="btn-secondary btn btn-smaller">
+                            <button onClick={(e) => claim(e, block)} disabled={gameData.isWon || block.isClaimed} role="button" className="btn-secondary btn btn-smaller">
                               Claim
                             </button>
                           </div>}

@@ -3,8 +3,7 @@ import { useEffect, useState } from 'react';
 import { GameComponentProps } from '@/cards/[cardId]';
 import Link from 'next/link';
 
-const GameForm = ({ game: game, register, errors }: GameComponentProps) => {
-    const [imgSrc, setImgSrc] = useState(game.image);
+const GameForm = ({ game: game, register, errors, imgSrc, setImgSrc }: GameComponentProps) => {
     const [shareableLink, setShareableLink] = useState('');
 
     const handleImageChange = (e: any) => {

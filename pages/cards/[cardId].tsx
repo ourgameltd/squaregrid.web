@@ -9,6 +9,7 @@ import { Block } from "@/Block";
 import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { useRouter } from "next/router";
 
 interface GameProps {
   game: GameFormModel
@@ -20,37 +21,62 @@ export interface GameComponentProps extends GameProps {
   clearError: UseFormClearErrors<GameFormModel>,
   setError: UseFormSetError<GameFormModel>,
   blocks: Block[],
-  setBlocks: Dispatch<SetStateAction<Block[]>>
+  setBlocks: Dispatch<SetStateAction<Block[]>>,
+  imgSrc: string | undefined,
+  setImgSrc: Dispatch<SetStateAction<string | undefined>>
 }
 
 const Card = () => {
-  // Get the game form data
+  const router = useRouter();
+  const { cardId } = router.query;
+
   const game = {} as GameFormModel;
-  
+
   const [isSaving, setIsSaving] = useState(false);
   const [canDraw, setCanDraw] = useState(false);
   const [isSavingWinner, setIsSavingWinner] = useState(false);
 
   const [gameData, setGameData] = useState(game);
+  const [imgSrc, setImgSrc] = useState(game.image);
   const [gameTitle, setGameTitle] = useState(gameData.title);
   const [blocks, setBlocks] = useState(game?.blocks?.sort((a, b) => a.index - b.index));
 
-  const { register, handleSubmit, setError, clearErrors, formState: { errors } } = useForm<GameFormModel>({
+  const { register, handleSubmit, setError, clearErrors, formState: { errors }, reset } = useForm<GameFormModel>({
     defaultValues: game,
   });
+
+  useEffect(() => {
+    reset(gameData);
+  }, [gameData, reset]);
+
+  useEffect(() => {
+    if (!cardId) return;
+
+    async function fetchGame() {
+      const response = await fetch("/api/games/" + cardId);
+      if (response.ok) {
+        const gamesResponse = await response.json() as GameFormModel;
+        setGameData(gamesResponse);
+        setGameTitle(gamesResponse.title);
+        setImgSrc(gamesResponse.image);
+        setBlocks(gamesResponse.blocks?.sort((a, b) => a.index - b.index));
+      }
+    }
+    fetchGame();
+  }, [cardId]);
 
   useEffect(() => {
     if (gameData.percentageClaimed <= 0) {
       setCanDraw(false);
       return;
     }
-  
-    if (gameData.confirmedWinnersOnly && blocks.filter(i => i.isClaimed && i.isConfirmed).length <= 0) {
+
+    if (gameData.confirmedWinnersOnly && blocks?.filter(i => i.isClaimed && i.isConfirmed).length <= 0) {
       setCanDraw(false);
       return;
     }
 
-    if (!gameData.confirmedWinnersOnly && blocks.filter(i => i.isClaimed).length <= 0) {
+    if (!gameData.confirmedWinnersOnly && blocks?.filter(i => i.isClaimed).length <= 0) {
       return;
     }
 
@@ -143,10 +169,10 @@ const Card = () => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="row mt-5">
               <div className="col-md-6">
-                <GameForm register={register} errors={errors} game={gameData} setError={setError} clearError={clearErrors} blocks={blocks} setBlocks={setBlocks}></GameForm>
+                <GameForm setImgSrc={setImgSrc} imgSrc={imgSrc} register={register} errors={errors} game={gameData} setError={setError} clearError={clearErrors} blocks={blocks} setBlocks={setBlocks}></GameForm>
               </div>
               <div className="col-md-6 mt-4 mt-lg-0">
-                <GameBlocks register={register} errors={errors} game={gameData} setError={setError} clearError={clearErrors} blocks={blocks} setBlocks={setBlocks}></GameBlocks>
+                <GameBlocks setImgSrc={setImgSrc} imgSrc={imgSrc} register={register} errors={errors} game={gameData} setError={setError} clearError={clearErrors} blocks={blocks} setBlocks={setBlocks}></GameBlocks>
               </div>
             </div>
             <div className="row">

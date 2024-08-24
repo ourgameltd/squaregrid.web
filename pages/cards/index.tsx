@@ -24,6 +24,7 @@ const Cards = ({ context }: { context: AppContextModel}) => {
       if (response.ok) {
         const gamesResponse = await response.json() as GameFormModel[];
           setGames(gamesResponse);
+          setImageSources(gamesResponse.map((game) => `${process.env.NEXT_PUBLIC_MEDIA_ENDPOINT}/${game.image}`))
       }
     }
     fetchGames();
@@ -66,7 +67,7 @@ const Cards = ({ context }: { context: AppContextModel}) => {
   return (
     <>
       <Head>
-        <title>{format("Your cards", [context?.user?.initials])}</title>
+        <title>{format("Your cards", [context?.user?.clientPrincipal?.userDetails])}</title>
       </Head>
       <div className="untree_co-section">
         <div className="container mt-5 mt-lg-1">
