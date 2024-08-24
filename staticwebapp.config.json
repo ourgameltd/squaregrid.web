@@ -47,19 +47,7 @@
         ]
       },
       {
-        "route": "/api/games/*/*",
-        "allowedRoles": [
-          "anonymous"
-        ]
-      },
-      {
-        "route": "/api/games/*/*",
-        "allowedRoles": [
-          "anonymous"
-        ]
-      },
-      {
-        "route": "/api/games/*/block/*/claim",
+        "route": "/api/games/*",
         "allowedRoles": [
           "anonymous"
         ]
