@@ -1,12 +1,11 @@
-import { useSession, signIn, signOut } from "next-auth/react";
 import Conditional from "./conditional";
 import { format } from "@/stringUtils";
 import Link from "next/link";
 import Image from "next/image"
 import { useState } from "react";
+import { AppContextModel } from "@/appContextProvider";
 
-const Navbar = ({ t }: { t: any }) => {
-  const { data: session } = useSession();
+const Navbar = ({ context }: { context: AppContextModel}) => {
   const [imgSrc, setImgSrc] = useState(process.env.NEXT_PUBLIC_MEDIA_ENDPOINT as string);
   
   return (
@@ -22,7 +21,7 @@ const Navbar = ({ t }: { t: any }) => {
                         width={40}
                         height={40}
                         className="img-fluid rounded-start"
-                      /> {t("navbar:appName")}
+                      /> squareGrid
             </Link>
 
             <ul className="js-clone-nav d-none d-lg-inline-block site-menu float-left">
@@ -31,23 +30,23 @@ const Navbar = ({ t }: { t: any }) => {
                   Features
                 </Link>
               </li>
-              <Conditional condition={session != null}>
+              <Conditional condition={context.user != null}>
                 <li className="cta-primary">
-                  <Link href="/cards" title={format(t("cardsTitle"), [session?.user?.name])}>
-                    {t("cards")}
+                  <Link href="/cards" title={format('View cards for {0}.', [context.user?.initials])}>
+                    Cards
                   </Link>
                 </li>
               </Conditional>
             </ul>
 
-            <Conditional condition={session != null}>
+            <Conditional condition={context.user != null}>
               <ul className="d-none mt-1 d-lg-inline-block site-menu float-right">
                 <li>
-                  <Link href="/cards" title={format(t("profileTitle"), [session?.user?.name])}>
-                    {session?.user?.name}
+                  <Link href="/cards" title={format('Edit profile for {0}.', [context.user?.initials])}>
+                    {context?.user?.initials}
                     <Image
                       src={imgSrc}
-                      alt={"Image for user " + session?.user?.name}
+                      alt={"Image for user " + context?.user?.initials}
                       unoptimized={true}
                       height={25}
                       width={25}
@@ -57,17 +56,17 @@ const Navbar = ({ t }: { t: any }) => {
                   </Link>
                 </li>
                 <li className="cta-primary">
-                  <Link href="#" onClick={(e) => { e.preventDefault(); signOut({ callbackUrl: '/' }) }} title={t("signOutTitle")}>
-                    {t("signOut")}
+                  <Link href="/auth/logout" title="Sign out from the app.">
+                    Sign out
                   </Link>
                 </li>
               </ul>
             </Conditional>
-            <Conditional condition={session == null}>
+            <Conditional condition={context.user == null}>
               <ul className="d-none mt-1 d-lg-inline-block site-menu float-right">
                 <li className="cta-primary">
-                  <Link href="#" onClick={(e) => { e.preventDefault(); signIn("azure-ad-b2c", { callbackUrl: '/cards' }) }} title={t("signInTitle")}>
-                    {t("signIn")}
+                  <Link href="/auth/login"  title="Sign in to the app.">
+                    Sign in
                   </Link>
                 </li>
               </ul>
@@ -94,20 +93,20 @@ const Navbar = ({ t }: { t: any }) => {
                     Features
                   </Link>
                 </li>
-                <Conditional condition={session != null}>
+                <Conditional condition={context.user != null}>
                   <li className="cta-primary">
-                    <Link href="/cards" title={format(t("cardsTitle"), [session?.user?.name])}>
-                      {t("cards")}
+                    <Link href="/cards" title={format('Vie cards for {0}.', [context?.user?.initials])}>
+                      Cards
                     </Link>
                   </li>
                 </Conditional>
-                <Conditional condition={session != null}>
+                <Conditional condition={context.user != null}>
                   <li>
-                    <Link href="/cards" title={format(t("profileTitle"), [session?.user?.name])}>
-                      {session?.user?.name}
+                    <Link href="/cards" title={format('View profile for {0}.', [context?.user?.initials])}>
+                      {context?.user?.initials}
                       <Image
                             src={imgSrc}
-                            alt={"Image for user " + session?.user?.name}
+                            alt={"Image for user " + context?.user?.initials}
                             unoptimized={true}
                             height={25}
                             width={25}
@@ -117,15 +116,15 @@ const Navbar = ({ t }: { t: any }) => {
                     </Link>
                   </li>
                   <li>
-                    <Link href="#" onClick={(e) => { e.preventDefault(); signOut({ callbackUrl: '/' }) }} title={t("signOutTitle")}>
-                      {t("signOut")}
+                    <Link href="/auth/logout" title="Sign out of the app.">
+                      Sign out
                     </Link>
                   </li>
                 </Conditional>
-                <Conditional condition={session == null}>
+                <Conditional condition={context.user == null}>
                   <li>
-                    <Link href="#" onClick={(e) => { e.preventDefault(); signIn("azure-ad-b2c", { callbackUrl: '/cards' }) }} title={t("signInTitle")}>
-                      {t("signIn")}
+                    <Link href="/auth/signin" title="Sign in to the app.">
+                      Sign in
                     </Link>
                   </li>
                 </Conditional>

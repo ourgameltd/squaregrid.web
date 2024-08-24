@@ -1,13 +1,7 @@
 import { createContext } from "react";
 import { BreadcrumbLink } from "../models/BreadcrumbLink";
 import { User } from "../models/User";
-
-export interface AppContextModel {
-  user?: User;
-  setUser: (value: User) => void;
-  breadcrumb: BreadcrumbLink[];
-  setBreadcrumb: (value: BreadcrumbLink[]) => void;
-};
+import { AppContextModel } from "./appContextProvider";
 
 export const appContextDefaultsInterface: AppContextModel = {
   user: {} as User,

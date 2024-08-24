@@ -1,18 +1,11 @@
+import { GetStaticProps } from "next";
 import Head from "next/head";
-import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { format } from "@/stringUtils";
-import { useSession } from "next-auth/react";
-import Navbar from "@/navbar";
 
 const ErrorAccess = () => {
-  const { data: session } = useSession();
-  const { t } = useTranslation("errorAccess");
-
   return (
     <>
       <Head>
-        <title>{format(t("pageTitle"), [session?.user?.name])}</title>
+        <title>{'Access denied.'}</title>
       </Head>
       <div className="untree_co-hero pb-0" id="home-section">
         <div className="container">
@@ -21,7 +14,7 @@ const ErrorAccess = () => {
               <div className="row justify-content-center">
                 <div className="col-md-7 text-center mb-5">
                   <h1 className="heading">
-                    {t("pageTitle")}
+                    You are not allowed to view this page
                   </h1>
                 </div>
               </div>
@@ -33,10 +26,10 @@ const ErrorAccess = () => {
   );
 };
 
-export const getServerSideProps = async ({ locale }: { locale: string }) => ({
-  props: {
-    ...(await serverSideTranslations(locale, "errorAccess")),
-  },
-});
+export const getStaticProps: GetStaticProps = async () => {
+  return {
+    props: {}
+  };
+};
 
 export default ErrorAccess;

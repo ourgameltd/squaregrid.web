@@ -1,14 +1,16 @@
-const { i18n } = require('./next-i18next.config')
-
 const nextConfig =  {
-  i18n,
   trailingSlash: false,
-  output: process.env.BUILD_STANDALONE === "true" ? "standalone" : undefined,
   swcMinify: true,
   images: {
     unoptimized: true
   },
+  webpack: (config) => {
+    config.resolve.fallback = { fs: false };
+
+    return config;
+  },
   reactStrictMode: false,
+  output: 'export'
 };
 
 module.exports = nextConfig;

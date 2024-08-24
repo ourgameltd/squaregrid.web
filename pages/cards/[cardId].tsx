@@ -1,11 +1,8 @@
 import Head from "next/head";
-import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { format } from "@/stringUtils";
-import { fetchData } from "@/api";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import GameForm from "@/forms/GameForm";
-import { Game, GameFormModel } from "@/Game";
+import { GameFormModel } from "@/Game";
 import GameBlocks from "@/forms/GameBlocks";
 import { FieldErrors, useForm, UseFormClearErrors, UseFormRegister, UseFormSetError } from "react-hook-form";
 import { Block } from "@/Block";
@@ -26,8 +23,10 @@ export interface GameComponentProps extends GameProps {
   setBlocks: Dispatch<SetStateAction<Block[]>>
 }
 
-const Card = ({ game }: GameProps) => {
-  const { t } = useTranslation(["card", "common", "navbar"]);
+const Card = () => {
+  // Get the game form data
+  const game = {} as GameFormModel;
+  
   const [isSaving, setIsSaving] = useState(false);
   const [canDraw, setCanDraw] = useState(false);
   const [isSavingWinner, setIsSavingWinner] = useState(false);
@@ -42,19 +41,16 @@ const Card = ({ game }: GameProps) => {
 
   useEffect(() => {
     if (gameData.percentageClaimed <= 0) {
-      console.log("No-one claimed, disabling.")
       setCanDraw(false);
       return;
     }
   
     if (gameData.confirmedWinnersOnly && blocks.filter(i => i.isClaimed && i.isConfirmed).length <= 0) {
-      console.log("Confirmed only, no-one claimed and confirmed yet, disabling.")
       setCanDraw(false);
       return;
     }
 
     if (!gameData.confirmedWinnersOnly && blocks.filter(i => i.isClaimed).length <= 0) {
-      console.log("Any claimed can win, no-one claimed, disabling.")
       return;
     }
 
@@ -122,15 +118,15 @@ const Card = ({ game }: GameProps) => {
   return (
     <>
       <Head>
-        <title>{format(t("pageTitle"), [gameTitle])}</title>
+        <title>{format("Edit card '{0}'", [gameTitle])}</title>
       </Head>
       <ToastContainer />
       <div className="untree_co-section">
         <div className="container mt-5 mt-lg-1">
           <div className="row">
             <div className="col-12 text-center">
-              <h2 className="heading">{format(t("card:title"), [gameTitle])}</h2>
-              <p>{t("card:subTitle")}</p>
+              <h2 className="heading">{format('Edit card {0}.', [gameTitle])}</h2>
+              <p>Add your tirle, description, blocks and image, then add values in the bottom to publish the card publicly. Once its drawn it cant be edited.</p>
               {!gameData.isWon &&
                 <button disabled={!canDraw} type="submit" onClick={(e) => drawWinner(e)} className="ml-1 btn btn-warning">
                   {!isSavingWinner && <span>Draw winner </span>}
@@ -174,24 +170,6 @@ const Card = ({ game }: GameProps) => {
       </div>
     </>
   );
-};
-
-export const getServerSideProps = async (context: any) => {
-  const { cardId } = context.params as { cardId: string };
-  let game: Game = {} as Game;
-
-  try {
-    game = await fetchData<Game>(`games/${cardId}`, context);
-  } catch (error) {
-    console.error('Error fetching data:', error);
-  }
-
-  return {
-    props: {
-      game,
-      ...(await serverSideTranslations(context.locale, ["card", "common", "navbar"])),
-    },
-  };
 };
 
 export default Card;

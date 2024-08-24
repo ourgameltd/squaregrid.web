@@ -1,8 +1,5 @@
 import Head from "next/head";
-import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { format } from "@/stringUtils";
-import { fetchData, fetchDataAnonymous, postData } from "@/api";
 import { useRef, useState } from "react";
 import { ClaimFormModel, Game, GameFormModel } from "@/Game";
 import { useForm } from "react-hook-form";
@@ -12,12 +9,10 @@ import Image from 'next/image';
 import 'react-toastify/dist/ReactToastify.css';
 import { Block } from "@/Block";
 
-interface CardProps {
-  game: Game
-}
+const Card = () => {
+  // Get the game form data
+  const game = {} as GameFormModel;
 
-const Card = ({ game }: CardProps) => {
-  const { t } = useTranslation(["card", "common", "navbar"]);
   const [imgSrc, setImgSrc] = useState(game.image);
   const [isClaiming, setIsClaiming] = useState(false);
 
@@ -85,7 +80,7 @@ const Card = ({ game }: CardProps) => {
   return (
     <>
       <Head>
-        <title>{format(t("pageTitle"), [gameData?.title])}</title>
+        <title>{format('Play {0}', [gameData?.title])}</title>
       </Head>
       <ToastContainer />
       <div className="untree_co-hero pb-4" id="game-section">
@@ -211,24 +206,6 @@ const Card = ({ game }: CardProps) => {
       </div >
     </>
   );
-};
-
-export const getServerSideProps = async (context: any) => {
-  const { groupName, shortName } = context.params as { groupName: string, shortName: string };
-  let game: Game = {} as Game;
-
-  try {
-    game = await fetchDataAnonymous<Game>(`games/${groupName}/${shortName}`);
-  } catch (error) {
-    console.error('Error fetching data:', error);
-  }
-
-  return {
-    props: {
-      game,
-      ...(await serverSideTranslations(context.locale, ["card", "common", "navbar"])),
-    },
-  };
 };
 
 export default Card;

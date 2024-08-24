@@ -1,30 +1,33 @@
 import Head from "next/head";
-import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { format } from "@/stringUtils";
-import { useSession } from "next-auth/react";
-import { fetchData } from "@/api";
 import Link from "next/link";
 import { Game, GameFormModel } from "@/Game";
 import Image from 'next/image';
-import { useState } from "react";
-import Navbar from "@/navbar";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import router from "next/router";
+import { AppContextModel } from "@/appContextProvider";
 
-interface AccountProps {
-  games: Game[];
-}
+const Cards = ({ context }: { context: AppContextModel}) => {
 
-const Cards = ({ games }: AccountProps) => {
-  const { data: session } = useSession();
-  const { t } = useTranslation(["account", "common", "navbar"]);
+  const [games, setGames] = useState([] as GameFormModel[]);
   const [canAdd, setCanAdd] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
 
   const [imageSources, setImageSources] = useState<string[]>(
     games.map((game) => `${process.env.NEXT_PUBLIC_MEDIA_ENDPOINT}/${game.image}`)
   );
+
+  useEffect(() => {
+    async function fetchGames() {
+      const response = await fetch("/api/games");
+      if (response.ok) {
+        const gamesResponse = await response.json() as GameFormModel[];
+          setGames(gamesResponse);
+      }
+    }
+    fetchGames();
+  }, []);
 
   const handleImageError = (index: number) => {
     setImageSources((prev) => {
@@ -63,14 +66,14 @@ const Cards = ({ games }: AccountProps) => {
   return (
     <>
       <Head>
-        <title>{format(t("pageTitle"), [session?.user?.name])}</title>
+        <title>{format("Your cards", [context?.user?.initials])}</title>
       </Head>
       <div className="untree_co-section">
         <div className="container mt-5 mt-lg-1">
           <div className="row mb-5">
             <div className="col-12 text-center">
-              <h2 className="heading">{t("account:title")}</h2>
-              <p>{t("account:subTitle")}</p>
+              <h2 className="heading">Your cards.</h2>
+              <p>All your cards, old and new. New cards are first then ordered by last edited.</p>
               <button disabled={canAdd} type="submit" onClick={(e) => addNew(e)} className="ml-1 btn btn-success">
                 {!isAdding && <span>Add new</span>}
                 {isAdding &&
@@ -86,7 +89,7 @@ const Cards = ({ games }: AccountProps) => {
           <div className="row mb-5">
             <div className="col-12">
               <div className="row row-cols-1 row-cols-lg-4 row-cols-2 g-4" id="card-list">
-                {games.map((game, index) => (
+                {games?.map((game, index) => (
                   <div className="col" key={game.rowKey}>
                     <Link href={`/cards/${game.rowKey}`}>
                       <div className="card shadow">
@@ -140,23 +143,6 @@ const Cards = ({ games }: AccountProps) => {
       </div>
     </>
   );
-};
-
-export const getServerSideProps = async (context: any) => {
-  let games: Game[] = [];
-
-  try {
-    games = await fetchData<Game[]>('games', context);
-  } catch (error) {
-    console.error('Error fetching data:', error);
-  }
-
-  return {
-    props: {
-      games,
-      ...(await serverSideTranslations(context.locale, ["account", "common", "navbar"])),
-    },
-  };
 };
 
 export default Cards;
