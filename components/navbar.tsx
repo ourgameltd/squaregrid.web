@@ -56,7 +56,7 @@ const Navbar = ({ context }: { context: AppContextModel}) => {
                   </Link>
                 </li>
                 <li className="cta-primary">
-                  <Link href="/auth/logout" title="Sign out from the app.">
+                  <Link href="/.auth/logout" title="Sign out from the app.">
                     Sign out
                   </Link>
                 </li>
@@ -65,7 +65,7 @@ const Navbar = ({ context }: { context: AppContextModel}) => {
             <Conditional condition={context.user == null}>
               <ul className="d-none mt-1 d-lg-inline-block site-menu float-right">
                 <li className="cta-primary">
-                  <Link href="/auth/login"  title="Sign in to the app.">
+                  <Link href="/.auth/login/b2c"  title="Sign in to the app.">
                     Sign in
                   </Link>
                 </li>
@@ -116,14 +116,14 @@ const Navbar = ({ context }: { context: AppContextModel}) => {
                     </Link>
                   </li>
                   <li>
-                    <Link href="/auth/logout" title="Sign out of the app.">
+                    <Link href="/.auth/logout" title="Sign out of the app.">
                       Sign out
                     </Link>
                   </li>
                 </Conditional>
                 <Conditional condition={context.user == null}>
                   <li>
-                    <Link href="/auth/signin" title="Sign in to the app.">
+                    <Link href="/.auth/login/b2c" title="Sign in to the app.">
                       Sign in
                     </Link>
                   </li>

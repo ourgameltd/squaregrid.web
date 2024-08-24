@@ -47,7 +47,34 @@
         ]
       },
       {
-        "route": "/games/*",
+        "route": "/api/games/*/*",
+        "allowedRoles": [
+          "anonymous"
+        ]
+      },
+      {
+        "route": "/api/games/*/*",
+        "allowedRoles": [
+          "anonymous"
+        ]
+      },
+      {
+        "route": "/api/games/*/block/*/claim",
+        "allowedRoles": [
+          "anonymous"
+        ]
+      },
+      {
+        "route": "/cards/*",
+        "methods": [
+          "GET"
+        ],
+        "allowedRoles": [
+          "authenticated"
+        ]
+      },
+      {
+        "route": "/cards",
         "methods": [
           "GET"
         ],
@@ -82,9 +109,8 @@
             "login": {
               "nameClaimType": "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name",
               "scopes": [
-                "openid",
-                "profile",
                 "offline_access",
+                "openid",
                 "https://ourgameauth.onmicrosoft.com/sg-api/app.read",
                 "https://ourgameauth.onmicrosoft.com/sg-api/app.write"
               ]
