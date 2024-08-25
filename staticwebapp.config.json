@@ -35,28 +35,29 @@
       ]
     },
     {
-      "route": "/api/claim*",
-      "allowedRoles": [
-        "anonymous"
-      ]
+      "route": "/api/claim*"
     },
     {
-      "route": "/api/lookup*",
-      "allowedRoles": [
-        "anonymous"
-      ]
+      "route": "/api/lookup*"
     },
     {
-      "route": "/api*",
-      "allowedRoles": [
-        "authenticated"
-      ]
+      "route": "/"
     },
     {
-      "route": "/cards*",
-      "allowedRoles": [
-        "authenticated"
-      ]
+      "route": "/error/access"
+    },
+    {
+      "route": "/terms"
+    },
+    {
+      "route": "/privacy"
+    },
+    {
+      "route": "/play*"
+    },
+    {
+      "route": "*",
+      "allowedRoles": ["authenticated"]
     }
   ],
   "responseOverrides": {

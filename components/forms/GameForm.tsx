@@ -17,7 +17,7 @@ const GameForm = ({ game: game, register, errors, imgSrc, setImgSrc }: GameCompo
     useEffect(() => {
         let link = '';
         if (game.groupName && game.shortName) {
-            link = `${process.env.NEXT_PUBLIC_DOMAIN}/${game.groupName}/${game.shortName}`;
+            link = `${process.env.NEXT_PUBLIC_DOMAIN}/play/${game.groupName}/${game.shortName}`;
         }
         setShareableLink(link);
     }, [game.groupName, game.shortName]);
