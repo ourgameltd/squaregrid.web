@@ -56,6 +56,42 @@
       "route": "/play*"
     },
     {
+      "route": "/css*"
+    },
+    {
+      "route": "/js*"
+    },
+    {
+      "route": "/images*"
+    },
+    {
+      "route": "/fonts*"
+    },
+    {
+      "route": "/scss*"
+    },
+    {
+      "route": "/*.png"
+    },
+    {
+      "route": "/*.xml"
+    },
+    {
+      "route": "/*.ico"
+    },
+    {
+      "route": "/*.svg"
+    },
+    {
+      "route": "/*.webmanifest"
+    },
+    {
+      "route": "/_next*"
+    },
+    {
+      "route": "/*.txt"
+    },
+    {
       "route": "*",
       "allowedRoles": ["authenticated"]
     }
