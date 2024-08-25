@@ -53,7 +53,12 @@
       "route": "/privacy"
     },
     {
-      "route": "/play*"
+      "route": "/cards*",
+      "rewrite": "/index.html"
+    },
+    {
+      "route": "/play*",
+      "rewrite": "/index.html"
     },
     {
       "route": "/css*"
@@ -93,14 +98,6 @@
     },
     {
       "route": "/*.txt"
-    },
-    {
-      "route": "/cards*",
-      "rewrite": "/index.html"
-    },
-    {
-      "route": "/play*",
-      "rewrite": "/index.html"
     },
     {
       "route": "*",
