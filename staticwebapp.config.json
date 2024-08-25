@@ -71,6 +71,9 @@
       "route": "/scss*"
     },
     {
+      "route": "/ajax*"
+    },
+    {
       "route": "/*.png"
     },
     {
