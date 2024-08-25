@@ -16,7 +16,7 @@ const Navbar = ({ context }: { context: AppContextModel}) => {
   useEffect(() => {
     const currentUrl = window.location.href;
     setLoginUrl(`/.auth/login/b2c?post_login_redirect_uri=${encodeURIComponent(currentUrl)}`);
-    setLogoutUrl(`/.auth/logout/b2c?post_logout_redirect_uri=/`);
+    setLogoutUrl(`/.auth/logout?post_logout_redirect_uri=/`);
   }, [router.asPath]); 
 
   return (
