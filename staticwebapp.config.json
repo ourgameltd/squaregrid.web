@@ -95,6 +95,16 @@
       "route": "/*.txt"
     },
     {
+      "route": "/cards*",
+      "rewrite": "/index.html",
+      "statusCode": 200
+    },
+    {
+      "route": "/play*",
+      "rewrite": "/index.html",
+      "statusCode": 200
+    },
+    {
       "route": "*",
       "allowedRoles": ["authenticated"]
     }
@@ -142,9 +152,7 @@
     "rewrite": "/index.html",
     "exclude": [
       "/images/*.{png,jpg,gif}",
-      "/css/*",
-      "/play*",
-      "/cards*"
+      "/css/*"
     ]
   },
   "mimeTypes": {
