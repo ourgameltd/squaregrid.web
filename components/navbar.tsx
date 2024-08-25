@@ -67,18 +67,18 @@ const Navbar = ({ context }: { context: AppContextModel}) => {
                   </Link>
                 </li>
                 <li className="cta-primary">
-                  <Link href={logoutUrl} title="Sign out from the app.">
+                  <a href={logoutUrl} title="Sign out from the app.">
                     Sign out
-                  </Link>
+                  </a>
                 </li>
               </ul>
             </Conditional>
             <Conditional condition={context.user == null}>
               <ul className="d-none mt-1 d-lg-inline-block site-menu float-right">
                 <li className="cta-primary">
-                  <Link href={loginUrl}  title="Sign in to the app.">
+                  <a href={loginUrl}  title="Sign in to the app.">
                     Sign in
-                  </Link>
+                  </a>
                 </li>
               </ul>
             </Conditional>
@@ -127,16 +127,16 @@ const Navbar = ({ context }: { context: AppContextModel}) => {
                     </Link>
                   </li>
                   <li>
-                    <Link href={logoutUrl} title="Sign out of the app.">
+                    <a href={logoutUrl} title="Sign out of the app.">
                       Sign out
-                    </Link>
+                    </a>
                   </li>
                 </Conditional>
                 <Conditional condition={context.user == null}>
                   <li>
-                    <Link href={loginUrl} title="Sign in to the app.">
+                    <a href={loginUrl} title="Sign in to the app.">
                       Sign in
-                    </Link>
+                    </a>
                   </li>
                 </Conditional>
               </ul>
