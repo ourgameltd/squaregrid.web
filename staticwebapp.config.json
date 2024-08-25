@@ -105,6 +105,9 @@
       "redirect": "/.auth/login/b2c?post_login_redirect_uri=.referrer"
     }
   },
+  "globalHeaders": {
+    "cache-control": "no-cache, no-store, must-revalidate"
+  },
   "platform": {
     "apiRuntime": "dotnet:6.0"
   },
@@ -136,10 +139,12 @@
     }
   },
   "navigationFallback": {
-    "rewrite": "index.html",
+    "rewrite": "/index.html",
     "exclude": [
       "/images/*.{png,jpg,gif}",
-      "/css/*"
+      "/css/*",
+      "/play*",
+      "/cards*"
     ]
   },
   "mimeTypes": {
