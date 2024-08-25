@@ -35,10 +35,31 @@
       ]
     },
     {
+      "route": "/api/claim*",
+      "allowedRoles": [
+        "anonymous"
+      ]
+    },
+    {
+      "route": "/api/lookup*",
+      "allowedRoles": [
+        "anonymous"
+      ]
+    },
+    {
+      "route": "/api*",
+      "allowedRoles": [
+        "authenticated"
+      ]
+    },
+    {
+      "route": "/api*",
+      "allowedRoles": [
+        "authenticated"
+      ]
+    },
+    {
       "route": "/cards*",
-      "methods": [
-        "GET"
-      ],
       "allowedRoles": [
         "authenticated"
       ]

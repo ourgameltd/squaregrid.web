@@ -32,7 +32,7 @@ const Card = () => {
     if (!groupName || !shortName) return;
 
     async function fetchGame() {
-      const response = await fetch("/api/games/" + groupName + '/' + shortName);
+      const response = await fetch("/api/lookup/" + groupName + '/' + shortName);
       if (response.ok) {
         const gamesResponse = await response.json() as GameFormModel;
         setGameData(gamesResponse);
@@ -61,7 +61,7 @@ const Card = () => {
     setIsClaiming(true);
 
     try {
-      var response = await fetch(`/api/games/${updatedBlock.partitionKey}/block/${updatedBlock.rowKey}/claim`, {
+      var response = await fetch(`/api/claim/games/${updatedBlock.partitionKey}/block/${updatedBlock.rowKey}`, {
         method: 'POST',
         body: JSON.stringify({
           claimedBy: inputValue
