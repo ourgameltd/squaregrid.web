@@ -35,6 +35,12 @@
         ]
       },
       {
+        "route": "/api/games/*",
+        "allowedRoles": [
+          "anonymous"
+        ]
+      },
+      {
         "route": "/api/*",
         "methods": [
           "POST",
@@ -44,12 +50,6 @@
         ],
         "allowedRoles": [
           "authenticated"
-        ]
-      },
-      {
-        "route": "/api/games/*",
-        "allowedRoles": [
-          "anonymous"
         ]
       },
       {
