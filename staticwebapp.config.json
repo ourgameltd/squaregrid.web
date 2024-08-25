@@ -35,16 +35,7 @@
       ]
     },
     {
-      "route": "/cards/*",
-      "methods": [
-        "GET"
-      ],
-      "allowedRoles": [
-        "authenticated"
-      ]
-    },
-    {
-      "route": "/cards",
+      "route": "/cards*",
       "methods": [
         "GET"
       ],
