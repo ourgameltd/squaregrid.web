@@ -53,12 +53,6 @@
       ]
     },
     {
-      "route": "/api*",
-      "allowedRoles": [
-        "authenticated"
-      ]
-    },
-    {
       "route": "/cards*",
       "allowedRoles": [
         "authenticated"
