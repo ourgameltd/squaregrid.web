@@ -96,13 +96,11 @@
     },
     {
       "route": "/cards*",
-      "rewrite": "/index.html",
-      "statusCode": 200
+      "rewrite": "/index.html"
     },
     {
       "route": "/play*",
-      "rewrite": "/index.html",
-      "statusCode": 200
+      "rewrite": "/index.html"
     },
     {
       "route": "*",
