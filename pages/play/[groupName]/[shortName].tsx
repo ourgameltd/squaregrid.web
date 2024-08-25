@@ -9,6 +9,7 @@ import Image from 'next/image';
 import 'react-toastify/dist/ReactToastify.css';
 import { Block } from "@/Block";
 import { useRouter } from "next/router";
+import { GetStaticPaths, GetStaticProps } from "next";
 
 const Card = () => {
   const router = useRouter();
@@ -225,6 +226,19 @@ const Card = () => {
     </>
   );
 };
+
+export const getStaticProps: GetStaticProps = async () => {
+  return {
+    props: {}
+  };
+};
+
+export const getStaticPaths: GetStaticPaths<{ groupName: string, shortName: string }> = async () => {
+  return {
+      paths: [],
+      fallback: false
+  }
+}
 
 export default Card;
 

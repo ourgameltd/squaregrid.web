@@ -53,12 +53,10 @@
       "route": "/privacy"
     },
     {
-      "route": "/cards*",
-      "rewrite": "/index.html"
+      "route": "/cards*"
     },
     {
-      "route": "/play*",
-      "rewrite": "/index.html"
+      "route": "/play*"
     },
     {
       "route": "/css*"

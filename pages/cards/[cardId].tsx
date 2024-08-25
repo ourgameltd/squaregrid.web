@@ -10,6 +10,7 @@ import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from "next/router";
+import { GetStaticPaths, GetStaticProps } from "next";
 
 interface GameProps {
   game: GameFormModel
@@ -197,6 +198,19 @@ const Card = () => {
     </>
   );
 };
+
+export const getStaticProps: GetStaticProps = async () => {
+  return {
+    props: {}
+  };
+};
+
+export const getStaticPaths: GetStaticPaths<{ cardId: string }> = async () => {
+  return {
+      paths: [],
+      fallback: false
+  }
+}
 
 export default Card;
 

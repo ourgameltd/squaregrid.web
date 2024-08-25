@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import router from "next/router";
 import { AppContextModel } from "@/appContextProvider";
+import { GetStaticPaths, GetStaticProps } from "next";
 
 const Cards = ({ context }: { context: AppContextModel}) => {
 
@@ -144,6 +145,12 @@ const Cards = ({ context }: { context: AppContextModel}) => {
       </div>
     </>
   );
+};
+
+export const getStaticProps: GetStaticProps = async () => {
+  return {
+    props: {}
+  };
 };
 
 export default Cards;
