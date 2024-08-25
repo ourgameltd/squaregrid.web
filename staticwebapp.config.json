@@ -35,24 +35,6 @@
       ]
     },
     {
-      "route": "/api/games/*",
-      "allowedRoles": [
-        "anonymous"
-      ]
-    },
-    {
-      "route": "/api/*",
-      "methods": [
-        "POST",
-        "PUT",
-        "DELETE",
-        "GET"
-      ],
-      "allowedRoles": [
-        "authenticated"
-      ]
-    },
-    {
       "route": "/cards/*",
       "methods": [
         "GET"
@@ -108,6 +90,7 @@
     }
   },
   "navigationFallback": {
+    "rewrite": "index.html",
     "exclude": [
       "/images/*.{png,jpg,gif}",
       "/css/*"
