@@ -15,12 +15,12 @@ const Privacy = () => {
         <meta property="og:description" content="Understand how Square Grid respects and protects your personal data. Explore our detailed Privacy Policy today." />
         <meta property="og:url" content="https://squaregrid.org/privacy" />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="https://squaregrid.org/images/logo.png" />
+        <meta property="og:image" content="https://squaregrid.org/images/social.webp" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Privacy Policy - Square Grid | Secure and Transparent" />
         <meta name="twitter:description" content="Your privacy matters at Square Grid. Discover how we handle your data with care. Read our Privacy Policy now." />
         <meta name="twitter:url" content="https://squaregrid.org/privacy"/>
-        <meta name="twitter:image" content="https://squaregrid.org/images/logo.png"/>
+        <meta name="twitter:image" content="https://squaregrid.org/images/social.webp"/>
       </Head>
       <div className="untree_co-hero pb-0" id="home-section">
         <div className="container">

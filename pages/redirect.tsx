@@ -28,11 +28,11 @@ const Redirect = () => {
       <meta property="og:description" content="Dive into the fun at Square Grid! Click here to start your game. Play, compete, and have a chance to win exciting prizes. Get started now!"/>
       <meta property="og:type" content="website" />
       <meta property="og:url" content={`https://squaregrid.org/${router.asPath}`} />
-      <meta property="og:image" content="https://squaregrid.org/images/logo.png" />
+      <meta property="og:image" content="https://squaregrid.org/images/social.webp" />
       <meta name="twitter:card" content="summary_large_image"/>
       <meta name="twitter:title" content="Ready to Win? Play at Square Grid Now!"/>
       <meta name="twitter:description" content="Step into the game grid at Square Grid and win! Click here to play and claim your chance at exciting prizes. Join now and let the games begin!"/>
-      <meta name="twitter:image" content="https://squaregrid.org/images/logo.png"/>
+      <meta name="twitter:image" content="https://squaregrid.org/images/social.webp"/>
       <meta name="twitter:url" content={`https://squaregrid.org/${router.asPath}`} />
 
       </Head>

@@ -15,12 +15,12 @@ const Home = () => {
         <meta property="og:description" content="Participate in Square Grid for a chance to win exciting prizes! Dive into our grid-based draws and make your day a winning one. Great for fundraisers and thrilling competitions." />
         <meta property="og:url" content="https://squaregrid.org" />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="https://squaregrid.org/images/logo.png" />
+        <meta property="og:image" content="https://squaregrid.org/images/social.webp" />
         <meta name="twitter:card" content="summary_large_image"/>
         <meta name="twitter:title" content="Win Big with Square Grid - Join Our Grid-Based Game Draws!"/>
         <meta name="twitter:description" content="Join the fun at Square Grid and win! Our grid-based games offer excitement and the thrill of winning. Don’t miss out—play now and be a winner!"/>
         <meta name="twitter:url" content="https://squaregrid.org"/>
-        <meta name="twitter:image" content="https://squaregrid.org/images/logo.png"/>
+        <meta name="twitter:image" content="https://squaregrid.org/images/social.webp"/>
       </Head>
       <div className="untree_co-hero pb-0" id="home-section">
         <div className="container">
