@@ -47,7 +47,15 @@
       "allowedRoles": ["anonymous"]
     },
     {
-      "route": "/error/access",
+      "route": "/404",
+      "allowedRoles": ["anonymous"]
+    },
+    {
+      "route": "/error/acces",
+      "allowedRoles": ["anonymous"]
+    },
+    {
+      "route": "/redirect",
       "allowedRoles": ["anonymous"]
     },
     {
@@ -57,10 +65,6 @@
     {
       "route": "/privacy",
       "allowedRoles": ["anonymous"]
-    },
-    {
-      "route": "/cards*",
-      "allowedRoles": ["authenticated"]
     },
     {
       "route": "/play*",
@@ -119,6 +123,10 @@
       "allowedRoles": ["anonymous"]
     },
     {
+      "route": "/cards*",
+      "allowedRoles": ["authenticated"]
+    },
+    {
       "route": "/api/games*",
       "allowedRoles": ["authenticated"]
     },
@@ -161,7 +169,7 @@
     }
   },
   "navigationFallback": {
-    "rewrite": "/index.html",
+    "rewrite": "/redirect/index.html",
     "exclude": [
       "/images/*.{png,jpg,gif}",
       "/css/*"
@@ -170,4 +178,4 @@
   "mimeTypes": {
     ".json": "text/json"
   }
-}
+}Deployng

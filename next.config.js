@@ -1,4 +1,4 @@
-const nextConfig =  {
+const nextConfig =  {  
   trailingSlash: false,
   swcMinify: true,
   images: {
@@ -8,8 +8,7 @@ const nextConfig =  {
     config.resolve.fallback = { fs: false };
 
     return config;
-  },
-  reactStrictMode: false,
+  },  reactStrictMode: false,
   output: 'export'
 };
 

@@ -6,7 +6,7 @@
       "apiLocation": "",
       "outputLocation": "out",
       "appBuildCommand": "npm run build",
-      "run": "npm run dev",
+      "run": "serve -s out",
       "appDevserverUrl": "http://localhost:3000",
       "apiDevserverUrl": "http://127.0.0.1:7059",
       "swaConfigLocation": "./"
