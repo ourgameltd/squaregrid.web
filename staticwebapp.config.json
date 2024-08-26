@@ -169,7 +169,7 @@
     }
   },
   "navigationFallback": {
-    "rewrite": "/redirect/index.html",
+    "rewrite": "/redirect",
     "exclude": [
       "/images/*.{png,jpg,gif}",
       "/css/*"
