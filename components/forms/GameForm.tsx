@@ -6,13 +6,18 @@ import Link from 'next/link';
 const GameForm = ({ game: game, register, errors, imgSrc, setImgSrc }: GameComponentProps) => {
     const [shareableLink, setShareableLink] = useState('');
 
-    const handleImageChange = (e: any) => {
-        const file = e.target.files[0];
-        if (file) {
-            const previewUrl = URL.createObjectURL(file);
-            setImgSrc(previewUrl);
-        }
-    };
+    useEffect(() => {
+        const inputImg = document.getElementById('imageUpload')
+        const img = document.getElementById('img') as any;
+
+        function getImg(event: any) {
+            const file = event.target.files[0];
+            let url = window.URL.createObjectURL(file);
+            img!.src = url
+       }
+
+       inputImg?.addEventListener('change', getImg);
+    }, []);
 
     useEffect(() => {
         let link = '';
@@ -48,18 +53,18 @@ const GameForm = ({ game: game, register, errors, imgSrc, setImgSrc }: GameCompo
                             type="file"
                             id="imageUpload"
                             {...register('imageUpload', { required: false })}
-                            onChange={handleImageChange}
                             accept="image/*"></input>
                     </div>
                 </div>
                 <div className="col-md-3">
                     <div className="image-preview-wrapper">
                         <Image
+                            id="img"
                             src={imgSrc?.startsWith('blob:') ? imgSrc : `${process.env.NEXT_PUBLIC_MEDIA_ENDPOINT}/${imgSrc}`}
                             alt={"Image for game " + game?.title}
                             unoptimized={true}
                             fill={true}
-                            style={{objectFit:"cover"}}
+                            style={{ objectFit: "cover" }}
                             priority={true}
                             onError={() => setImgSrc(`images/games/placeholder.webp`)}
                         />
@@ -73,7 +78,7 @@ const GameForm = ({ game: game, register, errors, imgSrc, setImgSrc }: GameCompo
                             <input
                                 className="form-check-input"
                                 type="checkbox"
-                                id="displayAsGrid" 
+                                id="displayAsGrid"
                                 disabled={game.isWon}
                                 defaultChecked={game.displayAsGrid}
                                 {...register('displayAsGrid', { pattern: /^[A-Za-z0-9-]+$/ })} />
@@ -87,7 +92,7 @@ const GameForm = ({ game: game, register, errors, imgSrc, setImgSrc }: GameCompo
                             <input
                                 className="form-check-input"
                                 type="checkbox"
-                                id="confirmedWinnersOnly" 
+                                id="confirmedWinnersOnly"
                                 disabled={game.isWon}
                                 defaultChecked={game.confirmedWinnersOnly}
                                 {...register('confirmedWinnersOnly', { pattern: /^[A-Za-z0-9-]+$/ })} />

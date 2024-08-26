@@ -94,6 +94,8 @@ const Card = () => {
     }
     form.append('json', JSON.stringify(formData));
 
+    
+
     try {
       const response = await fetch('/api/games/' + gameData.rowKey, {
         method: 'POST',
