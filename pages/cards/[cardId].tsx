@@ -33,13 +33,14 @@ const Card = () => {
 
   const game = {} as GameFormModel;
 
+  const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [canDraw, setCanDraw] = useState(false);
   const [isSavingWinner, setIsSavingWinner] = useState(false);
 
   const [gameData, setGameData] = useState(game);
   const [imgSrc, setImgSrc] = useState(game.image);
-  const [gameTitle, setGameTitle] = useState(gameData.title);
+  const [gameTitle, setGameTitle] = useState('Loading...');
   const [blocks, setBlocks] = useState(game?.blocks?.sort((a, b) => a.index - b.index));
 
   const { register, handleSubmit, setError, clearErrors, formState: { errors }, reset } = useForm<GameFormModel>({
@@ -54,13 +55,22 @@ const Card = () => {
     if (!cardId) return;
 
     async function fetchGame() {
-      const response = await fetch("/api/games/" + cardId);
-      if (response.ok) {
-        const gamesResponse = await response.json() as GameFormModel;
-        setGameData(gamesResponse);
-        setGameTitle(gamesResponse.title);
-        setImgSrc(gamesResponse.image);
-        setBlocks(gamesResponse.blocks?.sort((a, b) => a.index - b.index));
+      setIsLoading(true);
+
+      try {
+        const response = await fetch("/api/games/" + cardId);
+        if (response.ok) {
+          const gamesResponse = await response.json() as GameFormModel;
+          setGameData(gamesResponse);
+          setGameTitle(gamesResponse.title);
+          setImgSrc(gamesResponse.image);
+          setBlocks(gamesResponse.blocks?.sort((a, b) => a.index - b.index));
+        }
+
+      } catch (error) {
+        toast.error('Failed finding game');
+      } finally {
+        setIsLoading(false);
       }
     }
     fetchGame();
@@ -94,7 +104,7 @@ const Card = () => {
     }
     form.append('json', JSON.stringify(formData));
 
-    
+
 
     try {
       const response = await fetch('/api/games/' + gameData.rowKey, {
@@ -149,54 +159,64 @@ const Card = () => {
       <Head>
         <title>{format("Edit card '{0}'", [gameTitle])}</title>
       </Head>
-      <ToastContainer />
-      <div className="untree_co-section">
-        <div className="container mt-5 mt-lg-1">
-          <div className="row">
-            <div className="col-12 text-center">
-              <h2 className="heading">{format('Edit card {0}.', [gameTitle])}</h2>
-              <p>Add your tirle, description, blocks and image, then add values in the bottom to publish the card publicly. Once its drawn it cant be edited.</p>
-              {!gameData.isWon &&
-                <button disabled={!canDraw} type="submit" onClick={(e) => drawWinner(e)} className="ml-1 btn btn-warning">
-                  {!isSavingWinner && <span>Draw winner </span>}
-                  {isSavingWinner &&
-                    <>
-                      <span>Saving... </span>
-                      <div className="spinner-grow spinner-grow-sm text-light" role="status">
-                        <span className="sr-only">Drawing winner...</span>
-                      </div>
-                    </>}
-                </button>}
+      {isLoading &&
+        <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+          <div className="text-center">
+            <div className="spinner-border" style={{ width: "3rem", height: "3rem" }} role="status">
+              <span className="visually-hidden">Loading...</span>
             </div>
+            <div className="text-muted mt-2">Loading</div>
           </div>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="row mt-5">
-              <div className="col-md-6">
-                <GameForm setImgSrc={setImgSrc} imgSrc={imgSrc} register={register} errors={errors} game={gameData} setError={setError} clearError={clearErrors} blocks={blocks} setBlocks={setBlocks}></GameForm>
-              </div>
-              <div className="col-md-6 mt-4 mt-lg-0">
-                <GameBlocks setImgSrc={setImgSrc} imgSrc={imgSrc} register={register} errors={errors} game={gameData} setError={setError} clearError={clearErrors} blocks={blocks} setBlocks={setBlocks}></GameBlocks>
-              </div>
-            </div>
+        </div>}
+      <ToastContainer />
+      {!isLoading &&
+        <div className="untree_co-section">
+          <div className="container mt-5 mt-lg-1">
             <div className="row">
-              <div className="col-md-12">
-                <div className="form-group mt-3">
-                  <button disabled={gameData.isWon || isSaving} type="submit" className="btn btn-primary">
-                    {!isSaving && <span>Save </span>}
-                    {isSaving &&
+              <div className="col-12 text-center">
+                <h2 className="heading">{format('Edit card {0}.', [gameTitle])}</h2>
+                <p>Add your tirle, description, blocks and image, then add values in the bottom to publish the card publicly. Once its drawn it cant be edited.</p>
+                {!gameData.isWon &&
+                  <button disabled={!canDraw} type="submit" onClick={(e) => drawWinner(e)} className="ml-1 btn btn-warning">
+                    {!isSavingWinner && <span>Draw winner </span>}
+                    {isSavingWinner &&
                       <>
                         <span>Saving... </span>
                         <div className="spinner-grow spinner-grow-sm text-light" role="status">
-                          <span className="sr-only">Saving...</span>
+                          <span className="sr-only">Drawing winner...</span>
                         </div>
                       </>}
-                  </button>
-                </div>
+                  </button>}
               </div>
             </div>
-          </form>
-        </div>
-      </div>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="row mt-5">
+                <div className="col-md-6">
+                  <GameForm setImgSrc={setImgSrc} imgSrc={imgSrc} register={register} errors={errors} game={gameData} setError={setError} clearError={clearErrors} blocks={blocks} setBlocks={setBlocks}></GameForm>
+                </div>
+                <div className="col-md-6 mt-4 mt-lg-0">
+                  <GameBlocks setImgSrc={setImgSrc} imgSrc={imgSrc} register={register} errors={errors} game={gameData} setError={setError} clearError={clearErrors} blocks={blocks} setBlocks={setBlocks}></GameBlocks>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-md-12">
+                  <div className="form-group mt-3">
+                    <button disabled={gameData.isWon || isSaving} type="submit" className="btn btn-primary">
+                      {!isSaving && <span>Save </span>}
+                      {isSaving &&
+                        <>
+                          <span>Saving... </span>
+                          <div className="spinner-grow spinner-grow-sm text-light" role="status">
+                            <span className="sr-only">Saving...</span>
+                          </div>
+                        </>}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>}
     </>
   );
 };

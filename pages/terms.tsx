@@ -6,7 +6,20 @@ const Terms = () => {
   return (
     <>
       <Head>
-        <title>Terms and Conditions</title>
+        <title>Terms and Conditions - Square Grid | Game Rules and Regulations</title>
+        <meta name="description" content="View the Terms and Conditions for Square Grid. Understand the rules and your rights before participating in our grid-based games."/>
+        <link rel="canonical" href="https://squaregrid.org/terms" />
+        <meta name="robots" content="noindex, follow"/>
+        <meta property="og:title" content="Terms and Conditions - Square Grid | Understand Your Rights"/>
+        <meta property="og:description" content="Familiarize yourself with the Terms and Conditions of Square Grid to ensure a fair and enjoyable game experience."/>
+        <meta property="og:url" content="https://squaregrid.org/terms" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://squaregrid.org/images/logo.png" />
+        <meta name="twitter:card" content="summary_large_image"/>
+        <meta name="twitter:title" content="Terms and Conditions - Square Grid | Understand Your Rights"/>
+        <meta name="twitter:description" content="Get all the details on the rules and your rights at Square Grid. Check out our Terms and Conditions today."/>
+        <meta name="twitter:url" content="https://squaregrid.org/terms"/>
+        <meta name="twitter:image" content="https://squaregrid.org/images/logo.png"/>
       </Head>
       <div className="untree_co-hero pb-0" id="home-section">
         <div className="container">

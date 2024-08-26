@@ -11,12 +11,12 @@ import { GetStaticPaths, GetStaticProps } from "next";
 
 const Cards = ({ context }: { context: AppContextModel}) => {
 
-  const [games, setGames] = useState([] as GameFormModel[]);
-  const [canAdd, setCanAdd] = useState(false);
+  const [games, setGames] = useState(undefined as GameFormModel[] | undefined);
+  const [cantAdd, setCantAdd] = useState(true);
   const [isAdding, setIsAdding] = useState(false);
 
   const [imageSources, setImageSources] = useState<string[]>(
-    games.map((game) => `${process.env.NEXT_PUBLIC_MEDIA_ENDPOINT}/${game.image}`)
+    games?.map((game) => `${process.env.NEXT_PUBLIC_MEDIA_ENDPOINT}/${game.image}`) || []
   );
 
   useEffect(() => {
@@ -30,6 +30,12 @@ const Cards = ({ context }: { context: AppContextModel}) => {
     }
     fetchGames();
   }, []);
+  
+  useEffect(() => {
+    if (!games) return;
+    const anyGamesAreOngoing = games.length > 0 && games.filter((game) => game.isWon == false).length > 0
+    setCantAdd(anyGamesAreOngoing);
+  }, [games]);
 
   const handleImageError = (index: number) => {
     setImageSources((prev) => {
@@ -68,7 +74,7 @@ const Cards = ({ context }: { context: AppContextModel}) => {
   return (
     <>
       <Head>
-        <title>{format("Your cards", [context?.user?.clientPrincipal?.userDetails])}</title>
+        <title>Your cards</title>
       </Head>
       <div className="untree_co-section">
         <div className="container mt-5 mt-lg-1">
@@ -76,7 +82,7 @@ const Cards = ({ context }: { context: AppContextModel}) => {
             <div className="col-12 text-center">
               <h2 className="heading">Your cards.</h2>
               <p>All your cards, old and new. New cards are first then ordered by last edited.</p>
-              <button disabled={canAdd} type="submit" onClick={(e) => addNew(e)} className="ml-1 btn btn-success">
+              <button disabled={cantAdd} type="submit" onClick={(e) => addNew(e)} className="ml-1 btn btn-success">
                 {!isAdding && <span>Add new</span>}
                 {isAdding &&
                   <>
