@@ -35,70 +35,95 @@
       ]
     },
     {
-      "route": "/api/claim*"
+      "route": "/api/claim*",
+      "allowedRoles": ["anonymous"]
     },
     {
-      "route": "/api/lookup*"
+      "route": "/api/lookup*",
+      "allowedRoles": ["anonymous"]
     },
     {
-      "route": "/"
+      "route": "/",
+      "allowedRoles": ["anonymous"]
     },
     {
-      "route": "/error/access"
+      "route": "/error/access",
+      "allowedRoles": ["anonymous"]
     },
     {
-      "route": "/terms"
+      "route": "/terms",
+      "allowedRoles": ["anonymous"]
     },
     {
-      "route": "/privacy"
+      "route": "/privacy",
+      "allowedRoles": ["anonymous"]
     },
     {
-      "route": "/cards*"
+      "route": "/cards*",
+      "allowedRoles": ["authenticated"]
     },
     {
-      "route": "/play*"
+      "route": "/play*",
+      "allowedRoles": ["anonymous"]
     },
     {
-      "route": "/css*"
+      "route": "/css*",
+      "allowedRoles": ["anonymous"]
     },
     {
-      "route": "/js*"
+      "route": "/js*",
+      "allowedRoles": ["anonymous"]
     },
     {
-      "route": "/images*"
+      "route": "/images*",
+      "allowedRoles": ["anonymous"]
     },
     {
-      "route": "/fonts*"
+      "route": "/fonts*",
+      "allowedRoles": ["anonymous"]
     },
     {
-      "route": "/scss*"
+      "route": "/scss*",
+      "allowedRoles": ["anonymous"]
     },
     {
-      "route": "/ajax*"
+      "route": "/ajax*",
+      "allowedRoles": ["anonymous"]
     },
     {
-      "route": "/*.png"
+      "route": "/*.png",
+      "allowedRoles": ["anonymous"]
     },
     {
-      "route": "/*.xml"
+      "route": "/*.xml",
+      "allowedRoles": ["anonymous"]
     },
     {
-      "route": "/*.ico"
+      "route": "/*.ico",
+      "allowedRoles": ["anonymous"]
     },
     {
-      "route": "/*.svg"
+      "route": "/*.svg",
+      "allowedRoles": ["anonymous"]
     },
     {
-      "route": "/*.webmanifest"
+      "route": "/*.webmanifest",
+      "allowedRoles": ["anonymous"]
     },
     {
-      "route": "/_next*"
+      "route": "/_next*",
+      "allowedRoles": ["anonymous"]
     },
     {
-      "route": "/*.txt"
+      "route": "/*.txt",
+      "allowedRoles": ["anonymous"]
     },
     {
-      "route": "*",
+      "route": "/api/games*",
+      "allowedRoles": ["authenticated"]
+    },
+    {
+      "route": "/api/images*",
       "allowedRoles": ["authenticated"]
     }
   ],
@@ -107,12 +132,6 @@
       "statusCode": 302,
       "redirect": "/.auth/login/b2c?post_login_redirect_uri=.referrer"
     }
-  },
-  "globalHeaders": {
-    "cache-control": "no-cache, no-store, must-revalidate"
-  },
-  "platform": {
-    "apiRuntime": "dotnet:6.0"
   },
   "auth": {
     "rolesSource": "/api/GetRoles",

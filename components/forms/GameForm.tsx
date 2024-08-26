@@ -58,8 +58,9 @@ const GameForm = ({ game: game, register, errors, imgSrc, setImgSrc }: GameCompo
                             src={imgSrc?.startsWith('blob:') ? imgSrc : `${process.env.NEXT_PUBLIC_MEDIA_ENDPOINT}/${imgSrc}`}
                             alt={"Image for game " + game?.title}
                             unoptimized={true}
-                            layout="fill"
-                            objectFit="contain"
+                            fill={true}
+                            style={{objectFit:"cover"}}
+                            priority={true}
                             onError={() => setImgSrc(`images/games/placeholder.webp`)}
                         />
                     </div>

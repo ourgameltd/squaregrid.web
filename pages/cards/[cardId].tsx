@@ -199,18 +199,5 @@ const Card = () => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async () => {
-  return {
-    props: {}
-  };
-};
-
-export const getStaticPaths: GetStaticPaths<{ cardId: string }> = async () => {
-  return {
-      paths: [],
-      fallback: false
-  }
-}
-
 export default Card;
 

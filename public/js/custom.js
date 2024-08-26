@@ -81,6 +81,11 @@ $(function () {
 				}
 			}
 		});
+
+		$(".site-mobile-menu a").click(function (e) {
+			$('body').removeClass('offcanvas-menu');
+			$('body').find('.js-menu-toggle').removeClass('active');
+		});
 	};
 
 	$('.burger').click(siteMenuClone)

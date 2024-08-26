@@ -100,9 +100,10 @@ const Cards = ({ context }: { context: AppContextModel}) => {
                             src={imageSources[index]}
                             alt={"Image for game " + game?.title}
                             unoptimized={true}
-                            layout="fill"
-                            objectFit="cover"
+                            fill={true}
+                            style={{objectFit:"cover"}}
                             className="card-img-top"
+                            priority={true}
                             onError={() => handleImageError(index)}
                           />
                         </div>

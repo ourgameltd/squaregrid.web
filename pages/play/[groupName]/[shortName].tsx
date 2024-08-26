@@ -114,8 +114,9 @@ const Card = () => {
                         src={imgSrc?.startsWith('blob:') ? imgSrc : `${process.env.NEXT_PUBLIC_MEDIA_ENDPOINT}/${imgSrc}`}
                         alt={"Image for game " + gameData?.title}
                         unoptimized={true}
-                        layout="fill"
-                        objectFit="cover"
+                        fill={true}
+                        style={{objectFit:"cover"}}
+                        priority={true}
                         className="img-fluid rounded-start"
                         onError={() => setImgSrc(`images/games/placeholder.webp`)}
                       />
@@ -226,19 +227,6 @@ const Card = () => {
     </>
   );
 };
-
-export const getStaticProps: GetStaticProps = async () => {
-  return {
-    props: {}
-  };
-};
-
-export const getStaticPaths: GetStaticPaths<{ groupName: string, shortName: string }> = async () => {
-  return {
-      paths: [],
-      fallback: false
-  }
-}
 
 export default Card;
 
