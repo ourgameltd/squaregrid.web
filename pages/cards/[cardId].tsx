@@ -113,12 +113,12 @@ const Card = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        toast.error('Card failed to save!, ' + await response.text());
+      } else {
+        setGameData(formData);
+        setGameTitle(formData.title);
+        toast.success('Card saved successfully!');
       }
-
-      setGameData(formData);
-      setGameTitle(formData.title);
-      toast.success('Card saved successfully!');
     } catch (error) {
       toast.error('Card failed to save!, ' + error);
     } finally {

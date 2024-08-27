@@ -21,6 +21,7 @@ const Card = () => {
   const [isClaiming, setIsClaiming] = useState(false);
 
   const [gameData, setGameData] = useState(game);
+  const [gameTitle, setGameTitle] = useState('Loading...');
   const [blocks, setBlocks] = useState(game?.blocks?.sort((a, b) => a.index - b.index));
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -33,23 +34,31 @@ const Card = () => {
     if (!groupName || !shortName) return;
 
     async function fetchGame() {
-      setIsLoading(true);
-      try {
-        const response = await fetch("/api/lookup/" + groupName + '/' + shortName);
-        if (response.ok) {
-          const gamesResponse = await response.json() as GameFormModel;
-          setGameData(gamesResponse);
-          setImgSrc(gamesResponse.image);
-          setBlocks(gamesResponse.blocks?.sort((a, b) => a.index - b.index));
-        }
-      } catch (error) {
-        toast.error('Failed finding game');
-      } finally {
-        setIsLoading(false);
+      const response = await fetch("/api/lookup/" + groupName + '/' + shortName);
+      if (response.ok) {
+        const gamesResponse = await response.json() as GameFormModel;
+        setGameData(gamesResponse);
+        setGameTitle(gamesResponse.title);
+        setImgSrc(gamesResponse.image);
+        setBlocks(gamesResponse.blocks?.sort((a, b) => a.index - b.index));
       }
     }
-    fetchGame();
-  }, [groupName, shortName]);
+
+    setIsLoading(true);
+    try {
+      fetchGame();
+    } catch (error) {
+      toast.error('Failed finding game');
+    } finally {
+      setIsLoading(false);
+    }
+
+    const interval = setInterval(() => {
+      if (isClaiming) return;
+      fetchGame();
+    }, 30000);
+
+  }, [groupName, shortName, isClaiming]);
 
   const claim = async (e: React.FormEvent, updatedBlock: Block) => {
     e.preventDefault();
@@ -106,7 +115,7 @@ const Card = () => {
   return (
     <>
       <Head>
-        <title>{format('Play {0}', [gameData?.title])}</title>
+        <title>{format("Play '{0}'", [gameTitle])}</title>
       </Head>
       {isLoading &&
         <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
