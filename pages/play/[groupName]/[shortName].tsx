@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { format } from "@/stringUtils";
+import { format, withNewLines } from "@/stringUtils";
 import { useEffect, useRef, useState } from "react";
 import { ClaimFormModel, Game, GameFormModel } from "@/Game";
 import { useForm } from "react-hook-form";
@@ -151,7 +151,7 @@ const Card = () => {
                     <div className="col-md-8">
                       <div className="card-body">
                         <h5 className="card-title">{gameData?.title}</h5>
-                        <p className="card-text">{gameData?.description}</p>
+                        <p className="card-text" dangerouslySetInnerHTML={{ __html: withNewLines(gameData?.description) }}></p>
                       </div>
                     </div>
                   </div>
@@ -231,7 +231,7 @@ const Card = () => {
                     {blocks?.map((block) => (
                       <div key={block.index} className="col-4 col-md-3 col-lg-2 col-xl-2 col-xxl-2">
                         <div className={"square text-center " + (block.isWinner ? "bg-warning text-black" : "")}>
-                          <span className={`text-truncate d-block bg-secondary is bg-gradient text-white`}>{block.index}. {block.title}</span>
+                          <span className="text-truncate d-block bg-secondary is bg-gradient text-white px-1">{block.index}. {block.title}</span>
                           {block.isClaimed &&
                             <div>
                               <span className="cursive text-truncate d-block">{block?.claimedByFriendlyName}</span>
