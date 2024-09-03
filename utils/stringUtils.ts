@@ -7,11 +7,9 @@ export function format(source: string, params: Array<any>) {
 
 
 export function withNewLines(input: string) {
-    console.log(input)
     if (!input) {
         return input;
     }
     const output = input?.replace(/\n/g, '<br />');
-    console.log(output)
     return output;
   };
