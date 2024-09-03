@@ -99,7 +99,7 @@ const Cards = ({ context }: { context: AppContextModel }) => {
                   <div className="col" key={game.rowKey}>
                     <Link href={`/cards/${game.rowKey}`}>
                       <div className="card shadow text-black border-bottom">
-                        <div className="image-container border-bottom">
+                        <div className="image-container">
                           <Image
                             src={imageSources[index]}
                             alt={"Image for game " + game?.title}
