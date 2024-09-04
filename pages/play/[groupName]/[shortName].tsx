@@ -1,16 +1,18 @@
 import Head from "next/head";
-import { format, withNewLines } from "@/stringUtils";
+import { format } from "@/stringUtils";
 import { useEffect, useRef, useState } from "react";
 import { ClaimFormModel, Game, GameFormModel } from "@/Game";
 import { useForm } from "react-hook-form";
 import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
-import Image from "next/image";
 import "react-toastify/dist/ReactToastify.css";
 import { Block } from "@/Block";
 import { useRouter } from "next/router";
+import PlayListLayout from "@/play/PlayListLayout";
+import PlayGridLayout from "@/play/PlayGridLayout";
+import { AppContextModel } from "@/appContextProvider";
 
-const Card = () => {
+const Card = ({ context }: { context: AppContextModel }) => {
   const router = useRouter();
   const { groupName, shortName } = router.query;
 
@@ -71,7 +73,7 @@ const Card = () => {
     if (!inputValue) {
       setError("claimedBy", {
         type: "manual",
-        message: "Please enter your name to claim.",
+        message: "Please enter your name to claim."
       });
       return;
     } else {
@@ -108,6 +110,19 @@ const Card = () => {
     }
   };
 
+  const renderLayout = () => {
+    switch (gameData.gridLayout) {
+      case 'list':
+        return <PlayListLayout game={gameData} blocks={blocks} claim={claim} sidebar={false}></PlayListLayout>;
+      case 'listSidebar':
+        return <PlayListLayout game={gameData} blocks={blocks} claim={claim} sidebar={true}></PlayListLayout>;
+      case 'gridSidebar':
+        return <PlayGridLayout game={gameData} blocks={blocks} claim={claim} sidebar={true}></PlayGridLayout>;
+      default:
+        return <PlayGridLayout game={gameData} blocks={blocks} claim={claim} sidebar={false}></PlayGridLayout>;
+    }
+  };
+
   return (
     <>
       <Head>
@@ -125,140 +140,43 @@ const Card = () => {
       )}
       <ToastContainer />
       {!isLoading && (
-        <div className="untree_co-hero pb-4" id="game-section">
-          <div className="container">
-            <div className="row pb-0 pt-3">
-              <div className="col-xl-4">
-                <div className="card">
-                  <div className="row">
-                    <div className="col-md-12">
-                      <div className="image-container">
-                        <Image
-                          src={imgSrc?.startsWith("blob:") ? imgSrc : `${process.env.NEXT_PUBLIC_MEDIA_ENDPOINT}/${imgSrc}`}
-                          alt={"Image for game " + gameData?.title}
-                          unoptimized={true}
-                          fill={true}
-                          style={{ objectFit: "cover" }}
-                          priority={true}
-                          className="img-fluid rounded-start"
-                          onError={() => setImgSrc(`images/games/placeholder.webp`)}
-                        />
-                      </div>
-                    </div>
-                    <div className="col-md-12">
-                      <div className="card-body">
-                        <h5 className="card-title">{gameData?.title}</h5>
-                        <p className="card-text" dangerouslySetInnerHTML={{ __html: withNewLines(gameData?.description) }}></p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="row pb-3 pt-3">
-                  {!gameData.isWon && (
-                    <div className="col-lg-6 col-xl-12">
-                      <div className="form-group">
-                        <label htmlFor="options" className="text-black fw-bold">
-                          Your name? *
-                        </label>
-                        <div className="input-group">
-                          <input
-                            type="text"
-                            id="claimedBy"
-                            className="form-control"
-                            placeholder="e.g. Michael"
-                            aria-label="Your name."
-                            aria-describedby="Your name"
-                            ref={inputRef}
-                          />
-                        </div>
-                        {errors.claimedBy && <span className="text-danger">{errors.claimedBy.message}</span>}
-                      </div>
-                    </div>
-                  )}
-                  {gameData.isWon && (
-                    <div className="col-lg-6 col-xl-12">
-                      <div className="form-group">
-                        <label htmlFor="options" className="text-black fw-bold">
-                          Winner
-                        </label>
-                        <div className="badge bg-warning text-dark d-block text-center">
-                          <h4 className="m-0">{gameData.wonByName ?? ""}</h4>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
+        <div className="untree_co-hero pb-3" id="game-section">
+          <div className={(gameData.gridLayout?.includes("grid") || !gameData.gridLayout) ? "container-fluid" : "container"}>
+            <div className="row pb-2 pt-2 text-left">
+              <div className="col-md-8">
+                <h2>{gameData?.title}</h2>
               </div>
-              <div className="col-xl-8">
-                {!gameData.displayAsGrid && (
-                  <div className="row pb-0">
-                    <div className="col-12">
-                      <ul className="list-group">
-                        <li className="list-group-item">
-                          <div className="container">
-                            <div className="row text-left fw-bold">
-                              <div className="col-5">Title</div>
-                              <div className="col-7">Claimed by</div>
-                            </div>
-                          </div>
-                        </li>
-                        {blocks?.map((block) => (
-                          <li key={block.index} className={"list-group-item fs-6 " + (block.isWinner ? "bg-warning" : "")}>
-                            <div className="container">
-                              <div className="row text-left">
-                                <div className="col-5">
-                                  <span className="text-truncate d-block">
-                                    {block.index}. {block.title}
-                                  </span>
-                                </div>
-                                <div className="col-5 fs-5">
-                                  <span className="cursive text-truncate d-block">{block?.claimedByFriendlyName}</span>
-                                </div>
-                                <div className="col-2">
-                                  <button
-                                    onClick={(e) => claim(e, block)}
-                                    disabled={gameData.isWon || block.isClaimed}
-                                    role="button"
-                                    className="btn-secondary btn btn-smaller float-end"
-                                  >
-                                    Claim
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          </li>
-                        ))}
-                      </ul>
+              <div className="col-md-4">
+                {!gameData.isWon && (
+                  <>
+                    <div className="input-group">
+                      <input
+                        type="text"
+                        id="claimedBy"
+                        className="form-control"
+                        value={context?.user?.clientPrincipal?.userDetails}
+                        placeholder="Enter your name or contact name."
+                        aria-label="Enter your name or contact name."
+                        aria-describedby="Enter your name or contact name"
+                        ref={inputRef}
+                      />
                     </div>
-                  </div>
+                    {errors.claimedBy && <span className="text-danger">{errors.claimedBy.message}</span>}
+                  </>
                 )}
-                {gameData.displayAsGrid && (
-                  <div className="row square-row pb-0 px-2">
-                    {blocks?.map((block) => (
-                      <div key={block.index} className="col-4 col-md-3 col-lg-2 col-xl-2 col-xxl-2">
-                        <div className={"square text-center " + (block.isWinner ? "bg-warning text-black" : "")}>
-                          <span className="text-truncate d-block bg-secondary is bg-gradient text-white px-1">
-                            {block.index}. {block.title}
-                          </span>
-                          {block.isClaimed && (
-                            <div>
-                              <span className="cursive text-truncate d-block">{block?.claimedByFriendlyName}</span>
-                            </div>
-                          )}
-                          {!block.isClaimed && (
-                            <div>
-                              <button onClick={(e) => claim(e, block)} disabled={gameData.isWon || block.isClaimed} role="button" className="btn-secondary btn btn-smaller">
-                                Claim
-                              </button>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    ))}
+                {gameData.isWon && (
+                  <div className="form-group">
+                    <label htmlFor="options" className="text-black fw-bold">
+                      Winner
+                    </label>
+                    <div className="badge bg-warning text-dark d-block text-center">
+                      <h4 className="m-0">{gameData.wonByName ?? ""}</h4>
+                    </div>
                   </div>
                 )}
               </div>
             </div>
+            {renderLayout()}
           </div>
         </div>
       )}

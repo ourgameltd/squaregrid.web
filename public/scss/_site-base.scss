@@ -289,8 +289,8 @@ body {
   background-color: #fff !important;
 }
 
-.form-group span.text-danger {
-  font-weight: bold;;
+.form-group span.text-danger, #game-section span.text-danger {
+  font-weight: bold;
 }
 
 .game-layout {
@@ -303,6 +303,10 @@ body {
 
     i {
       font-size: 1.6rem;
+    }
+
+    img {
+      height: 40px;
     }
   }
 }
@@ -330,4 +334,14 @@ body {
   label {
     padding-bottom: 1rem;
   }
+}
+
+.smallest {
+  font-size: 50%;
+  font-weight: 400;
+}
+
+.col-xl-1-5 {
+  width: 9.999999996%;
+  max-width: 9.999999996%;
 }

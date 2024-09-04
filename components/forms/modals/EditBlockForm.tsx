@@ -12,6 +12,7 @@ const EditBlockModal: React.FC<EditBlockModalProps> = ({ block, show, onClose, o
   const [editTitle, setEditTitle] = useState<string>(block?.title || "");
   const [isConfirmed, setIsConfirmed] = useState<boolean>(block?.isConfirmed || false);
   const [claimedBy, setClaimedBy] = useState<string | undefined>(block?.claimedByFriendlyName);
+  const [claimedByPopulated, setClaimedByPopulated] = useState<boolean>(block?.claimedByFriendlyName == undefined);
 
   useEffect(() => {
     if (block) {
@@ -20,6 +21,17 @@ const EditBlockModal: React.FC<EditBlockModalProps> = ({ block, show, onClose, o
       setClaimedBy(block.claimedByFriendlyName);
     }
   }, [block]);
+  
+  useEffect(() => {
+    if (!claimedBy) {
+      setClaimedByPopulated(false);
+      if (isConfirmed) {
+        setIsConfirmed(false);
+      }
+    } else{
+      setClaimedByPopulated(true);
+    }
+  }, [claimedBy]);
 
   const handleSave = () => {
     if (block) {
@@ -58,7 +70,7 @@ const EditBlockModal: React.FC<EditBlockModalProps> = ({ block, show, onClose, o
               </div>
               <div className="form-group">
                 <div className="form-check form-switch">
-                  <input className="form-check-input" type="checkbox" id="blockConfirmed" defaultChecked={isConfirmed} onChange={(e) => setIsConfirmed(e.target.checked)} />
+                  <input className="form-check-input" disabled={!claimedByPopulated} type="checkbox" id="blockConfirmed" defaultChecked={isConfirmed} onChange={(e) => setIsConfirmed(e.target.checked)} />
                   <label className="form-check-label" htmlFor="blockConfirmed">
                     Confirmed
                   </label>
@@ -70,7 +82,7 @@ const EditBlockModal: React.FC<EditBlockModalProps> = ({ block, show, onClose, o
                 Cancel
               </button>
               <button type="button" className="btn btn-primary" onClick={handleSave}>
-                Save changes
+                Confirm
               </button>
             </div>
           </div>

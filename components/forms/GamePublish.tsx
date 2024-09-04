@@ -44,55 +44,76 @@ const GamePublish = ({ game: game, register, errors }: GameComponentProps) => {
     <>
       <div className="row">
         <div className="col-md-6">
-          <div className="form-group">
+          <div className="form-group mb-0 pb-0">
             <label htmlFor="validationServerUsername">
-              Share link <span className="small text-muted font-italic">Make a friendly link for your card</span>
+              Your group <span className="small text-muted font-italic">A friendly name of your group.</span>
             </label>
             <div className="input-group">
               <input
                 disabled={game.isWon}
                 type="text"
-                placeholder="e.g. my-club"
+                placeholder="e.g. My football team"
                 className="form-control"
                 id="groupName"
                 onKeyUp={handleGroupNameKeyUp}
                 {...register("groupName", { pattern: /^[A-Za-z0-9-]+$/ })}
               />
-              <div className="input-group-prepend">
-                <span className="input-group-text" id="inputGroupPrepend3">
-                  /
-                </span>
-              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col-md-6">
+          <div className="form-group mb-0 pb-0">
+            <label htmlFor="validationServerUsername">
+              Card name <span className="small text-muted font-italic">A friendly name for the card.</span>
+            </label>
+            <div className="input-group">
               <input
                 disabled={game.isWon}
                 type="text"
-                placeholder="e.g. card-for-x"
+                placeholder="e.g. Charity game 2014"
                 className="form-control"
                 id="shortName"
                 onKeyUp={handleShortNameKeyUp}
                 {...register("shortName", { pattern: /^[A-Za-z0-9-]+$/ })}
               />
             </div>
-            <p>
-              <Link target="_blank" href={shareableLink}>
-                {shareableLink}
-              </Link>
-            </p>
-            {((errors.groupName && errors.groupName.type === "pattern") || (errors.shortName && errors.shortName.type === "pattern")) && (
-              <p>
-                <span className="text-danger">Only letters, numbers, and hyphens are allowed</span>
-              </p>
-            )}
+          </div>
+        </div>
+        <div className="col-md-12">
+          <div className="form-group">
+            <div className="input-group">
+              {((errors.groupName && errors.groupName.type === "pattern") || (errors.shortName && errors.shortName.type === "pattern")) && (
+                <p>
+                  <span className="text-danger">Only letters, numbers, and hyphens are allowed</span>
+                </p>
+              )}
+            </div>
           </div>
         </div>
         {qrLink && (
           <div className="col-md-6">
             <div className="form-group">
-              <label htmlFor="validationServerUsername">
-                QR code <span className="small text-muted font-italic">Share this via physical media</span>
+              <label htmlFor="validationServerUsername pb-0 mb-0" className="mb-0">
+                QR code <span className="small text-muted font-italic">Share on devices e.g. screens, leaflets.</span>
               </label>
               <div>
                 <img className="shadow" src={qrLink} alt="QR Code" />
+              </div>
+            </div>
+          </div>
+        )}
+        {qrLink && (
+          <div className="col-md-6">
+            <div className="form-group">
+              <label htmlFor="validationServerUsername pb-0 mb-0" className="mb-0">
+                Link <span className="small text-muted font-italic">Share via social channels or email.</span>
+              </label>
+              <div>
+                <p>
+                  <Link target="_blank" href={shareableLink}>
+                    {shareableLink}
+                  </Link>
+                </p>
               </div>
             </div>
           </div>

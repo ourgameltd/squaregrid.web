@@ -96,7 +96,7 @@ const Cards = ({ context }: { context: AppContextModel }) => {
             <div className="col-12">
               <div className="row row-cols-1 row-cols-lg-4 row-cols-2 g-4" id="card-list">
                 {games?.map((game, index) => (
-                  <div className="col" key={game.rowKey}>
+                  <div className="col pb-4" key={game.rowKey}>
                     <Link href={`/cards/${game.rowKey}`}>
                       <div className="card shadow text-black border-bottom">
                         <div className="image-container">

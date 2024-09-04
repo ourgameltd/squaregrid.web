@@ -28,7 +28,7 @@ const GameForm = ({ game: game, register, errors, imgSrc, setImgSrc }: GameCompo
         <div className="col-md-12">
           <div className="form-group">
             <label htmlFor="title" className="text-black">
-              Title* <span className="small text-muted font-italic">A name for the card</span>
+              Title* <span className="small text-muted font-italic">A name for the card.</span>
             </label>
             <input disabled={game.isWon} type="text" className="form-control shadow-sm" id="title" {...register("title", { required: true })} />
             {errors.title && <span className="text-danger">This field is required</span>}
@@ -39,7 +39,7 @@ const GameForm = ({ game: game, register, errors, imgSrc, setImgSrc }: GameCompo
         <div className="col-md-8">
           <div className="form-group">
             <label htmlFor="description" className="text-black">
-              Description* <span className="small text-muted font-italic">A description of what the card is for.</span>
+              Description* <span className="small text-muted font-italic">The purpose of the card and details for the players.</span>
             </label>
             <textarea disabled={game.isWon} className="form-control shadow-sm" id="description" {...register("description", { required: true })} rows={13}></textarea>
             {errors.description && <span className="text-danger">This field is required</span>}
@@ -66,7 +66,10 @@ const GameForm = ({ game: game, register, errors, imgSrc, setImgSrc }: GameCompo
                 alt={"Image for game " + game?.title}
                 unoptimized={true}
                 fill={true}
-                style={{ objectFit: "cover", cursor: "pointer" }}
+                style={{ 
+                  objectFit: "cover", 
+                  cursor: game.isWon ? "default" : "pointer" 
+                }}
                 priority={true}
                 onClick={handleImageClick}
                 onError={() => setImgSrc(`images/games/placeholder.webp`)}
@@ -78,7 +81,7 @@ const GameForm = ({ game: game, register, errors, imgSrc, setImgSrc }: GameCompo
                   bottom: "10px",
                   right: "20px",
                   fontSize: "1.5rem",
-                  cursor: "pointer",
+                  cursor: game.isWon ? "default" : "pointer",
                 }}
               ></i>
             </div>

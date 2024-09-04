@@ -4,7 +4,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import GameForm from "@/forms/GameForm";
 import { GameFormModel } from "@/Game";
 import GameBlocks from "@/forms/GameBlocks";
-import { FieldErrors, useForm, UseFormClearErrors, UseFormRegister, UseFormSetError } from "react-hook-form";
+import { FieldErrors, useForm, UseFormClearErrors, UseFormRegister, UseFormSetError, UseFormWatch } from "react-hook-form";
 import { Block } from "@/Block";
 import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
@@ -25,6 +25,7 @@ export interface GameComponentProps extends GameProps {
   setBlocks: Dispatch<SetStateAction<Block[]>>;
   imgSrc: string | undefined;
   setImgSrc: Dispatch<SetStateAction<string | undefined>>;
+  watch: UseFormWatch<GameFormModel>;
 }
 
 const Card = () => {
@@ -54,6 +55,7 @@ const Card = () => {
     clearErrors,
     formState: { errors },
     reset,
+    watch
   } = useForm<GameFormModel>({
     defaultValues: game,
   });
@@ -279,6 +281,7 @@ const Card = () => {
                       clearError={clearErrors}
                       blocks={blocks}
                       setBlocks={setBlocks}
+                      watch={watch}
                     ></GameForm>
                   </div>
                   <div className="tab-pane fade" id="pills-blocks" role="tabpanel" aria-labelledby="pills-blocks-tab">
@@ -292,6 +295,7 @@ const Card = () => {
                       clearError={clearErrors}
                       blocks={blocks}
                       setBlocks={setBlocks}
+                      watch={watch}
                     ></GameBlocks>
                   </div>
                   <div className="tab-pane fade" id="pills-share" role="tabpanel" aria-labelledby="pills-share-tab">
@@ -305,6 +309,7 @@ const Card = () => {
                       clearError={clearErrors}
                       blocks={blocks}
                       setBlocks={setBlocks}
+                      watch={watch}
                     ></GamePublish>
                   </div>
                 </div>

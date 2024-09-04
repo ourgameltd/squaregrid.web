@@ -2,12 +2,21 @@ import { useRef, useState, useEffect } from "react";
 import { Block } from "@/Block";
 import { v4 as uuidv4 } from "uuid";
 import { GameComponentProps } from "@/cards/[cardId]";
-import EditBlockModal from "./EditBlockForm";
+import EditBlockModal from "./modals/EditBlockForm";
+import BlockListLayout from "./views/BlockListLayout";
+import BlockGridLayout from "./views/BlockGridLayout";
 
-const GameBlocks = ({ game, setError, clearError, errors, blocks, setBlocks }: GameComponentProps) => {
+const GameBlocks = ({ game, register, setError, clearError, errors, blocks, setBlocks, watch }: GameComponentProps) => {
   const [isEditing, setIsEditing] = useState<Block | null>(null);
 
   const inputRef = useRef<HTMLInputElement>(null);
+  const submitButtonRef = useRef<HTMLButtonElement>(null);
+
+  const gridLayout = watch('gridLayout');
+
+  useEffect(() => {
+    console.log("Grid layout changed to:", gridLayout);
+  }, [gridLayout]);
 
   const addBlock = (newBlock: Block) => {
     setBlocks((prevBlocks) => {
@@ -75,6 +84,21 @@ const GameBlocks = ({ game, setError, clearError, errors, blocks, setBlocks }: G
     inputRef!.current!.value = "";
   };
 
+  useEffect(() => {
+    const handleEnterPress = (event: KeyboardEvent) => {
+      if (event.key === "Enter" && inputRef.current && inputRef.current === document.activeElement) {
+        event.preventDefault();
+        submitButtonRef.current?.click();  // Programmatically trigger the submit button
+      }
+    };
+
+    document.addEventListener("keydown", handleEnterPress);
+
+    return () => {
+      document.removeEventListener("keydown", handleEnterPress); // Clean up the event listener
+    };
+  }, []);
+
   const openEditModal = (block: Block, event: React.FormEvent) => {
     event.preventDefault();
     setIsEditing(block);
@@ -89,95 +113,74 @@ const GameBlocks = ({ game, setError, clearError, errors, blocks, setBlocks }: G
     handleModalClose();
   };
 
+  const renderLayout = () => {
+    switch (gridLayout) {
+      case 'list':
+        return <BlockListLayout game={game} blocks={blocks} openEditModal={openEditModal} removeBlock={removeBlock} sidebar={false}></BlockListLayout>;
+      case 'listSidebar':
+        return <BlockListLayout game={game} blocks={blocks} openEditModal={openEditModal} removeBlock={removeBlock} sidebar={true}></BlockListLayout>;
+      case 'gridSidebar':
+        return <BlockGridLayout game={game} blocks={blocks} openEditModal={openEditModal} removeBlock={removeBlock} sidebar={true}></BlockGridLayout>;
+      default:
+        return <BlockGridLayout game={game} blocks={blocks} openEditModal={openEditModal} removeBlock={removeBlock} sidebar={false}></BlockGridLayout>;
+    }
+  };
+
   return (
     <>
       <div className="row">
         <div className="col-md-12">
-          <div className="form-group game-layout">
+          <div className="form-group game-layout pb-0 mb-0">
             <label htmlFor="options" className="text-black">
               Layout* <span className="small text-muted font-italic">(How it looks when played)</span>
             </label>
-            <div className="d-flex justify-content-between input-group">
-              <div className="custom-control custom-radio mr-1">
-                <input disabled={game.isWon} type="radio" id="gridLayout" name="layoutOptions" className="custom-control-input" />
+            <div className="d-flex justify-content-around input-group">
+              <div className="custom-control custom-radio">
+                <input disabled={game.isWon} type="radio" id="gridLayout" value={"grid"} className="custom-control-input" {...register("gridLayout", { required: true })} />
                 <label className="custom-control-label" htmlFor="gridLayout">
                   <img src="/images/layout_grid_only.png" />
-                  <span className="small text-muted font-italic">Grid & Popover</span>
+                  <span className="small text-muted font-italic">Grid</span>
                 </label>
               </div>
-              <div className="custom-control custom-radio mr-1">
-                <input disabled={game.isWon} type="radio" id="gridInfoLayout" name="layoutOptions" className="custom-control-input" />
+              <div className="custom-control custom-radio">
+                <input disabled={game.isWon} type="radio" id="gridInfoLayout" value={"gridSidebar"} className="custom-control-input" {...register("gridLayout", { required: true })} />
                 <label className="custom-control-label" htmlFor="gridInfoLayout">
                   <img src="/images/layout_outline_with_sidebar.png" />
                   <span className="small text-muted font-italic">Grid & Sidebar</span>
                 </label>
               </div>
-              <div className="custom-control custom-radio mr-1">
-                <input disabled={game.isWon} type="radio" id="listLayout" name="layoutOptions" className="custom-control-input" />
+              <div className="custom-control custom-radio">
+                <input disabled={game.isWon} type="radio" id="listLayout" value={"list"} className="custom-control-input" {...register("gridLayout", { required: true })} />
                 <label className="custom-control-label" htmlFor="listLayout">
                   <img src="/images/layout_padded_list_no_sidebar.png" />
-                  <span className="small text-muted font-italic">List & Popover</span>
+                  <span className="small text-muted font-italic">List</span>
                 </label>
               </div>
-              <div className="custom-control custom-radio mr-1">
-                <input disabled={game.isWon} type="radio" id="listInfoLayout" name="layoutOptions" className="custom-control-input" />
+              <div className="custom-control custom-radio">
+                <input disabled={game.isWon} type="radio" id="listInfoLayout" value={"listSidebar"} className="custom-control-input" {...register("gridLayout", { required: true })} />
                 <label className="custom-control-label" htmlFor="listInfoLayout">
                   <img src="/images/layout_with_padded_list.png" />
                   <span className="small text-muted font-italic">List & Sidebar</span>
                 </label>
               </div>
             </div>
+            {errors.gridLayout && (
+              <p>
+                <span className="text-danger">{errors.gridLayout.message}</span>
+              </p>
+            )}
+          </div>
+        </div>
+        <div className="col-md-12">
+          <div className="form-group">
+            {renderLayout()}
           </div>
         </div>
         <div className="col-md-12">
           <div className="form-group">
             <label htmlFor="options" className="text-black">
-              Options* <span className="small text-muted font-italic">You can also add a comma separated list here to add in bulk</span>
+              Options* <span className="small text-muted font-italic">Add one or add many by seperating with a comma.</span>
             </label>
-            <div>
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Taken by</th>
-                    <th scope="col"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {blocks?.map((block) => (
-                    <tr className={block.isWinner ? "table-warning" : ""} key={`${block.partitionKey}-${block.rowKey}`}>
-                      <th scope="row">{block.index}</th>
-                      <td>
-                        <span className="text-truncate">{block.title}</span>
-                      </td>
-                      <td title={block.isWinner ? `Game was won by ${block.claimedByFriendlyName}` : ""}>
-                        {block?.claimedByFriendlyName}
-                        {block.isConfirmed && <i className="bi bi-patch-check-fill text-primary float-end"></i>}
-                      </td>
-                      <td>
-                        {!game.isWon && (
-                          <button
-                            disabled={game.isWon}
-                            title="Delete this square altogether."
-                            className="btn btn-smaller btn-danger ml-1 float-end"
-                            role="button"
-                            onClick={(e) => removeBlock(block.partitionKey, block.rowKey, e)}
-                          >
-                            <i className="bi bi-trash"></i>
-                          </button>
-                        )}
-                        {!game.isWon && (
-                          <button className="btn btn-smaller btn-primary ml-1 float-end" onClick={(e) => openEditModal(block, e)} role="button">
-                            <i className="bi bi-pencil"></i>
-                          </button>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
             <div className="input-group">
               <input
                 disabled={game.isWon}
@@ -190,8 +193,9 @@ const GameBlocks = ({ game, setError, clearError, errors, blocks, setBlocks }: G
                 ref={inputRef}
               />
               <div className="input-group-append">
-                <button disabled={game.isWon} className="btn btn-success" onClick={(e) => onSubmit(e)} type="submit">
-                  <i className="bi bi-plus-circle"></i>
+                <button disabled={game.isWon} className="btn btn-success" onClick={(e) => onSubmit(e)} type="submit"
+                  ref={submitButtonRef}>
+                  Add <i className="bi bi-plus-circle"></i>
                 </button>
               </div>
             </div>
@@ -203,7 +207,6 @@ const GameBlocks = ({ game, setError, clearError, errors, blocks, setBlocks }: G
             )}
           </div>
         </div>
-        <div className="col-md-6"></div>
       </div>
       {isEditing && <EditBlockModal block={isEditing} show={true} onClose={handleModalClose} onSave={handleSaveChanges} />}
     </>
