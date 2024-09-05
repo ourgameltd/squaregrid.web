@@ -11,17 +11,15 @@ const GamePublish = ({ game: game, register, errors }: GameComponentProps) => {
   const [linkName, setLinkName] = useState(game.shortName);
   const [copySuccess, setCopySuccess] = useState(false);
 
-  const copyToClipboard = () => {
-    // Copy the link to the clipboard
+  const copyToClipboard = (e: any) => {
+    e.preventDefault();
+
     navigator.clipboard.writeText(shareableLink).then(
       () => {
-        // On success, update the UI to show success message
         setCopySuccess(true);
       },
       (err) => {
-        // Handle any errors that may occur
         setCopySuccess(false);
-        console.error("Failed to copy: ", err);
       }
     );
   };
@@ -132,7 +130,7 @@ const GamePublish = ({ game: game, register, errors }: GameComponentProps) => {
                 </p>
               </div>
               <div className="text-center">
-                <button role="button" className="btn btn-success" onClick={copyToClipboard}>Copy share link  <i className="bi bi-copy"></i></button> {copySuccess && <i className="bi bi-check-circle-fill"></i>}
+                <button role="button" className="btn btn-success" onClick={(e) => copyToClipboard(e)}>Copy share link  <i className="bi bi-copy"></i></button> {copySuccess && <i className="bi bi-check-circle-fill"></i>}
               </div>
             </div>
           </div>

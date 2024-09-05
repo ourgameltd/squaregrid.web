@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
 import GamePublish from "@/forms/GamePublish";
-import PlayInfoModal from "@/play/modals/PlayInfoModal";
+import GameWin from "@/forms/GameWin";
 
 interface GameProps {
   game: GameFormModel;
@@ -61,6 +61,8 @@ const Card = () => {
     defaultValues: game,
   });
 
+  let confirmedWinnerOnly = watch("confirmedWinnersOnly")
+
   useEffect(() => {
     setBlockCount(blocks?.length);
 
@@ -105,17 +107,17 @@ const Card = () => {
       return;
     }
 
-    if (gameData.confirmedWinnersOnly && blocks?.filter((i) => i.isClaimed && i.isConfirmed).length <= 0) {
+    if (confirmedWinnerOnly && blocks?.filter((i) => i.isClaimed && i.isConfirmed).length <= 0) {
       setCanDraw(false);
       return;
     }
 
-    if (!gameData.confirmedWinnersOnly && blocks?.filter((i) => i.isClaimed).length <= 0) {
+    if (!confirmedWinnerOnly && blocks?.filter((i) => i.isClaimed).length <= 0) {
       return;
     }
 
     setCanDraw(true);
-  }, [gameData, blocks]);
+  }, [gameData, blocks, confirmedWinnerOnly]);
 
   const onSubmit = async (data: GameFormModel) => {
     setIsSaving(true);
@@ -198,19 +200,6 @@ const Card = () => {
               <div className="col-12 text-center my-3">
                 <h2 className="heading">{format("Edit card {0}.", [gameTitle])}</h2>
                 <p>Add your title, description, blocks and image, then add values in the bottom to publish the card publicly. Once its drawn it cant be edited.</p>
-                {!gameData.isWon && (
-                  <button disabled={!canDraw} type="submit" onClick={(e) => drawWinner(e)} className="ml-1 btn btn-warning">
-                    {!isSavingWinner && <span>Draw winner </span>}
-                    {isSavingWinner && (
-                      <>
-                        <span>Saving... </span>
-                        <div className="spinner-grow spinner-grow-sm text-light" role="status">
-                          <span className="sr-only">Drawing winner...</span>
-                        </div>
-                      </>
-                    )}
-                  </button>
-                )}
               </div>
               <div className="col-12">
                 {!gameData.isWon && (
@@ -264,6 +253,11 @@ const Card = () => {
                     <i className="bi bi-share"></i> <span className="d-none d-md-inline-block">3. Share</span>
                   </a>
                 </li>
+                <li className="nav-item">
+                  <a className="nav-link" id="pills-win-tab" data-toggle="pill" href="#pills-win" role="tab" aria-controls="pills-win" aria-selected="false">
+                    <i className="bi bi-award"></i> <span className="d-none d-md-inline-block">4. Win</span>
+                  </a>
+                </li>
               </ul>
               <form onSubmit={handleSubmit(onSubmit)} className="card-form p-3">
                 <input type="hidden" id="partitionKey" {...register("partitionKey", { required: true })} />
@@ -312,6 +306,23 @@ const Card = () => {
                       setBlocks={setBlocks}
                       watch={watch}
                     ></GamePublish>
+                  </div>
+                  <div className="tab-pane fade" id="pills-win" role="tabpanel" aria-labelledby="pills-win-tab">
+                    <GameWin
+                      setImgSrc={setImgSrc}
+                      imgSrc={imgSrc}
+                      register={register}
+                      errors={errors}
+                      game={gameData}
+                      setError={setError}
+                      clearError={clearErrors}
+                      blocks={blocks}
+                      setBlocks={setBlocks}
+                      watch={watch}
+                      drawWinner={drawWinner}
+                      canDraw={canDraw}
+                      isSavingWinner={isSavingWinner}
+                    ></GameWin>
                   </div>
                 </div>
                 <div className="form-group mb-0 text-right">
