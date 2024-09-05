@@ -255,7 +255,7 @@ const Card = () => {
                 </li>
                 <li className="nav-item">
                   <a className="nav-link" id="pills-win-tab" data-toggle="pill" href="#pills-win" role="tab" aria-controls="pills-win" aria-selected="false">
-                    <i className="bi bi-award"></i> <span className="d-none d-md-inline-block">4. Win</span>
+                    <i className="bi bi-award"></i> <span className="d-none d-md-inline-block">4. Winner</span>
                   </a>
                 </li>
               </ul>
