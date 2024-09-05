@@ -42,8 +42,7 @@ const PlayListLayout: React.FC<BlockOptionsComponentProps> = ({ game, blocks, cl
                         onClick={(e) => claim(e, block)}
                         disabled={game.isWon || block.isClaimed}
                         role="button"
-                        className="btn-secondary btn btn-smaller float-right"
-                      >
+                        className="btn-primary btn btn-smaller float-right">
                         Claim
                       </button>
                     </div>

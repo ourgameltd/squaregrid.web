@@ -23,7 +23,7 @@ const PlayGridLayout: React.FC<BlockOptionsComponentProps> = ({ game, blocks, cl
                 )}
                 {!block.isClaimed && (
                   <div>
-                    <button onClick={(e) => claim(e, block)} disabled={game.isWon || block.isClaimed} role="button" className="btn-secondary btn btn-smaller">
+                    <button onClick={(e) => claim(e, block)} disabled={game.isWon || block.isClaimed} role="button" className="btn-primary btn btn-smaller">
                       Claim
                     </button>
                   </div>

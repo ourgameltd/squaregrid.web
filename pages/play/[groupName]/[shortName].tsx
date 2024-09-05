@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import PlayListLayout from "@/play/PlayListLayout";
 import PlayGridLayout from "@/play/PlayGridLayout";
 import { AppContextModel } from "@/appContextProvider";
+import PlayInfoModal from "@/play/modals/PlayInfoModal";
 
 const Card = ({ context }: { context: AppContextModel }) => {
   const router = useRouter();
@@ -21,6 +22,7 @@ const Card = ({ context }: { context: AppContextModel }) => {
   const [imgSrc, setImgSrc] = useState(game.image);
   const [isLoading, setIsLoading] = useState(true);
   const [isClaiming, setIsClaiming] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const [gameData, setGameData] = useState(game);
   const [gameTitle, setGameTitle] = useState("Loading...");
@@ -123,6 +125,22 @@ const Card = ({ context }: { context: AppContextModel }) => {
     }
   };
 
+  const renderTitle = () => {
+    if (!gameData.gridLayout?.includes('Sidebar')) {
+      return <h2 title="Click to read more about this card" onClick={handleModalOpen}>{gameData?.title} <i className="bi bi-info-circle-fill text-primary"></i></h2>;
+    } else {
+      return <h2>{gameData?.title}</h2>;
+    }
+  };
+
+  const handleModalOpen = () => {
+    setShowModal(true);
+  };
+
+  const handleModalClose = () => {
+    setShowModal(false);
+  };
+
   return (
     <>
       <Head>
@@ -144,7 +162,7 @@ const Card = ({ context }: { context: AppContextModel }) => {
           <div className={(gameData.gridLayout?.includes("grid") || !gameData.gridLayout) ? "container-fluid" : "container"}>
             <div className="row pb-2 pt-2 text-left">
               <div className="col-md-8">
-                <h2>{gameData?.title}</h2>
+                {renderTitle()}
               </div>
               <div className="col-md-4">
                 {!gameData.isWon && (
@@ -180,6 +198,7 @@ const Card = ({ context }: { context: AppContextModel }) => {
           </div>
         </div>
       )}
+      {showModal && <PlayInfoModal game={gameData} show={true} onClose={handleModalClose} />}
     </>
   );
 };

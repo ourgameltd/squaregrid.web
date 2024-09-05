@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
 import GamePublish from "@/forms/GamePublish";
+import PlayInfoModal from "@/play/modals/PlayInfoModal";
 
 interface GameProps {
   game: GameFormModel;
