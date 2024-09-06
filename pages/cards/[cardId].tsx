@@ -61,7 +61,6 @@ const Card = () => {
     defaultValues: game,
   });
 
-  let confirmedWinnerOnly = watch("confirmedWinnersOnly")
 
   useEffect(() => {
     setBlockCount(blocks?.length);
@@ -107,17 +106,17 @@ const Card = () => {
       return;
     }
 
-    if (confirmedWinnerOnly && blocks?.filter((i) => i.isClaimed && i.isConfirmed).length <= 0) {
+    if (gameData.confirmedWinnersOnly && blocks?.filter((i) => i.isClaimed && i.isConfirmed).length <= 0) {
       setCanDraw(false);
       return;
     }
 
-    if (!confirmedWinnerOnly && blocks?.filter((i) => i.isClaimed).length <= 0) {
+    if (!gameData.confirmedWinnersOnly && blocks?.filter((i) => i.isClaimed).length <= 0) {
       return;
     }
 
     setCanDraw(true);
-  }, [gameData, blocks, confirmedWinnerOnly]);
+  }, [gameData, blocks]);
 
   const onSubmit = async (data: GameFormModel) => {
     setIsSaving(true);
@@ -185,8 +184,8 @@ const Card = () => {
       {isLoading && (
         <div className="d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
           <div className="text-center">
-            <div className="spinner-border" style={{ width: "3rem", height: "3rem" }} role="status">
-              <span className="visually-hidden">Loading...</span>
+            <div className="spinner-grow text-primary" style={{ width: "3rem", height: "3rem" }} role="status">
+              <span className="sr-only">Loading...</span>
             </div>
             <div className="text-muted mt-2">Loading</div>
           </div>

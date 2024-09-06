@@ -130,7 +130,7 @@ const GamePublish = ({ game: game, register, errors }: GameComponentProps) => {
                 </p>
               </div>
               <div className="text-center">
-                <button role="button" className="btn btn-success" onClick={(e) => copyToClipboard(e)}>Copy share link  <i className="bi bi-copy"></i></button> {copySuccess && <i className="bi bi-check-circle-fill"></i>}
+                <button disabled={game.isWon} role="button" className="btn btn-success" onClick={(e) => copyToClipboard(e)}>Copy share link  <i className="bi bi-copy"></i></button> {copySuccess && <i className="bi bi-check-circle-fill"></i>}
               </div>
             </div>
           </div>

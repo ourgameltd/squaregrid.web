@@ -53,7 +53,7 @@ const Navbar = ({ context }: { context: AppContextModel }) => {
               </li>
               <Conditional condition={context.user != null}>
                 <li className="cta-primary">
-                  <Link href="/cards" title={format('View cards for {0}.', [context.user?.clientPrincipal?.userDetails])}>
+                  <Link className="rounded" href="/cards" title={format('View cards for {0}.', [context.user?.clientPrincipal?.userDetails])}>
                     Cards
                   </Link>
                 </li>
@@ -79,7 +79,7 @@ const Navbar = ({ context }: { context: AppContextModel }) => {
                   </Link>
                 </li>
                 <li className="cta-primary">
-                  <a href="#" onClick={(e) => redirect(e, logoutUrl)} title="Sign out from the app.">
+                  <a className="rounded" href="#" onClick={(e) => redirect(e, logoutUrl)} title="Sign out from the app.">
                     Sign out
                   </a>
                 </li>
@@ -88,7 +88,7 @@ const Navbar = ({ context }: { context: AppContextModel }) => {
             <Conditional condition={context.user == null}>
               <ul className="d-none mt-1 d-lg-inline-block site-menu float-right">
                 <li className="cta-primary">
-                  <a href="#" onClick={(e) => redirect(e, loginUrl)} title="Sign in to the app.">
+                  <a className="rounded" href="#" onClick={(e) => redirect(e, loginUrl)} title="Sign in to the app.">
                     Sign in
                   </a>
                 </li>

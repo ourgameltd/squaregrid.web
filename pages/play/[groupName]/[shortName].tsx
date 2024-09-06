@@ -127,7 +127,7 @@ const Card = ({ context }: { context: AppContextModel }) => {
 
   const renderTitle = () => {
     if (!gameData.gridLayout?.includes('Sidebar')) {
-      return <h2 title="Click to read more about this card" onClick={handleModalOpen}>{gameData?.title} <i className="bi bi-info-circle-fill text-primary"></i></h2>;
+      return <h2 style={{ cursor: "pointer"}} title="Click to read more about this card" onClick={handleModalOpen}>{gameData?.title} <i className="bi bi-info-circle-fill text-primary"></i></h2>;
     } else {
       return <h2>{gameData?.title}</h2>;
     }
@@ -149,8 +149,8 @@ const Card = ({ context }: { context: AppContextModel }) => {
       {isLoading && (
         <div className="d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
           <div className="text-center">
-            <div className="spinner-border" style={{ width: "3rem", height: "3rem" }} role="status">
-              <span className="visually-hidden">Loading...</span>
+          <div className="spinner-grow text-primary" style={{ width: "3rem", height: "3rem" }} role="status">
+              <span className="sr-only">Loading...</span>
             </div>
             <div className="text-muted mt-2">Loading</div>
           </div>

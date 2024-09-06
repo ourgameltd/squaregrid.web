@@ -56,6 +56,7 @@ const SidebarContent: React.FC<SidebarContentComponentProps> = ({ game }) => {
   return (
     <div className="card">
       <div className="row">
+        {game?.image &&
         <div className="col-md-12">
           <div className="image-container">
             <Image
@@ -68,7 +69,7 @@ const SidebarContent: React.FC<SidebarContentComponentProps> = ({ game }) => {
               className="img-fluid rounded-start"
             />
           </div>
-        </div>
+        </div>}
         <div className="col-md-12">
           <div className="card-body">
             <h5 className="card-title">{game?.title}</h5>
