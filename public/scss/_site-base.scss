@@ -67,14 +67,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
 }
 
 .btn {
-  padding-top: 15px;
-  padding-bottom: 15px;
-  padding-left: 30px;
-  padding-right: 30px;
-  border-radius: 30px;
-  font-size: 11px;
-  text-transform: uppercase;
-  font-weight: 700;
+
   // letter-spacing: .05rem;
   &:active, &:focus {
     outline: none!important;
@@ -96,22 +89,8 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
       color: $white;
     }
   }
-  &.btn-smaller {
-    padding-top: 7px;
-    padding-bottom: 7px;
-    padding-left: 15px;
-    padding-right: 15px;
-    border-radius: 15px;
-  }
   &.btn-borderless {
     border: 0 !important;
-  }
-  &.btn-smallest {
-    padding-top: 2px;
-    padding-bottom: 1px;
-    padding-left: 6px;
-    padding-right: 5px;
-    border-radius: 15px;
   }
 }
 
@@ -226,6 +205,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
 
 #game-section .image-container {
   height: 100%;
+  min-height: 200px;
 }
 
 /* Override at smaller screen sizes */
@@ -309,6 +289,59 @@ body {
   background-color: #fff !important;
 }
 
-.form-group span.text-danger {
-  font-weight: bold;;
+.form-group span.text-danger, #game-section span.text-danger {
+  font-weight: bold;
+}
+
+.game-layout {
+  .input-group {
+    text-align: center;
+
+    span {
+      display: block;
+    }
+
+    i {
+      font-size: 1.6rem;
+    }
+
+    img {
+      height: 40px;
+    }
+  }
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: #18233F;
+}
+
+.progress {
+  overflow: visible;
+  height: 2rem;
+  background-color: #BABABA;
+  .progress-bar {
+    overflow: visible;
+  }
+}
+
+.form-group {
+  padding-bottom: 0.5rem;
+  label {
+    padding-bottom: 1rem;
+  }
+}
+
+.smallest {
+  font-size: 50%;
+  font-weight: 400;
+}
+
+.col-xl-1-5 {
+  width: 9.999999996%;
+  max-width: 9.999999996%;
 }

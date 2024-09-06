@@ -21,6 +21,7 @@ export interface Game {
     wonByName?: string;
     wonByDate?: Date;
     timestamp?: Date;
+    gridLayout?: string; 
     eTag: string;
 }
 

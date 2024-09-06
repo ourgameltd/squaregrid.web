@@ -10,6 +10,14 @@ This is the repo for the website part of the square grid app.
 
 ## Setup
 
-* Install Node
-* NPM Install
-* npm run dev 
+* Install Node & Node version manager
+* nvm install 18.17.0
+* nvm use 18.17.0
+* create .env.local file at root of solution (copy contents below)
+
+## Env vars
+
+```env
+NEXT_PUBLIC_MEDIA_ENDPOINT=http://127.0.0.1:10000/devstoreaccount1/media
+NEXT_PUBLIC_DOMAIN=http://localhost:4280
+```
