@@ -10,8 +10,8 @@ import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
-import GamePublish from "@/forms/GamePublish";
 import GameWin from "@/forms/GameWin";
+import Link from "next/link";
 
 interface GameProps {
   game: GameFormModel;
@@ -176,6 +176,28 @@ const Card = () => {
     }
   };
 
+  const renderSave = (marginBottom: number = 4) => {
+    return <div className={`col-12 mt-4 mb-${marginBottom} text-center`}>
+      <button disabled={gameData.isWon || isSaving} type="submit" className="btn btn-primary mr-2">
+        {!isSaving &&
+          <>
+            <span>Save </span> <i className="bi bi-save"></i>
+          </>}
+        {isSaving &&
+          <>
+            <span>Saving... </span>
+            <div className="spinner-grow spinner-grow-sm text-light" role="status">
+              <span className="sr-only">Saving...</span>
+            </div>
+          </>
+        }
+      </button>
+      <Link className="btn btn-danger" href="/cards">
+        Exit <i className="bi bi-box-arrow-left"></i>
+      </Link>
+    </div>
+  };
+
   return (
     <>
       <Head>
@@ -194,151 +216,107 @@ const Card = () => {
       <ToastContainer />
       {!isLoading && (
         <div className="untree_co-section">
-          <div className="container mt-lg-1">
+          <div className="container">
             <div className="row">
-              <div className="col-12 text-center my-3">
-                <h2 className="heading">{format("Edit card {0}.", [gameTitle])}</h2>
-                <p>Add your title, description, blocks and image, then add values in the bottom to publish the card publicly. Once its drawn it cant be edited.</p>
-              </div>
               <div className="col-12">
-                {!gameData.isWon && (
-                  <div className="progress">
-                    <div
-                      className={"progress-bar progress-bar-striped bg-" + (percentageClaimed == 100 ? "success" : "primary")}
-                      role="progressbar"
-                      style={{ width: `${percentageClaimed}%` }}
-                      aria-valuenow={claimedBlockCount}
-                      aria-valuemin={0}
-                      aria-valuemax={blockCount}
-                    >
-                      <span className="px-2 font-weight-bold text-white">
-                        {percentageClaimed}% complete {blockCount > 0 && <span>({blockCount - claimedBlockCount} remaining)</span>}
-                      </span>
-                    </div>
+                <div className="jumbotron jumbotron-fluid bg-transparent py-0">
+                  <h2 className="display-5">{format("Edit - {0}", [gameTitle])}</h2>
+                  <p className="lead">Comeplete the form, select a layout with it's options and share to social media, when ready pick your winner.</p>
+                  <div>
+                    {!gameData.isWon && (
+                      <div className="progress">
+                        <div
+                          className={"progress-bar progress-bar-striped bg-" + (percentageClaimed == 100 ? "success" : "primary")}
+                          role="progressbar"
+                          style={{ width: `${percentageClaimed}%` }}
+                          aria-valuenow={claimedBlockCount}
+                          aria-valuemin={0}
+                          aria-valuemax={blockCount}
+                        >
+                          <span className="px-2 font-weight-bold text-white">
+                            {percentageClaimed}% complete {blockCount > 0 && <span>({blockCount - claimedBlockCount} remaining)</span>}
+                          </span>
+                        </div>
+                      </div>
+                    )}
+                    {gameData.isWon && (
+                      <div className="progress">
+                        <div
+                          className="progress-bar progress-bar-striped bg-warning"
+                          role="progressbar"
+                          style={{ width: `100%` }}
+                          aria-valuenow={blockCount}
+                          aria-valuemin={0}
+                          aria-valuemax={blockCount}
+                        >
+                          <span className="px-2 font-weight-bold text-black">
+                            Won by <span>{gameData.wonByName}</span>
+                          </span>
+                        </div>
+                      </div>
+                    )}
                   </div>
-                )}
-                {gameData.isWon && (
-                  <div className="progress">
-                    <div
-                      className="progress-bar progress-bar-striped bg-warning"
-                      role="progressbar"
-                      style={{ width: `100%` }}
-                      aria-valuenow={blockCount}
-                      aria-valuemin={0}
-                      aria-valuemax={blockCount}
-                    >
-                      <span className="px-2 font-weight-bold text-black">
-                        Won by <span>{gameData.wonByName}</span>
-                      </span>
-                    </div>
-                  </div>
-                )}
+                </div>
               </div>
             </div>
-            <div className="col-md-12 bg-white py-4 rounded">
-              <ul className="nav nav-tabs" id="pills-tab" role="tablist">
-                <li className="nav-item">
-                  <a className="nav-link active" id="pills-info-tab" data-toggle="pill" href="#pills-info" role="tab" aria-controls="pills-info" aria-selected="true">
-                    <i className="bi bi-info-square"></i> <span className="d-none d-md-inline-block">1. Info</span>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" id="pills-blocks-tab" data-toggle="pill" href="#pills-blocks" role="tab" aria-controls="pills-blocks" aria-selected="false">
-                    <i className="bi bi-grid-3x3"></i> <span className="d-none d-md-inline-block">2. Squares</span>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" id="pills-share-tab" data-toggle="pill" href="#pills-share" role="tab" aria-controls="pills-share" aria-selected="false">
-                    <i className="bi bi-share"></i> <span className="d-none d-md-inline-block">3. Share</span>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" id="pills-win-tab" data-toggle="pill" href="#pills-win" role="tab" aria-controls="pills-win" aria-selected="false">
-                    <i className="bi bi-award"></i> <span className="d-none d-md-inline-block">4. Winner</span>
-                  </a>
-                </li>
-              </ul>
-              <form onSubmit={handleSubmit(onSubmit)} className="card-form p-3">
-                <input type="hidden" id="partitionKey" {...register("partitionKey", { required: true })} />
-                <input type="hidden" id="rowKey" {...register("rowKey", { required: true })} />
-                <input type="hidden" id="eTag" {...register("eTag", { required: true })} />
-
-                <div className="tab-content" id="pills-tabContent">
-                  <div className="tab-pane fade show active" id="pills-info" role="tabpanel" aria-labelledby="pills-info-tab">
-                    <GameForm
-                      setImgSrc={setImgSrc}
-                      imgSrc={imgSrc}
-                      register={register}
-                      errors={errors}
-                      game={gameData}
-                      setError={setError}
-                      clearError={clearErrors}
-                      blocks={blocks}
-                      setBlocks={setBlocks}
-                      watch={watch}
-                    ></GameForm>
-                  </div>
-                  <div className="tab-pane fade" id="pills-blocks" role="tabpanel" aria-labelledby="pills-blocks-tab">
-                    <GameBlocks
-                      setImgSrc={setImgSrc}
-                      imgSrc={imgSrc}
-                      register={register}
-                      errors={errors}
-                      game={gameData}
-                      setError={setError}
-                      clearError={clearErrors}
-                      blocks={blocks}
-                      setBlocks={setBlocks}
-                      watch={watch}
-                    ></GameBlocks>
-                  </div>
-                  <div className="tab-pane fade" id="pills-share" role="tabpanel" aria-labelledby="pills-share-tab">
-                    <GamePublish
-                      setImgSrc={setImgSrc}
-                      imgSrc={imgSrc}
-                      register={register}
-                      errors={errors}
-                      game={gameData}
-                      setError={setError}
-                      clearError={clearErrors}
-                      blocks={blocks}
-                      setBlocks={setBlocks}
-                      watch={watch}
-                    ></GamePublish>
-                  </div>
-                  <div className="tab-pane fade" id="pills-win" role="tabpanel" aria-labelledby="pills-win-tab">
-                    <GameWin
-                      setImgSrc={setImgSrc}
-                      imgSrc={imgSrc}
-                      register={register}
-                      errors={errors}
-                      game={gameData}
-                      setError={setError}
-                      clearError={clearErrors}
-                      blocks={blocks}
-                      setBlocks={setBlocks}
-                      watch={watch}
-                      drawWinner={drawWinner}
-                      canDraw={canDraw}
-                      isSavingWinner={isSavingWinner}
-                    ></GameWin>
-                  </div>
-                </div>
-                <div className="form-group mb-0 text-right">
-                  <button disabled={gameData.isWon || isSaving} type="submit" className="btn btn-primary">
-                    {!isSaving && <span>Save </span>}
-                    {isSaving && (
-                      <>
-                        <span>Saving... </span>
-                        <div className="spinner-grow spinner-grow-sm text-light" role="status">
-                          <span className="sr-only">Saving...</span>
-                        </div>
-                      </>
-                    )}
-                  </button>
-                </div>
-              </form>
-            </div>
+            <form onSubmit={handleSubmit(onSubmit)} className="row bg-white rounded">
+              <input type="hidden" id="partitionKey" {...register("partitionKey", { required: true })} />
+              <input type="hidden" id="rowKey" {...register("rowKey", { required: true })} />
+              <input type="hidden" id="eTag" {...register("eTag", { required: true })} />
+              {renderSave(0)}
+              <header className="col-12 my-4">
+                <p className="h4 m-0">Details <i className="bi bi-share"></i></p>
+                <hr className="m-0"></hr>
+              </header>
+              <GameForm
+                setImgSrc={setImgSrc}
+                imgSrc={imgSrc}
+                register={register}
+                errors={errors}
+                game={gameData}
+                setError={setError}
+                clearError={clearErrors}
+                blocks={blocks}
+                setBlocks={setBlocks}
+                watch={watch}
+              ></GameForm>
+              <header className="col-12 my-4">
+                <p className="h4 m-0">Options <i className="bi bi-grid-3x3"></i></p>
+                <hr className="m-0"></hr>
+              </header>
+              <GameBlocks
+                setImgSrc={setImgSrc}
+                imgSrc={imgSrc}
+                register={register}
+                errors={errors}
+                game={gameData}
+                setError={setError}
+                clearError={clearErrors}
+                blocks={blocks}
+                setBlocks={setBlocks}
+                watch={watch}
+              ></GameBlocks>
+              <header className="col-12 my-4">
+                <p className="h4 m-0">Win <i className="bi bi-award"></i></p>
+                <hr className="m-0"></hr>
+              </header>
+              <GameWin
+                setImgSrc={setImgSrc}
+                imgSrc={imgSrc}
+                register={register}
+                errors={errors}
+                game={gameData}
+                setError={setError}
+                clearError={clearErrors}
+                blocks={blocks}
+                setBlocks={setBlocks}
+                watch={watch}
+                drawWinner={drawWinner}
+                canDraw={canDraw}
+                isSavingWinner={isSavingWinner}
+              ></GameWin>
+              {renderSave()}
+            </form>
           </div>
         </div>
       )}

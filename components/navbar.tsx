@@ -95,7 +95,7 @@ const Navbar = ({ context }: { context: AppContextModel }) => {
               </ul>
             </Conditional>
 
-            <Link href="#" onClick={toggleMobileNav} className="burger ml-auto float-right site-menu-toggle js-menu-toggle d-inline-block dark d-lg-none" data-toggle="collapse" data-target="#main-navbar">
+            <Link href="#" onClick={toggleMobileNav} className="burger ml-auto float-right mr-2 site-menu-toggle js-menu-toggle d-inline-block dark d-lg-none" data-toggle="collapse" data-target="#main-navbar">
               <span></span>
             </Link>
           </div>
