@@ -2,7 +2,10 @@
 	position: relative;
 	// background-color: #D3DEDC;
 	&, & > .container > .row {
-		padding: 6rem 0;
+		padding: 3rem 0;
+	}
+	.container > .row:first-of-type {
+		padding: 5rem 0 1rem 0;
 	}
 	@include media-breakpoint-down(md) {
 		text-align: center;
@@ -551,3 +554,13 @@
 	padding: 0;
 	margin: 0;
   }
+
+.jumbotron {
+	background-color: inherit !important;
+}
+
+@media (min-width: 576px) {
+    .jumbotron {
+        padding: 0 0 0 0 !important;
+    }
+}
