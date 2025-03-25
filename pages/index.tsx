@@ -27,8 +27,8 @@ const Home = () => {
           <div className="row justify-content-center">
             <div className="jumbotron jumbotron-fluid">
               <div className="container">
-                <h1 className="display-4 text-center">Charity Fundraising</h1>
-                <p className="lead">Made easy for you and you players, with a chance for your charity to win big!.</p>
+                <h1 className="display-4 text-center">Fundraising made easy</h1>
+                <p className="lead">Do it all online. Easy for you. Easy for them. With a chance for your charity to win big!.</p>
               </div>
             </div>
           </div>
@@ -36,14 +36,14 @@ const Home = () => {
             <div className="col-lg-6">
               <div className="intro">
                 <div className="excerpt">
-                  <span className="caption">How does it work!</span>
+                  <span className="caption">Team scratch cards!</span>
                   <h2 className="font-weight-bold">Create, Share & Win.</h2>
                   <ol className="list-unstyled">
                     <li>1. Create a card or let our AI do it!</li>
                     <li>2. Share a link or QR and challenge your network!</li>
-                    <li>3. Players claim values to enter the game!</li>
+                    <li>3. Players claim cells and pay now or later!</li>
                     <li>4. A lucky player is chosen to win at random.</li>
-                    <li>5. Provide your charity number.</li>
+                    <li>5. Provide your charity number when completed.</li>
                     <li>5. Potentially win big each month.</li>
                   </ol>
                 </div>
@@ -63,7 +63,7 @@ const Home = () => {
           <div className="row justify-content-center">
             <div className="jumbotron jumbotron-fluid">
               <div className="container">
-                <h2 className="display-4 text-center">Game for Good, <span className="badge badge-warning">50%</span> back!</h2>
+                <h2 className="display-4 text-center">Win <span className="badge badge-warning">50%</span> of everything!</h2>
                 <p className="lead">We pledge to donate half of everything we make back to a lucky charity each month.</p>
               </div>
             </div>

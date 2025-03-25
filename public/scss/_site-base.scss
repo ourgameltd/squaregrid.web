@@ -342,3 +342,10 @@ body {
   width: 9.999999996%;
   max-width: 9.999999996%;
 }
+
+.ml-1, .mx-1 {
+  margin-left: .05rem !important;
+}
+.mr-1, .mx-1 {
+  margin-right: .05rem !important;
+}

@@ -259,64 +259,66 @@ const Card = () => {
                 </div>
               </div>
             </div>
-            <form onSubmit={handleSubmit(onSubmit)} className="row bg-white rounded">
-              <input type="hidden" id="partitionKey" {...register("partitionKey", { required: true })} />
-              <input type="hidden" id="rowKey" {...register("rowKey", { required: true })} />
-              <input type="hidden" id="eTag" {...register("eTag", { required: true })} />
-              {renderSave(0)}
-              <header className="col-12 my-4">
-                <p className="h4 m-0">Details <i className="bi bi-share"></i></p>
-                <hr className="m-0"></hr>
-              </header>
-              <GameForm
-                setImgSrc={setImgSrc}
-                imgSrc={imgSrc}
-                register={register}
-                errors={errors}
-                game={gameData}
-                setError={setError}
-                clearError={clearErrors}
-                blocks={blocks}
-                setBlocks={setBlocks}
-                watch={watch}
-              ></GameForm>
-              <header className="col-12 my-4">
-                <p className="h4 m-0">Options <i className="bi bi-grid-3x3"></i></p>
-                <hr className="m-0"></hr>
-              </header>
-              <GameBlocks
-                setImgSrc={setImgSrc}
-                imgSrc={imgSrc}
-                register={register}
-                errors={errors}
-                game={gameData}
-                setError={setError}
-                clearError={clearErrors}
-                blocks={blocks}
-                setBlocks={setBlocks}
-                watch={watch}
-              ></GameBlocks>
-              <header className="col-12 my-4">
-                <p className="h4 m-0">Win <i className="bi bi-award"></i></p>
-                <hr className="m-0"></hr>
-              </header>
-              <GameWin
-                setImgSrc={setImgSrc}
-                imgSrc={imgSrc}
-                register={register}
-                errors={errors}
-                game={gameData}
-                setError={setError}
-                clearError={clearErrors}
-                blocks={blocks}
-                setBlocks={setBlocks}
-                watch={watch}
-                drawWinner={drawWinner}
-                canDraw={canDraw}
-                isSavingWinner={isSavingWinner}
-              ></GameWin>
-              {renderSave()}
-            </form>
+              <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="row bg-white rounded mx-1">
+                <input type="hidden" id="partitionKey" {...register("partitionKey", { required: true })} />
+                <input type="hidden" id="rowKey" {...register("rowKey", { required: true })} />
+                <input type="hidden" id="eTag" {...register("eTag", { required: true })} />
+                {renderSave(0)}
+                <header className="col-12 my-4">
+                  <p className="h4 m-0">Details <i className="bi bi-share"></i></p>
+                  <hr className="m-0"></hr>
+                </header>
+                <GameForm
+                  setImgSrc={setImgSrc}
+                  imgSrc={imgSrc}
+                  register={register}
+                  errors={errors}
+                  game={gameData}
+                  setError={setError}
+                  clearError={clearErrors}
+                  blocks={blocks}
+                  setBlocks={setBlocks}
+                  watch={watch}
+                ></GameForm>
+                <header className="col-12 my-4">
+                  <p className="h4 m-0">Options <i className="bi bi-grid-3x3"></i></p>
+                  <hr className="m-0"></hr>
+                </header>
+                <GameBlocks
+                  setImgSrc={setImgSrc}
+                  imgSrc={imgSrc}
+                  register={register}
+                  errors={errors}
+                  game={gameData}
+                  setError={setError}
+                  clearError={clearErrors}
+                  blocks={blocks}
+                  setBlocks={setBlocks}
+                  watch={watch}
+                ></GameBlocks>
+                <header className="col-12 my-4">
+                  <p className="h4 m-0">Win <i className="bi bi-award"></i></p>
+                  <hr className="m-0"></hr>
+                </header>
+                <GameWin
+                  setImgSrc={setImgSrc}
+                  imgSrc={imgSrc}
+                  register={register}
+                  errors={errors}
+                  game={gameData}
+                  setError={setError}
+                  clearError={clearErrors}
+                  blocks={blocks}
+                  setBlocks={setBlocks}
+                  watch={watch}
+                  drawWinner={drawWinner}
+                  canDraw={canDraw}
+                  isSavingWinner={isSavingWinner}
+                ></GameWin>
+                {renderSave()}
+            </div>
+              </form>
           </div>
         </div>
       )}

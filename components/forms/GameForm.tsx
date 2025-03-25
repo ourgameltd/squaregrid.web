@@ -196,8 +196,8 @@ const GameForm = ({ game: game, register, errors, imgSrc, setImgSrc }: GameCompo
             <label htmlFor="validationServerUsername">
               QR code <p className="small text-muted font-italic mb-0">Share on devices e.g. screens, leaflets.</p>
             </label>
-            <div>
-              <img className="shadow img-fluid" src={qrLink} alt="QR Code" />
+            <div className="image-preview-wrapper shadow-sm">
+              <img src={qrLink} alt="QR Code" />
             </div>
           </div>
         </div>)}

@@ -42,7 +42,7 @@ const Navbar = ({ context }: { context: AppContextModel }) => {
                 priority={true}
                 style={{height: "40px", width: "40px"}}
                 className="img-fluid rounded-start"
-              /> squareGrid
+              /> Charity Scratch Cards
             </Link>
 
             <ul className="js-clone-nav d-none d-lg-inline-block site-menu float-left">
