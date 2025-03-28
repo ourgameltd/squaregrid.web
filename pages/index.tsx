@@ -26,9 +26,10 @@ const Home = () => {
         <div className="container">
           <div className="row justify-content-center">
             <div className="jumbotron jumbotron-fluid">
-              <div className="container">
-                <h1 className="display-4 text-center">Fundraising made easy</h1>
-                <p className="lead">Do it all online. Easy for you. Easy for them. With a chance for your charity to win big!.</p>
+              <div className="container text-center">
+                <h1 className="display-4">Fundraising. Online. Easy</h1>
+                <p className="lead">For any event or team. Easy for you. Easy for them. <a href="/#win">With a chance for your charity to win big!</a>.</p>
+                <p className="subtle">Lose the fear of manually managing the dreaded charity fundraising cards.</p>
               </div>
             </div>
           </div>
@@ -56,15 +57,15 @@ const Home = () => {
             </div>
             <div className="col-lg-6">
               <div className="illustration shadow">
-                <img src="/images/sketch.svg" alt="Image" className="img-fluid" />
+                <img src="/images/card.png" alt="Image" className="img-fluid" />
               </div>
             </div>
           </div>
-          <div className="row justify-content-center">
+          <div className="row justify-content-center" id="win">
             <div className="jumbotron jumbotron-fluid">
               <div className="container">
                 <h2 className="display-4 text-center">Win <span className="badge badge-warning">50%</span> of everything!</h2>
-                <p className="lead">We pledge to donate half of everything we make back to a lucky charity each month.</p>
+                <p className="lead">We pledge to donate half of everything we make back to <strong>ONE</strong> lucky charity each month.</p>
               </div>
             </div>
             <div className="col-md-12 text-center mb-5">

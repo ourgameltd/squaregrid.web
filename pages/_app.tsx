@@ -5,8 +5,12 @@ import Navbar from "../components/navbar";
 import AppContextProvider from "../contexts/appContextProvider";
 import AppContext from "../contexts/appContext";
 import Head from "next/head";
+import { useRouter } from "next/router";
 
 const SquareGridApp = ({ Component, pageProps: { ...pageProps } }: AppProps) => {
+  const router = useRouter();
+  const hideNavbar = router.pathname === "/play/[groupName]/[shortName]";
+
   return (
     <AppContextProvider>
       <AppContext.Consumer>
@@ -15,7 +19,7 @@ const SquareGridApp = ({ Component, pageProps: { ...pageProps } }: AppProps) => 
             <Head>
               <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
             </Head>
-            <Navbar context={context} />
+            {!hideNavbar && <Navbar context={context} />}
             <Component {...pageProps} context={context} />
           </>
         )}

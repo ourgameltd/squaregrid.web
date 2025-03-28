@@ -42,13 +42,16 @@ const Navbar = ({ context }: { context: AppContextModel }) => {
                 priority={true}
                 style={{height: "40px", width: "40px"}}
                 className="img-fluid rounded-start"
-              /> Charity Scratch Cards
+              /> squareGrid
             </Link>
 
             <ul className="js-clone-nav d-none d-lg-inline-block site-menu float-left">
               <li>
                 <Link href="/#features-section" className="nav-link">
                   Features
+                </Link>
+                <Link href="/#win" className="nav-link">
+                  Win
                 </Link>
               </li>
               <Conditional condition={context.user != null}>

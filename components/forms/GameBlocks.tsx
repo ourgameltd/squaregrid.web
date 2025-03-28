@@ -114,16 +114,7 @@ const GameBlocks = ({ game, register, setError, clearError, errors, blocks, setB
   };
 
   const renderLayout = () => {
-    switch (gridLayout) {
-      case 'list':
-        return <BlockListLayout game={game} blocks={blocks} openEditModal={openEditModal} removeBlock={removeBlock} sidebar={false}></BlockListLayout>;
-      case 'listSidebar':
-        return <BlockListLayout game={game} blocks={blocks} openEditModal={openEditModal} removeBlock={removeBlock} sidebar={true}></BlockListLayout>;
-      case 'gridSidebar':
-        return <BlockGridLayout game={game} blocks={blocks} openEditModal={openEditModal} removeBlock={removeBlock} sidebar={true}></BlockGridLayout>;
-      default:
-        return <BlockGridLayout game={game} blocks={blocks} openEditModal={openEditModal} removeBlock={removeBlock} sidebar={false}></BlockGridLayout>;
-    }
+    return <BlockListLayout game={game} blocks={blocks} openEditModal={openEditModal} removeBlock={removeBlock} sidebar={false}></BlockListLayout>;
   };
 
   return (
