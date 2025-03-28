@@ -40,12 +40,12 @@ const Home = () => {
                   <span className="caption">Team scratch cards!</span>
                   <h2 className="font-weight-bold">Create, Share & Win.</h2>
                   <ol className="list-unstyled">
-                    <li>1. Create a card or let our AI do it!</li>
+                    <li>1. Create a card.</li>
                     <li>2. Share a link or QR and challenge your network!</li>
                     <li>3. Players claim cells and pay now or later!</li>
                     <li>4. A lucky player is chosen to win at random.</li>
-                    <li>5. Provide your charity number when completed.</li>
-                    <li>5. Potentially win big each month.</li>
+                    {/* <li>5. Provide your charity number when completed.</li>
+                    <li>6. Potentially win big each month.</li> */}
                   </ol>
                 </div>
                 <p>
@@ -63,8 +63,24 @@ const Home = () => {
           </div>
           <div className="row justify-content-center" id="win">
             <div className="jumbotron jumbotron-fluid">
-              <div className="container">
-                <h2 className="display-4 text-center">Win <span className="badge badge-warning">50%</span> of everything!</h2>
+              <div className="container text-center">
+                <h2 className="display-4">Coming soon: Win <span className="badge badge-warning">50%</span> of everything!</h2>
+                <p className="lead">Right now this is free to use, but soon we will pledge to donate half of everything we make back to <strong>ONE</strong> lucky charity each month.</p>
+              </div>
+            </div>
+            <div className="col-md-12 text-center mb-5">
+              <h1 className="heading">
+                <span className="fst-italic text-muted h5 d-block"></span>
+              </h1>
+              <p>
+                Not only are these games fun, they're also for a good cause. We believe in giving back, so soon 50% of all funds raised through the games in each country go to charity! Here's how it works: if you're a registered charity (with a valid charity number) and you create a card, you'll be entered into a random draw. One lucky charity creator is chosen at random to receive half of the total funds raised from all the games played. This means every time you make a game, you are giving your charity a chance win big. Play knowing that every game makes a difference. All charities are verified by number to keep things fair and legit.
+              </p>
+            </div>
+          </div>
+          {/* <div className="row justify-content-center" id="win">
+            <div className="jumbotron jumbotron-fluid">
+              <div className="container text-center">
+                <h2 className="display-4">Win <span className="badge badge-warning">50%</span> of everything!</h2>
                 <p className="lead">We pledge to donate half of everything we make back to <strong>ONE</strong> lucky charity each month.</p>
               </div>
             </div>
@@ -73,10 +89,10 @@ const Home = () => {
                 <span className="fst-italic text-muted h5 d-block"></span>
               </h1>
               <p>
-                Not only are these games fun, they're also for a good cause. We believe in giving back, so 50% of all funds raised through the games in each country go to charity! Here's how it works: if you're a registered charity (with a valid charity number) and you create a card, you'll be entered into a random draw. One lucky charity creator is chosen at random to receive half of the total funds raised from all the games in your country. This means every time you make a game, upur giving your charity a chance win big. Play knowing that every game makes a difference. All charities are verified by number to keep things fair and legit.
+                Not only are these games fun, they're also for a good cause. We believe in giving back, so 50% of all funds raised through the games in each country go to charity! Here's how it works: if you're a registered charity (with a valid charity number) and you create a card, you'll be entered into a random draw. One lucky charity creator is chosen at random to receive half of the total funds raised from all the games played. This means every time you make a game, you are giving your charity a chance win big. Play knowing that every game makes a difference. All charities are verified by number to keep things fair and legit.
               </p>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

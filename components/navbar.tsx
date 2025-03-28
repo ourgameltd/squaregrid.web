@@ -40,7 +40,7 @@ const Navbar = ({ context }: { context: AppContextModel }) => {
                 height={40}
                 unoptimized={true}
                 priority={true}
-                style={{height: "40px", width: "40px"}}
+                style={{ height: "40px", width: "40px" }}
                 className="img-fluid rounded-start"
               /> squareGrid
             </Link>
@@ -50,9 +50,9 @@ const Navbar = ({ context }: { context: AppContextModel }) => {
                 <Link href="/#features-section" className="nav-link">
                   Features
                 </Link>
-                <Link href="/#win" className="nav-link">
+                {/* <Link href="/#win" className="nav-link">
                   Win
-                </Link>
+                </Link> */}
               </li>
               <Conditional condition={context.user != null}>
                 <li className="cta-primary">
@@ -75,7 +75,7 @@ const Navbar = ({ context }: { context: AppContextModel }) => {
                       height={25}
                       width={25}
                       priority={true}
-                      style={{height: "25px", width: "auto"}}
+                      style={{ height: "25px", width: "auto" }}
                       className="rounded-circle ml-2"
                       onError={() => setImgSrc(process.env.NEXT_PUBLIC_MEDIA_ENDPOINT + `/images/user/placeholder.jpg`)}
                     />
@@ -118,6 +118,9 @@ const Navbar = ({ context }: { context: AppContextModel }) => {
                   <Link href="/#features-section">
                     Features
                   </Link>
+                  {/* <Link href="/#win" className="nav-link">
+                    Win
+                  </Link> */}
                 </li>
                 <Conditional condition={context.user != null}>
                   <li className="cta-primary">
@@ -137,7 +140,7 @@ const Navbar = ({ context }: { context: AppContextModel }) => {
                         height={25}
                         width={25}
                         priority={true}
-                        style={{height: "25px", width: "auto"}}
+                        style={{ height: "25px", width: "auto" }}
                         className="rounded-circle ml-2"
                         onError={() => setImgSrc(process.env.NEXT_PUBLIC_MEDIA_ENDPOINT + `/images/user/placeholder.jpg`)}
                       />
