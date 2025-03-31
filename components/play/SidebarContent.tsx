@@ -9,7 +9,7 @@ export interface SidebarContentComponentProps {
 }
 
 const SidebarContent: React.FC<SidebarContentComponentProps> = ({ game }) => {
-  const [shareableLinkPrefix, setShareableLinkPrefix] = useState(`${process.env.NEXT_PUBLIC_DOMAIN}/play/`);
+  const [shareableLinkPrefix, setShareableLinkPrefix] = useState(`${process.env.NEXT_PUBLIC_SHARE_DOMAIN}/`);
   const [shareableLink, setShareableLink] = useState("");
   const [qrLink, setQrLink] = useState("");
   const [linkGroup, setLinkGroup] = useState(game.groupName);

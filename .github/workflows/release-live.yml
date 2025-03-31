@@ -30,6 +30,7 @@ jobs:
           B2C_CLIENT_SECRET: ${{ secrets.AZURE_AD_B2C_CLIENT_SECRET }}
           NEXT_PUBLIC_MEDIA_ENDPOINT: ${{ vars.NEXT_PUBLIC_MEDIA_ENDPOINT }}
           NEXT_PUBLIC_DOMAIN: ${{ vars.NEXT_PUBLIC_DOMAIN }}
+          NEXT_PUBLIC_SHARE_DOMAIN: http://go.squaregrid.org
 
       - name: Login to Azure
         uses: azure/login@v1
@@ -42,6 +43,7 @@ jobs:
           AZURE_AD_B2C_CLIENT_SECRET: ${{ secrets.AZURE_AD_B2C_CLIENT_SECRET }}
           NEXT_PUBLIC_MEDIA_ENDPOINT: ${{ vars.NEXT_PUBLIC_MEDIA_ENDPOINT }}
           NEXT_PUBLIC_DOMAIN: ${{ vars.NEXT_PUBLIC_DOMAIN }}
+          NEXT_PUBLIC_SHARE_DOMAIN: http://go.squaregrid.org
         run: |
           az staticwebapp appsettings set \
             --name "squaregrid" \
@@ -50,5 +52,5 @@ jobs:
             B2C_CLIENT_ID=017c1045-b0db-4e87-bc13-87d68dce0185 \
             B2C_CLIENT_SECRET=$AZURE_AD_B2C_CLIENT_SECRET \
             NEXT_PUBLIC_MEDIA_ENDPOINT=$NEXT_PUBLIC_MEDIA_ENDPOINT \
-            NEXT_PUBLIC_DOMAIN=$NEXT_PUBLIC_DOMAIN
-
+            NEXT_PUBLIC_DOMAIN=$NEXT_PUBLIC_DOMAIN \
+            NEXT_PUBLIC_SHARE_DOMAIN=$NEXT_PUBLIC_SHARE_DOMAIN
