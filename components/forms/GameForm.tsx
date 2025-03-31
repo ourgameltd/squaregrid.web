@@ -5,7 +5,7 @@ import Link from "next/link";
 import QRCode from "qrcode";
 
 const GameForm = ({ game: game, register, errors, imgSrc, setImgSrc }: GameComponentProps) => {
-  const [shareableLinkPrefix, setShareableLinkPrefix] = useState(`${process.env.NEXT_PUBLIC_DOMAIN}/play/`);
+  const [shareableLinkPrefix, setShareableLinkPrefix] = useState(`${process.env.NEXT_PUBLIC_SHARE_DOMAIN}/`);
   const [shareableLink, setShareableLink] = useState("");
 
   const [qrLink, setQrLink] = useState("");
