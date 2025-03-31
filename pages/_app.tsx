@@ -7,6 +7,7 @@ import AppContextProvider from "../contexts/appContextProvider";
 import AppContext from "../contexts/appContext";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import Script from "next/script";
 
 const SquareGridApp = ({ Component, pageProps: { ...pageProps } }: AppProps) => {
   const router = useRouter();
@@ -23,6 +24,18 @@ const SquareGridApp = ({ Component, pageProps: { ...pageProps } }: AppProps) => 
             {!hideNavbar && <Navbar context={context} />}
             <Component {...pageProps} context={context} />
             <Footer />
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=G-M93B4W1CGV`}
+              strategy="afterInteractive"
+            />
+            <Script id="google-analytics" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', 'G-M93B4W1CGV');
+              `}
+            </Script>
           </>
         )}
       </AppContext.Consumer>
